@@ -143,7 +143,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EventManager.h" />
     <ClInclude Include="Events.h" />
+    <ClInclude Include="MyTypes.h" />
     <ClInclude Include="ThirdParty\FastDelegate.h" />
     <ClInclude Include="ThirdParty\FastDelegateBind.h" />
   </ItemGroup>

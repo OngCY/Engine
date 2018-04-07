@@ -1,13 +1,11 @@
 #pragma once
+#include "MyTypes.h"
 #include <sstream>
-
-typedef unsigned long EventId;
-typedef unsigned int ActorId;
 
 class IEvent
 {
 public:
-	virtual const EventId& VGetEventID(void) const = 0;
+	virtual const MyTypes::EventId& VGetEventID(void) const = 0;
 	virtual float VGetTimeStamp(void) const = 0;
 	virtual void VSerialise(std::ostringstream& out) const = 0;
 	virtual const char* GetName(void) const = 0;
@@ -22,22 +20,22 @@ public:
 	explicit BaseEvent(const float timeStamp = 0.0f) : m_timeStamp(timeStamp) {}
 	virtual ~BaseEvent(void) {}
 
-	virtual const EventId& VGetEventId(void) const = 0;
+	virtual const MyTypes::EventId& VGetEventId(void) const = 0;
 	float VGetTimeStamp(void) const { return m_timeStamp; }
 	virtual void VSerialise(std::ostringstream &out) const {}
 };
 
 class Event_DestroyActor : public BaseEvent
 {
-	ActorId m_id;
+	MyTypes::ActorId m_id;
 
 public:
-	static const EventId sk_EventId;
+	static const MyTypes::EventId sk_EventId;
 
-	explicit Event_DestroyActor(ActorId id) :m_id(id) {}
+	explicit Event_DestroyActor(MyTypes::ActorId id) :m_id(id) {}
 	explicit Event_DestroyActor(std::istringstream &in) { in >> m_id; }
 
-	virtual const EventId& VGetEventType(void) const
+	virtual const MyTypes::EventId& VGetEventType(void) const
 	{
 		return sk_EventId;
 	}
@@ -52,7 +50,7 @@ public:
 		return "Event_DestroyActor";
 	}
 
-	ActorId GetId(void) const
+	MyTypes::ActorId GetId(void) const
 	{
 		return m_id;
 	}
