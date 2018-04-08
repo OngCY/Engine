@@ -46,7 +46,32 @@ bool EventManager::VAddListener(const EventListenerDelegate& eventDelegate, cons
 
 	return true;
 }
-bool EventManager::VRemoveListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId) { return true; }
+
+bool EventManager::VRemoveListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId)
+{ 
+	bool result = false;
+
+	//check that the event exists first
+	auto it = m_eventRegistry.find(eventId);
+	if (it == m_eventRegistry.end())
+	{
+		std::cout << "VRemoveListener: The event is not found" << std::endl;
+		return false;
+	}
+
+	//then search through the list of event listener delegates and remove the matching one
+	EventListenerList& eventListenerList = it->second;
+	for (auto it = eventListenerList.begin(); it != eventListenerList.end(); ++it)
+	{
+		if ((*it) == eventDelegate)
+		{
+			eventListenerList.erase(it);
+			result = true;
+		}
+	}
+
+	return result; 
+}
 bool EventManager::VTriggerEvent(const IEventPtr& pEvent) const{return true;}
 bool EventManager::VQueueEvent(const IEventPtr& pEvent) const { return true; }
 bool EventManager::VAbortEvent(const MyTypes::EventId& id, bool allOfType){ return true; }
