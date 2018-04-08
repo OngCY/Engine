@@ -53,7 +53,7 @@ class EventManager : public IEventManager
 	typedef std::map<MyTypes::EventId, EventListenerList> EventListenerMap;
 	typedef std::list<IEventPtr> EventQueue;
 
-	EventListenerMap m_eventListeners;
+	EventListenerMap m_eventRegistry;
 	EventQueue m_eventQueue[EVENTMANAGER_NUM_QUEUES];
 	
 	//index of active processing queue. Events are added to the other queue
@@ -63,6 +63,7 @@ public:
 	EventManager() { m_activeQueue = 0; }
 	virtual ~EventManager(void) {}
 
+	virtual bool VRegisterEvent(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId);
 	virtual bool VAddListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId);
 	virtual bool VRemoveListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId);
 	virtual bool VTriggerEvent(const IEventPtr& pEvent) const;
