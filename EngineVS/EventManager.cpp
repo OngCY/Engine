@@ -72,7 +72,41 @@ bool EventManager::VRemoveListener(const EventListenerDelegate& eventDelegate, c
 
 	return result; 
 }
-bool EventManager::VTriggerEvent(const IEventPtr& pEvent) const{return true;}
-bool EventManager::VQueueEvent(const IEventPtr& pEvent) const { return true; }
+
+bool EventManager::VTriggerEvent(const IEventPtr& pEvent) const
+{
+	bool triggered = false;
+
+	//find the event in the registry and trigger the delegates registered with the event
+	auto eventIt = m_eventRegistry.find(pEvent->VGetEventID());
+	if (eventIt != m_eventRegistry.end())
+	{
+		EventListenerList list = eventIt->second;
+		for (EventListenerList::const_iterator it = list.begin(); it != list.end(); ++it)
+		{
+			EventListenerDelegate listener = (*it);
+			listener(pEvent);
+			triggered = true;
+		}
+	}
+	
+	return true;
+}
+
+bool EventManager::VQueueEvent(const IEventPtr& pEvent)  
+{
+	_ASSERT(m_activeQueue >= 0);
+	_ASSERT(m_activeQueue < EVENTMANAGER_NUM_QUEUES);
+
+	//add an event to the queue if the event is registered and has delegate call backs
+	auto eventIt = m_eventRegistry.find(pEvent->VGetEventID());
+	if (eventIt != m_eventRegistry.end() && !eventIt->second.empty())
+	{
+		m_eventQueue[m_activeQueue].push_back(pEvent);
+		return true;
+	}
+	else
+		return false; 
+}
 bool EventManager::VAbortEvent(const MyTypes::EventId& id, bool allOfType){ return true; }
 bool EventManager::VTickUpdate(unsigned long maxMillis) { return true; }

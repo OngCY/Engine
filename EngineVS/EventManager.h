@@ -57,7 +57,7 @@ class EventManager : public IEventManager
 	EventQueue m_eventQueue[EVENTMANAGER_NUM_QUEUES];
 	
 	//index of active processing queue. Events are added to the other queue
-	int m_activeQueue;
+	unsigned int m_activeQueue;
 
 public:
 	EventManager() { m_activeQueue = 0; }
@@ -67,7 +67,7 @@ public:
 	virtual bool VAddListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId);
 	virtual bool VRemoveListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId);
 	virtual bool VTriggerEvent(const IEventPtr& pEvent) const;
-	virtual bool VQueueEvent(const IEventPtr& pEvent) const;
+	virtual bool VQueueEvent(const IEventPtr& pEvent);
 	virtual bool VAbortEvent(const MyTypes::EventId& id, bool allOfType = false);
 	virtual bool VTickUpdate(unsigned long maxMillis = kINFINITE);
 };
