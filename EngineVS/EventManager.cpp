@@ -108,5 +108,40 @@ bool EventManager::VQueueEvent(const IEventPtr& pEvent)
 	else
 		return false; 
 }
-bool EventManager::VAbortEvent(const MyTypes::EventId& id, bool allOfType){ return true; }
+
+bool EventManager::VAbortEvent(const MyTypes::EventId& id, bool allOfType)
+{
+	_ASSERT(m_activeQueue >= 0);
+	_ASSERT(m_activeQueue < EVENTMANAGER_NUM_QUEUES);
+
+	bool aborted = false;
+
+	//check that the event exists in the registry first
+	EventListenerMap::iterator registryIt = m_eventRegistry.find(id);
+
+	if (registryIt != m_eventRegistry.end())
+	{
+		EventQueue& queue = m_eventQueue[m_activeQueue];
+
+		//search through the queue for the event and remove it from the queue
+		for (EventQueue::iterator eventIt = queue.begin(); eventIt != queue.end(); ++eventIt)
+		{
+			//create a temp iterator and use it for the rest of the loop
+			//because removing an item from the std list will invalidate the iterator
+			EventQueue::iterator tempIt = eventIt;
+
+			if ((*tempIt)->VGetEventID() == id)
+			{
+				queue.erase(tempIt);
+				aborted = true;
+
+				//exit the loop if there is no need to remove all events of the same type
+				if (!allOfType) 
+					break;
+			}
+		}
+	}
+
+	return aborted; 
+}
 bool EventManager::VTickUpdate(unsigned long maxMillis) { return true; }
