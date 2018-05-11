@@ -1,5 +1,6 @@
 #include "EventManager.h"
 #include <iostream>
+#include <Windows.h>
 
 
 bool EventManager::VRegisterEvent(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId) 
@@ -144,4 +145,66 @@ bool EventManager::VAbortEvent(const MyTypes::EventId& id, bool allOfType)
 
 	return aborted; 
 }
-bool EventManager::VTickUpdate(unsigned long maxMillis) { return true; }
+
+bool EventManager::VTickUpdate(unsigned long deltaMillis) 
+{
+	unsigned long currentMS = GetTickCount();
+	unsigned long endMS;
+
+	if (deltaMillis == IEventManager::kINFINITE)
+		endMS = IEventManager::kINFINITE;
+	else
+		endMS = currentMS + deltaMillis;
+
+	int currentQueue = m_activeQueue;
+
+	//process the current active event queue
+	while (!m_eventQueue[currentQueue].empty())
+	{
+		//process the event which is the first in the queue
+		IEventPtr pEvent = m_eventQueue[currentQueue].front();
+		m_eventQueue[currentQueue].pop_front();
+
+		//find all delegate functions registered using the event ID
+		const MyTypes::EventId& eventID = pEvent->VGetEventID();
+		auto eventIt = m_eventRegistry.find(eventID);
+		if (eventIt != m_eventRegistry.end())
+		{
+			const EventListenerList& listenerList = eventIt->second;
+
+			for (auto delegateIt = listenerList.begin(); delegateIt != listenerList.end(); ++delegateIt)
+			{
+				EventListenerDelegate listenerDelegate = (*delegateIt);
+				listenerDelegate(pEvent);
+			}
+		}
+
+		//stop processing the event queue if time has run out
+		currentMS = GetTickCount();
+		if (deltaMillis != IEventManager::kINFINITE && currentMS >= endMS)
+		{
+			std::cout << "VTickUpdate: Exceeded time for event queue processing" << std::endl;
+			break;
+		}
+	}
+
+	//set the next active queue and clear it
+	m_activeQueue = (m_activeQueue + 1) % EVENTMANAGER_NUM_QUEUES;
+	m_eventQueue[m_activeQueue].clear();
+
+	//if there are events left unprocessed, shift the events to the next active queue
+	//preserve the event sequence (older events to be processed first in the next active queue)
+	bool isFlushed = m_eventQueue[currentQueue].empty();
+
+	if (!isFlushed)
+	{
+		while (!m_eventQueue[currentQueue].empty())
+		{
+			IEventPtr pEvent = m_eventQueue[currentQueue].back();
+			m_eventQueue[currentQueue].pop_back();
+			m_eventQueue[m_activeQueue].push_front(pEvent);
+		}
+	}
+
+	return isFlushed;
+}
