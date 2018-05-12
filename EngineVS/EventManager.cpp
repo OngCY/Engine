@@ -79,13 +79,13 @@ bool EventManager::VTriggerEvent(const IEventPtr& pEvent) const
 	bool triggered = false;
 
 	//find the event in the registry and trigger the delegates registered with the event
-	auto eventIt = m_eventRegistry.find(pEvent->VGetEventID());
+	EventListenerMap::const_iterator eventIt = m_eventRegistry.find(pEvent->VGetEventID());
 	if (eventIt != m_eventRegistry.end())
 	{
-		EventListenerList list = eventIt->second;
-		for (EventListenerList::const_iterator it = list.begin(); it != list.end(); ++it)
+		const EventListenerList listenerList = eventIt->second;
+		for (EventListenerList::const_iterator listenerIt = listenerList.begin(); listenerIt != listenerList.end(); ++listenerIt)
 		{
-			EventListenerDelegate listener = (*it);
+			EventListenerDelegate listener = (*listenerIt);
 			listener(pEvent);
 			triggered = true;
 		}
@@ -100,7 +100,7 @@ bool EventManager::VQueueEvent(const IEventPtr& pEvent)
 	_ASSERT(m_activeQueue < EVENTMANAGER_NUM_QUEUES);
 
 	//add an event to the queue if the event is registered and has delegate call backs
-	auto eventIt = m_eventRegistry.find(pEvent->VGetEventID());
+	EventListenerMap::const_iterator eventIt = m_eventRegistry.find(pEvent->VGetEventID());
 	if (eventIt != m_eventRegistry.end() && !eventIt->second.empty())
 	{
 		m_eventQueue[m_activeQueue].push_back(pEvent);
@@ -110,40 +110,40 @@ bool EventManager::VQueueEvent(const IEventPtr& pEvent)
 		return false; 
 }
 
-bool EventManager::VAbortEvent(const MyTypes::EventId& id, bool allOfType)
+bool EventManager::VAbortEvent(const MyTypes::EventId& id, bool abortAllOfType)
 {
 	_ASSERT(m_activeQueue >= 0);
 	_ASSERT(m_activeQueue < EVENTMANAGER_NUM_QUEUES);
 
-	bool aborted = false;
+	bool abortSuccess = false;
 
 	//check that the event exists in the registry first
-	EventListenerMap::iterator registryIt = m_eventRegistry.find(id);
+	EventListenerMap::const_iterator registryIt = m_eventRegistry.find(id);
 
 	if (registryIt != m_eventRegistry.end())
 	{
-		EventQueue& queue = m_eventQueue[m_activeQueue];
+		EventQueue& eventQ = m_eventQueue[m_activeQueue];
 
 		//search through the queue for the event and remove it from the queue
-		for (EventQueue::iterator eventIt = queue.begin(); eventIt != queue.end(); ++eventIt)
+		for (EventQueue::iterator eventQIt = eventQ.begin(); eventQIt != eventQ.end(); ++eventQIt)
 		{
 			//create a temp iterator and use it for the rest of the loop
 			//because removing an item from the std list will invalidate the iterator
-			EventQueue::iterator tempIt = eventIt;
+			EventQueue::iterator tempIt = eventQIt;
 
 			if ((*tempIt)->VGetEventID() == id)
 			{
-				queue.erase(tempIt);
-				aborted = true;
+				eventQ.erase(tempIt);
+				abortSuccess = true;
 
 				//exit the loop if there is no need to remove all events of the same type
-				if (!allOfType) 
+				if (!abortAllOfType) 
 					break;
 			}
 		}
 	}
 
-	return aborted; 
+	return abortSuccess; 
 }
 
 bool EventManager::VTickUpdate(unsigned long deltaMillis) 
@@ -161,20 +161,19 @@ bool EventManager::VTickUpdate(unsigned long deltaMillis)
 	//process the current active event queue
 	while (!m_eventQueue[currentQueue].empty())
 	{
-		//process the event which is the first in the queue
+		//process the event which is the first in the queue and remove it
 		IEventPtr pEvent = m_eventQueue[currentQueue].front();
 		m_eventQueue[currentQueue].pop_front();
 
-		//find all delegate functions registered using the event ID
-		const MyTypes::EventId& eventID = pEvent->VGetEventID();
-		auto eventIt = m_eventRegistry.find(eventID);
-		if (eventIt != m_eventRegistry.end())
+		//execute all delegate functions registered using the event ID
+		EventListenerMap::const_iterator registryIt = m_eventRegistry.find(pEvent->VGetEventID());
+		if (registryIt != m_eventRegistry.end())
 		{
-			const EventListenerList& listenerList = eventIt->second;
+			const EventListenerList& listenerList = registryIt->second;
 
-			for (auto delegateIt = listenerList.begin(); delegateIt != listenerList.end(); ++delegateIt)
+			for (EventListenerList::const_iterator listenerIt = listenerList.begin(); listenerIt != listenerList.end(); ++listenerIt)
 			{
-				EventListenerDelegate listenerDelegate = (*delegateIt);
+				EventListenerDelegate listenerDelegate = (*listenerIt);
 				listenerDelegate(pEvent);
 			}
 		}
@@ -192,7 +191,7 @@ bool EventManager::VTickUpdate(unsigned long deltaMillis)
 	m_activeQueue = (m_activeQueue + 1) % EVENTMANAGER_NUM_QUEUES;
 	m_eventQueue[m_activeQueue].clear();
 
-	//if there are events left unprocessed, shift the events to the next active queue
+	//if there are events left unprocessed, move the events to the next active queue
 	//preserve the event sequence (older events to be processed first in the next active queue)
 	bool isFlushed = m_eventQueue[currentQueue].empty();
 
