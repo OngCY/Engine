@@ -6,10 +6,10 @@
 bool EventManager::VRegisterEvent(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId) 
 { 
 	//check if the event already exists in the registry
-	EventListenerMap::iterator it;
-	it = m_eventRegistry.find(eventId);
+	EventListenerMap::iterator listenerIt;
+	listenerIt = m_eventRegistry.find(eventId);
 
-	if (it != m_eventRegistry.end())
+	if (listenerIt != m_eventRegistry.end())
 	{
 		std::cout<< "VRegisterEvent: Event " << eventId << " already exists" << std::endl;
 		return false;
@@ -18,6 +18,7 @@ bool EventManager::VRegisterEvent(const EventListenerDelegate& eventDelegate, co
 	EventListenerList delegateList;
 	delegateList.push_back(eventDelegate);
 
+	//register the event ID and its corresponding list of listener delegates
 	m_eventRegistry.insert(std::make_pair(eventId, delegateList));
 	
 	return true; 
@@ -34,9 +35,9 @@ bool EventManager::VAddListener(const EventListenerDelegate& eventDelegate, cons
 	
 	//then check if the listener delegate already exists for the event
 	EventListenerList& eventListenerList = m_eventRegistry[eventId];
-	for (auto it : eventListenerList)
+	for (EventListenerList::iterator listenerIt = eventListenerList.begin(); listenerIt != eventListenerList.end(); ++listenerIt)
 	{
-		if ((it) == eventDelegate)
+		if ((*listenerIt) == eventDelegate)
 		{
 			std::cout << "VAddListener: The event listener delegate already exists" << std::endl;
 			return false;
@@ -50,28 +51,28 @@ bool EventManager::VAddListener(const EventListenerDelegate& eventDelegate, cons
 
 bool EventManager::VRemoveListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId)
 { 
-	bool result = false;
+	bool removed = false;
 
 	//check that the event exists first
-	auto it = m_eventRegistry.find(eventId);
-	if (it == m_eventRegistry.end())
+	EventListenerMap::iterator eventIt = m_eventRegistry.find(eventId);
+	if (eventIt == m_eventRegistry.end())
 	{
 		std::cout << "VRemoveListener: The event is not found" << std::endl;
 		return false;
 	}
 
 	//then search through the list of event listener delegates and remove the matching one
-	EventListenerList& eventListenerList = it->second;
-	for (auto it = eventListenerList.begin(); it != eventListenerList.end(); ++it)
+	EventListenerList& eventListenerList = eventIt->second;
+	for (EventListenerList::iterator listenerIt = eventListenerList.begin(); listenerIt != eventListenerList.end(); ++listenerIt)
 	{
-		if ((*it) == eventDelegate)
+		if ((*listenerIt) == eventDelegate)
 		{
-			eventListenerList.erase(it);
-			result = true;
+			eventListenerList.erase(listenerIt);
+			removed = true;
 		}
 	}
 
-	return result; 
+	return removed;
 }
 
 bool EventManager::VTriggerEvent(const IEventPtr& pEvent) const
@@ -82,7 +83,7 @@ bool EventManager::VTriggerEvent(const IEventPtr& pEvent) const
 	EventListenerMap::const_iterator eventIt = m_eventRegistry.find(pEvent->VGetEventID());
 	if (eventIt != m_eventRegistry.end())
 	{
-		const EventListenerList listenerList = eventIt->second;
+		const EventListenerList& listenerList = eventIt->second;
 		for (EventListenerList::const_iterator listenerIt = listenerList.begin(); listenerIt != listenerList.end(); ++listenerIt)
 		{
 			EventListenerDelegate listener = (*listenerIt);
