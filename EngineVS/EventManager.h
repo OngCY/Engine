@@ -20,16 +20,16 @@ public:
 	IEventManager() {}
 	virtual ~IEventManager(void) {};
 	
-	//registers a delegate function that will get called when the event is triggered
+	//registers an event id and its corresponding delegate function
 	//returns true if successful
-	virtual bool VAddListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& id) = 0;
+	virtual bool VRegisterListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& id) = 0;
 	
-	//removes a delegate function+event pair from the registry
+	//removes a (delegate function+event id) pair from the registry
 	//returns false if the pair is not found
 	virtual bool VRemoveListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& id) = 0;
 
-	//fires the event and calls all delegate functions registered for the event
-	virtual bool VTriggerEvent(IEventPtr& pEvent) = 0;
+	//fires the event now and calls all delegate functions registered for the event
+	virtual bool VTriggerEvent(const IEventPtr& pEvent) const = 0;
 
 	//addes the event to the event queue for firing during the next call to VTickUpdate
 	virtual bool VQueueEvent(const IEventPtr& pEvent) = 0;
@@ -44,7 +44,7 @@ public:
 	//return true if all events were processed, false if otherwise
 	virtual bool VTickUpdate(unsigned long maxMillis = kINFINITE) = 0;
 
-	static IEventManager* GetEventManager();
+	//static IEventManager* GetEventManager();
 };
 
 class EventManager : public IEventManager
@@ -63,8 +63,7 @@ public:
 	EventManager() { m_activeQueue = 0; }
 	virtual ~EventManager(void) {}
 
-	virtual bool VRegisterEvent(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId);
-	virtual bool VAddListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId);
+	virtual bool VRegisterListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId);
 	virtual bool VRemoveListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId);
 	virtual bool VTriggerEvent(const IEventPtr& pEvent) const;
 	virtual bool VQueueEvent(const IEventPtr& pEvent);

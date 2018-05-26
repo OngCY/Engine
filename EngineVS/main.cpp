@@ -3,5 +3,6 @@
 
 int main()
 {
+	IEventManager* eventManager = new EventManager();
 	return 0;
 }

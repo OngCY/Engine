@@ -9,7 +9,7 @@ public:
 	virtual float VGetTimeStamp(void) const = 0;
 	virtual void VSerialise(std::ostringstream& out) const = 0;
 	virtual const char* GetName(void) const = 0;
-	//virtual IEventDataPtr VCopy(void) const = 0;
+	//virtual IEventPtr VCopy(void) const = 0;
 };
 
 class BaseEvent : public IEvent

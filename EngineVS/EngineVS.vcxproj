@@ -146,12 +146,14 @@
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="MyTypes.h" />
+    <ClInclude Include="TestSystem.h" />
     <ClInclude Include="ThirdParty\FastDelegate.h" />
     <ClInclude Include="ThirdParty\FastDelegateBind.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TestSystem.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

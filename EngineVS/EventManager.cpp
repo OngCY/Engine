@@ -2,38 +2,13 @@
 #include <iostream>
 #include <Windows.h>
 
+const MyTypes::EventId Event_DestroyActor::sk_EventId = 0x50dbd404;
 
-bool EventManager::VRegisterEvent(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId) 
-{ 
-	//check if the event already exists in the registry
-	EventListenerMap::iterator listenerIt;
-	listenerIt = m_eventRegistry.find(eventId);
-
-	if (listenerIt != m_eventRegistry.end())
-	{
-		std::cout<< "VRegisterEvent: Event " << eventId << " already exists" << std::endl;
-		return false;
-	}
-	
-	EventListenerList delegateList;
-	delegateList.push_back(eventDelegate);
-
-	//register the event ID and its corresponding list of listener delegates
-	m_eventRegistry.insert(std::make_pair(eventId, delegateList));
-	
-	return true; 
-}
-
-bool EventManager::VAddListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId)
-{
-	//check if the event exists first
-	if (m_eventRegistry.find(eventId) == m_eventRegistry.end())
-	{
-		std::cout << "VAddListener: The event does not exist. Add the event first" << std::endl;
-		return false;
-	}
-	
-	//then check if the listener delegate already exists for the event
+bool EventManager::VRegisterListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId)
+{	
+	//find or create the event-listener
+	//If k matches the key of an element in the container, the function returns a reference to its mapped value.
+	//If k does not match the key of any element in the container, the function inserts a new element with that key and returns a reference to its mapped value
 	EventListenerList& eventListenerList = m_eventRegistry[eventId];
 	for (EventListenerList::iterator listenerIt = eventListenerList.begin(); listenerIt != eventListenerList.end(); ++listenerIt)
 	{
