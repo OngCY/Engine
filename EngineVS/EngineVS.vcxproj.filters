@@ -33,6 +33,9 @@
     <ClInclude Include="TestSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ServiceLocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,6 +45,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TestSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ServiceLocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

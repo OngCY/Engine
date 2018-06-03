@@ -70,3 +70,17 @@ public:
 	virtual bool VAbortEvent(const MyTypes::EventId& id, bool allOfType = false);
 	virtual bool VTickUpdate(unsigned long maxMillis = kINFINITE);
 };
+
+class NullEventManager : public IEventManager
+{
+public:
+	NullEventManager() {}
+	virtual ~NullEventManager() {}
+
+	virtual bool VRegisterListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId) { return false; }
+	virtual bool VRemoveListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId) { return false; }
+	virtual bool VTriggerEvent(const IEventPtr& pEvent) const { return false; }
+	virtual bool VQueueEvent(const IEventPtr& pEvent) { return false; }
+	virtual bool VAbortEvent(const MyTypes::EventId& id, bool allOfType = false) { return false; }
+	virtual bool VTickUpdate(unsigned long maxMillis = kINFINITE) { return false; }
+};
