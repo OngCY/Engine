@@ -71,6 +71,8 @@ public:
 	virtual bool VTickUpdate(unsigned long maxMillis = kINFINITE);
 };
 
+//Null service object. Implements the IEventManager interface but does nothing
+//Used by the Service Locator to return a "null" object instead of NULL. Prevents crashes
 class NullEventManager : public IEventManager
 {
 public:

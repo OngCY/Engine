@@ -5,6 +5,8 @@
 int main()
 {
 	IEventManager* eventManager = new EventManager();
-	EventManagerLocator::SetService(eventManager);
+	ServiceLocator::Initialise();
+	ServiceLocator::SetEventService(eventManager);
+	
 	return 0;
 }

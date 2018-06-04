@@ -1,17 +1,23 @@
 #include "ServiceLocator.h"
 
-IEventManager* EventManagerLocator::service_ = NULL;
-IEventManager* EventManagerLocator::nullService = new NullEventManager();
+//define static member variables in a cpp file
+IEventManager* ServiceLocator::eventService;
+NullEventManager ServiceLocator::nullEventService;
 
-IEventManager* EventManagerLocator::GetService()
+void ServiceLocator::Initialise()
 {
-	if (service_ == NULL)
-		return nullService;
-	else	
-		return service_;
+	eventService = &nullEventService;
 }
 
-void EventManagerLocator::SetService(IEventManager* service)
+IEventManager* ServiceLocator::GetEventService()
 {
-	service_ = service;
+	return eventService;
+}
+
+void ServiceLocator::SetEventService(IEventManager* service)
+{
+	if (service == NULL)
+		eventService = &nullEventService;
+	else
+		eventService = service;
 }

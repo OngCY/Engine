@@ -1,13 +1,16 @@
 #pragma once
 #include "EventManager.h"
 
-class EventManagerLocator
+//Service Locator pattern
+//Global point of access to services without coupling clients to the concrete classes
+class ServiceLocator
 {
 public:
-	static IEventManager* GetService();
-	static void SetService(IEventManager* service);
+	static void Initialise();
+	static IEventManager* GetEventService();
+	static void SetEventService(IEventManager* service);
 
 private:
-	static IEventManager* service_;
-	static IEventManager* nullService;
+	static IEventManager* eventService;
+	static NullEventManager nullEventService;
 };
