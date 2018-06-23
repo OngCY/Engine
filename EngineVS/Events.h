@@ -5,7 +5,7 @@
 class IEvent
 {
 public:
-	virtual const MyTypes::EventId& VGetEventID(void) const = 0;
+	virtual const MyTypes::EventId& VGetEventId(void) const = 0;
 	virtual float VGetTimeStamp(void) const = 0;
 	virtual void VSerialise(std::ostringstream& out) const = 0;
 	virtual const char* GetName(void) const = 0;
@@ -23,6 +23,7 @@ public:
 	virtual const MyTypes::EventId& VGetEventId(void) const = 0;
 	float VGetTimeStamp(void) const { return m_timeStamp; }
 	virtual void VSerialise(std::ostringstream &out) const {}
+	virtual const char* GetName(void) const { return "BaseEvent"; }
 };
 
 class Event_DestroyActor : public BaseEvent
@@ -35,7 +36,7 @@ public:
 	explicit Event_DestroyActor(MyTypes::ActorId id) :m_id(id) {}
 	explicit Event_DestroyActor(std::istringstream &in) { in >> m_id; }
 
-	virtual const MyTypes::EventId& VGetEventType(void) const
+	virtual const MyTypes::EventId& VGetEventId(void) const
 	{
 		return sk_EventId;
 	}
@@ -45,7 +46,7 @@ public:
 		out << m_id;
 	}
 
-	virtual const char* GetName(void)
+	virtual const char* GetName(void) const
 	{
 		return "Event_DestroyActor";
 	}

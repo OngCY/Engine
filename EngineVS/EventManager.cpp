@@ -55,7 +55,7 @@ bool EventManager::VTriggerEvent(const IEventPtr& pEvent) const
 	bool triggered = false;
 
 	//find the event in the registry and trigger the delegates registered with the event
-	EventListenerMap::const_iterator eventIt = m_eventRegistry.find(pEvent->VGetEventID());
+	EventListenerMap::const_iterator eventIt = m_eventRegistry.find(pEvent->VGetEventId());
 	if (eventIt != m_eventRegistry.end())
 	{
 		const EventListenerList& listenerList = eventIt->second;
@@ -76,7 +76,7 @@ bool EventManager::VQueueEvent(const IEventPtr& pEvent)
 	_ASSERT(m_activeQueue < EVENTMANAGER_NUM_QUEUES);
 
 	//add an event to the queue if the event is registered and has delegate call backs
-	EventListenerMap::const_iterator eventIt = m_eventRegistry.find(pEvent->VGetEventID());
+	EventListenerMap::const_iterator eventIt = m_eventRegistry.find(pEvent->VGetEventId());
 	if (eventIt != m_eventRegistry.end() && !eventIt->second.empty())
 	{
 		m_eventQueue[m_activeQueue].push_back(pEvent);
@@ -107,7 +107,7 @@ bool EventManager::VAbortEvent(const MyTypes::EventId& id, bool abortAllOfType)
 			//because removing an item from the std list will invalidate the iterator
 			EventQueue::iterator tempIt = eventQIt;
 
-			if ((*tempIt)->VGetEventID() == id)
+			if ((*tempIt)->VGetEventId() == id)
 			{
 				eventQ.erase(tempIt);
 				abortSuccess = true;
@@ -142,7 +142,7 @@ bool EventManager::VTickUpdate(unsigned long deltaMillis)
 		m_eventQueue[currentQueue].pop_front();
 
 		//execute all delegate functions registered using the event ID
-		EventListenerMap::const_iterator registryIt = m_eventRegistry.find(pEvent->VGetEventID());
+		EventListenerMap::const_iterator registryIt = m_eventRegistry.find(pEvent->VGetEventId());
 		if (registryIt != m_eventRegistry.end())
 		{
 			const EventListenerList& listenerList = registryIt->second;
