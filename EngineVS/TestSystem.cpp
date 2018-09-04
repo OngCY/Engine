@@ -1,5 +1,10 @@
 #include "TestSystem.h"
 
+TestEventSystem::TestEventSystem()
+{
+
+}
+
 TestEventSystem::~TestEventSystem()
 {
 	EventListenerDelegate delegateFunc = fastdelegate::MakeDelegate(this, &TestEventSystem::DestroyActorDelegate);
