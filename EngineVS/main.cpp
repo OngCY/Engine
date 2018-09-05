@@ -5,11 +5,11 @@
 
 int main()
 {
-	IEventManager* eventManager = new EventManager();
+	std::shared_ptr<IEventManager> pEventManager(new EventManager());
 	
 	//Service Locator pattern for "singleton" major systems such as event handling
 	ServiceLocator::Initialise();
-	ServiceLocator::SetEventService(eventManager);
+	ServiceLocator::SetEventService(pEventManager);
 
 	//Test system for event handling
 	TestEventSystem* tEventSystem = new TestEventSystem();
@@ -20,5 +20,8 @@ int main()
 	ServiceLocator::GetEventService()->VTriggerEvent(pDestroyEvent);
 
 	std::getchar();
+
+	delete tEventSystem;
+
 	return 0;
 }
