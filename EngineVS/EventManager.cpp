@@ -37,6 +37,7 @@ bool EventManager::VRemoveListener(const EventListenerDelegate& eventDelegate, c
 	}
 
 	//then search through the list of event listener delegates and remove the matching one
+	//there should only be 1 match. Each event listener delegate should be unique for an event
 	EventListenerList& eventListenerList = eventIt->second;
 	for (EventListenerList::iterator listenerIt = eventListenerList.begin(); listenerIt != eventListenerList.end(); ++listenerIt)
 	{
@@ -44,6 +45,7 @@ bool EventManager::VRemoveListener(const EventListenerDelegate& eventDelegate, c
 		{
 			eventListenerList.erase(listenerIt);
 			removed = true;
+			break;
 		}
 	}
 
