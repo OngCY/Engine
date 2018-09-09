@@ -7,7 +7,7 @@ int main()
 {
 	std::shared_ptr<IEventManager> pEventManager(new EventManager());
 	
-	//Service Locator pattern for "singleton" major systems such as event handling
+	//Service Locator pattern. Call the Initialise method early
 	ServiceLocator::Initialise();
 	ServiceLocator::SetEventService(pEventManager);
 

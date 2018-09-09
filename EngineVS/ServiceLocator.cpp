@@ -4,7 +4,8 @@
 IEventManagerPtr ServiceLocator::eventService;
 NullEventManagerPtr ServiceLocator::nullEventService(new NullEventManager());
 
-//to ensure that eventService points to an object and does not return NULL
+//ensure that eventService points to an object and does not return NULL
+//should be called early
 void ServiceLocator::Initialise()
 {
 	eventService = nullEventService;

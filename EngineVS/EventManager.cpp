@@ -2,6 +2,7 @@
 #include <iostream>
 #include <Windows.h>
 
+//define static member variables in a cpp file
 const MyTypes::EventId Event_DestroyActor::sk_EventId = 0x50dbd404;
 
 bool EventManager::VRegisterListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId)

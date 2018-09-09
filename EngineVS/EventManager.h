@@ -11,6 +11,7 @@ typedef std::shared_ptr<IEvent> IEventPtr;
 typedef fastdelegate::FastDelegate1<IEventPtr> EventListenerDelegate;
 const unsigned int EVENTMANAGER_NUM_QUEUES = 2;
 
+//event manager interface class
 class IEventManager
 {
 public:
@@ -24,7 +25,7 @@ public:
 	//returns true if successful
 	virtual bool VRegisterListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& id) = 0;
 	
-	//removes a (delegate function+event id) pair from the registry
+	//removes a delegate function from the registry
 	//returns false if the pair is not found
 	virtual bool VRemoveListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& id) = 0;
 
@@ -43,8 +44,6 @@ public:
 	//specify a time limit so that event processing does not take too long
 	//return true if all events were processed, false if otherwise
 	virtual bool VTickUpdate(unsigned long maxMillis = kINFINITE) = 0;
-
-	//static IEventManager* GetEventManager();
 };
 
 class EventManager : public IEventManager
@@ -54,9 +53,11 @@ class EventManager : public IEventManager
 	typedef std::list<IEventPtr> EventQueue;
 
 	EventListenerMap m_eventRegistry;
+
+	//have 2 queues to prevent deadlock in case 2 successive events call each other
 	EventQueue m_eventQueue[EVENTMANAGER_NUM_QUEUES];
 	
-	//index of active processing queue. Events are added to the other queue
+	//index of current active processing queue. Events are added to the other queue
 	unsigned int m_activeQueue;
 
 public:
@@ -71,8 +72,8 @@ public:
 	virtual bool VTickUpdate(unsigned long maxMillis = kINFINITE);
 };
 
-//Null service object. Implements the IEventManager interface but does nothing
-//Used by the Service Locator to return a "null" object instead of NULL. Prevents crashes
+//null service object. Implements the IEventManager interface but does nothing
+//used by the Service Locator to return an object instead of NULL. Prevents crashes or constant NULL checking by the client
 class NullEventManager : public IEventManager
 {
 public:

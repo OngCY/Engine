@@ -2,6 +2,7 @@
 #include "MyTypes.h"
 #include <sstream>
 
+//event interface class
 class IEvent
 {
 public:
@@ -26,6 +27,7 @@ public:
 	virtual const char* GetName(void) const { return "BaseEvent"; }
 };
 
+//destroy actor event class
 class Event_DestroyActor : public BaseEvent
 {
 	MyTypes::ActorId m_id;
