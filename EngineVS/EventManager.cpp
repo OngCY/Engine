@@ -13,6 +13,7 @@ bool EventManager::VRegisterListener(const EventListenerDelegate& eventDelegate,
 	EventListenerList& eventListenerList = m_eventRegistry[eventId];
 	for (EventListenerList::iterator listenerIt = eventListenerList.begin(); listenerIt != eventListenerList.end(); ++listenerIt)
 	{
+		//disallow duplicate event listener delegates for an event
 		if ((*listenerIt) == eventDelegate)
 		{
 			std::cout << "VAddListener: The event listener delegate already exists" << std::endl;
@@ -44,7 +45,7 @@ bool EventManager::VRemoveListener(const EventListenerDelegate& eventDelegate, c
 	{
 		if ((*listenerIt) == eventDelegate)
 		{
-			eventListenerList.erase(listenerIt);
+			eventListenerList.erase(listenerIt); //note: the iterator to the erased element is invalidated
 			removed = true;
 			break;
 		}
