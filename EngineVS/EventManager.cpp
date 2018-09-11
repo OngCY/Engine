@@ -102,6 +102,7 @@ bool EventManager::VAbortEvent(const MyTypes::EventId& id, bool abortAllOfType)
 
 	if (registryIt != m_eventRegistry.end())
 	{
+		//get the current active processed queue
 		EventQueue& eventQ = m_eventQueue[m_activeQueue];
 
 		//search through the queue for the event and remove it from the queue
@@ -134,7 +135,7 @@ bool EventManager::VTickUpdate(unsigned long deltaMillis)
 	if (deltaMillis == IEventManager::kINFINITE)
 		endMS = IEventManager::kINFINITE;
 	else
-		endMS = currentMS + deltaMillis;
+		endMS = currentMS + deltaMillis; //time for the queue processing to end
 
 	int currentQueue = m_activeQueue;
 
@@ -167,7 +168,7 @@ bool EventManager::VTickUpdate(unsigned long deltaMillis)
 		}
 	}
 
-	//set the next active queue and clear it
+	//toggle the next active queue and clear it
 	m_activeQueue = (m_activeQueue + 1) % EVENTMANAGER_NUM_QUEUES;
 	m_eventQueue[m_activeQueue].clear();
 
