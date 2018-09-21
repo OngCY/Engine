@@ -2,6 +2,9 @@
 #include "EventManager.h"
 #include "ServiceLocator.h"
 #include "TestSystem.h"
+#include "ThirdParty\json.hpp"
+
+using json = nlohmann::json;
 
 int main()
 {
@@ -19,9 +22,23 @@ int main()
 	std::shared_ptr<Event_DestroyActor> pDestroyEvent(new Event_DestroyActor(01));
 	ServiceLocator::GetEventService()->VTriggerEvent(pDestroyEvent);
 
-	std::getchar();
-
 	delete tEventSystem;
+
+	//testing the nlohmann json library
+	json j;
+	j = {
+		{"pi", 3.142 },
+		{"name", "ong"},
+		{"object",
+			{
+				{"currency", "usd"},
+				{"value", 42}
+			}
+		}
+	};
+	std::cout << j << std::endl;
+
+	std::getchar();
 
 	return 0;
 }

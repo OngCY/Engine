@@ -107,7 +107,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\engine\Engine\EngineVS\ThirdParty\rapidjson-master\include\rapidjson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
@@ -152,6 +152,7 @@
     <ClInclude Include="TestSystem.h" />
     <ClInclude Include="ThirdParty\FastDelegate.h" />
     <ClInclude Include="ThirdParty\FastDelegateBind.h" />
+    <ClInclude Include="ThirdParty\json.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EventManager.cpp" />
