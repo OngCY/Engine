@@ -1,0 +1,11 @@
+{
+    "NumComponents": "1",
+    "PhysicsComponent": {
+        "material": "Smooth",
+        "frictionCoeff": 1,
+        "mass": 500
+    },
+    "AIComponent": { 
+        "script": "Path.lua"
+    }
+}
