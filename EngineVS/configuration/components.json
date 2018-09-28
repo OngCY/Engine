@@ -1,5 +1,6 @@
 {
-    "NumComponents": "1",
+    "NumComponents": "2",
+	"Components": ["PhysicsComponent","AIComponent"],
     "PhysicsComponent": {
         "material": "Smooth",
         "frictionCoeff": 1,

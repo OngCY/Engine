@@ -39,12 +39,21 @@ int main()
 	};
 	std::cout << j << std::endl;
 
-	//testing the nlohmann json library: json file parsing
+	//nlohmann json library: json file parsing
 	std::ifstream ifs("C:\\engine\\Engine\\EngineVS\\configuration\\components.json");
 	json jstream = json::parse(ifs);
 	std::cout << jstream.at("NumComponents") << std::endl;
 	std::cout << jstream["PhysicsComponent"]["material"] << std::endl;
 	std::cout << jstream["PhysicsComponent"]["mass"] << std::endl;
+
+	//nlohmann json library: array iteration
+	std::vector<std::string> componentVector = jstream["Components"];
+	for (auto comp : componentVector)
+		std::cout << comp << std::endl;
+
+	//nlohmann json library: sub object access
+	json jsubstream = jstream["PhysicsComponent"];
+	std::cout << jsubstream["material"] << std::endl;
 
 	std::getchar();
 
