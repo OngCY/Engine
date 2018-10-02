@@ -155,6 +155,7 @@
     <ClInclude Include="ThirdParty\json.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ActorComponent.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />

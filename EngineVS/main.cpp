@@ -3,6 +3,7 @@
 #include "ServiceLocator.h"
 #include "TestSystem.h"
 #include "ThirdParty\json.hpp"
+#include "ActorComponent.h"
 #include <fstream>
 
 using json = nlohmann::json;
