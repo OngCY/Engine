@@ -108,6 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ShowIncludes>true</ShowIncludes>
     </ClCompile>
     <Link>
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
@@ -144,8 +145,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Actor.h" />
-    <ClInclude Include="ActorComponent.h" />
+    <ClInclude Include="Actors.h" />
+    <ClInclude Include="ActorFactory.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="MyTypes.h" />
@@ -156,7 +157,7 @@
     <ClInclude Include="ThirdParty\json.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ActorComponent.cpp" />
+    <ClCompile Include="Actors.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />

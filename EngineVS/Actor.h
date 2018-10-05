@@ -1,21 +1,23 @@
 #pragma once
 #include "MyTypes.h"
 #include "ThirdParty\json.hpp"
+#include "ActorComponent.h"
 #include <map>
+#include <memory>
 
-using json = nlohmann::json;
+typedef std::shared_ptr<BaseActorComponent> StrongActorComponentPtr;
+typedef std::map<MyTypes::ComponentId, StrongActorComponentPtr> ActorComponentMap;
 
-class Actor
+class BaseActor
 {
 	//friend class ActorFactory;
-
-	//typedef std::map<MyTypes::ComponentId, StrongActorComponentPtr> ActorComponents;
+	
 
 public:
-	explicit Actor(MyTypes::ActorId id);
-	~Actor(void);
+	explicit BaseActor(MyTypes::ActorId id);
+	~BaseActor(void);
 
-	bool Init(json jcomponent);
+	bool Init(nlohmann::json jComponent);
 	void PostInit(void);
 	void Destroy(void);
 	void Update(int deltaMs);
@@ -23,6 +25,6 @@ public:
 
 private:
 	MyTypes::ActorId m_id;
-	//ActorComponents m_componentMap;
-	//void AddComponent(StrongActorComponentPtr pComponent);
+	ActorComponentMap m_componentMap;
+	void AddComponent(StrongActorComponentPtr pComponent);
 };
