@@ -7,7 +7,7 @@ class BaseActor;
 
 class BaseActorComponent
 {
-	//friend class ActorFactory;
+	friend class ActorFactory;
 	typedef std::shared_ptr<BaseActor> StrongActorPtr;
 
 public:
@@ -16,7 +16,7 @@ public:
 	virtual bool VInit(nlohmann::json jComponent, unsigned int id) { return true; };
 	virtual void VPostInit(void) {}
 	virtual void VUpdate(int deltaMS) {}
-	virtual MyTypes::ComponentId VGetComponentId(void) const;
+	virtual MyTypes::ComponentId VGetComponentId(void) const { return m_componentId; }
 
 protected:
 	unsigned int m_componentId;
@@ -26,7 +26,6 @@ protected:
 
 class HealthComponent : public BaseActorComponent
 {
-
 public:
 	HealthComponent();
 	virtual ~HealthComponent(void) {}
@@ -41,7 +40,7 @@ private:
 
 class BaseActor
 {
-	//friend class ActorFactory;
+	friend class ActorFactory;
 	typedef std::shared_ptr<BaseActorComponent> StrongActorComponentPtr;
 	typedef std::map<MyTypes::ComponentId, StrongActorComponentPtr> ActorComponentMap;
 
@@ -56,7 +55,13 @@ public:
 	MyTypes::ActorId GetActorID(void) const;
 
 private:
-	MyTypes::ActorId m_id;
-	ActorComponentMap m_componentMap;
 	void AddComponent(StrongActorComponentPtr pComponent);
+	
+	MyTypes::ActorId m_actorId;
+	ActorComponentMap m_componentMap;
+};
+
+class ActorFactory
+{
+
 };

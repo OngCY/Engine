@@ -39,9 +39,6 @@
     <ClInclude Include="ThirdParty\json.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ActorFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Actors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
