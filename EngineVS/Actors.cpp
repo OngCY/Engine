@@ -29,6 +29,18 @@ MyTypes::ActorId BaseActor::GetActorID() const
 	return m_actorId;
 }
 
+void BaseActor::Destroy()
+{
+	m_componentMap.clear();
+}
+
+void BaseActor::Update(int deltaMs)
+{
+	ActorComponentMap::iterator it;
+	for (it = m_componentMap.begin(); it != m_componentMap.end(); ++it)
+		it->second->VUpdate(deltaMs);
+}
+
 void BaseActor::AddComponent(StrongActorComponentPtr pComponent)
 {
 	m_componentMap.insert({ pComponent->VGetComponentId(),pComponent });
