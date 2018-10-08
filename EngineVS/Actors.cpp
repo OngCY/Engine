@@ -31,7 +31,24 @@ MyTypes::ActorId BaseActor::GetActorID() const
 
 void BaseActor::Destroy()
 {
+	//clear empties the map but does not deallocate the memory of the individual elements
 	m_componentMap.clear();
+}
+
+bool BaseActor::Init(nlohmann::json jComponentArray)
+{
+	std::vector<std::string> componentVector = jComponentArray["Components"];
+	for (auto component : componentVector)
+	{
+		
+	}
+}
+
+void BaseActor::PostInit()
+{
+	ActorComponentMap::iterator it;
+	for (it = m_componentMap.begin(); it != m_componentMap.end(); ++it)
+		it->second->VPostInit();
 }
 
 void BaseActor::Update(int deltaMs)

@@ -42,13 +42,13 @@ class BaseActor
 {
 	friend class ActorFactory;
 	typedef std::shared_ptr<BaseActorComponent> StrongActorComponentPtr;
-	typedef std::map<MyTypes::ComponentId, StrongActorComponentPtr> ActorComponentMap;
+	typedef std::map<MyTypes::ComponentName, StrongActorComponentPtr> ActorComponentMap;
 
 public:
 	explicit BaseActor(MyTypes::ActorId id);
 	~BaseActor(void);
 
-	bool Init(nlohmann::json jComponent);
+	bool Init(nlohmann::json jComponentArray);
 	void PostInit(void);
 	void Destroy(void);
 	void Update(int deltaMs);
