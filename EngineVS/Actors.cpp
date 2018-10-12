@@ -1,6 +1,6 @@
 #include "Actors.h"
 
-///Components
+/*******COMPONENT**********/
 BaseActorComponent::BaseActorComponent():m_componentId(0)
 {
 }
@@ -18,7 +18,12 @@ bool HealthComponent::VInit(nlohmann::json jHealthComponent, unsigned int id)
 	return true;
 }
 
-///Actor
+BaseActorComponent* CreateHealthComponent()
+{
+	return new HealthComponent;
+}
+
+/*******ACTOR**********/
 BaseActor::BaseActor(MyTypes::ActorId id) :m_actorId(id)
 {
 
@@ -42,6 +47,8 @@ bool BaseActor::Init(nlohmann::json jComponentArray)
 	{
 		
 	}
+	
+	return true;
 }
 
 void BaseActor::PostInit()
@@ -60,5 +67,18 @@ void BaseActor::Update(int deltaMs)
 
 void BaseActor::AddComponent(StrongActorComponentPtr pComponent)
 {
-	m_componentMap.insert({ pComponent->VGetComponentId(),pComponent });
+	m_componentMap.insert(std::pair<MyTypes::ComponentId, StrongActorComponentPtr>(pComponent->VGetComponentId(),pComponent));
+}
+
+/*******ACTOR FACTORY**********/
+ActorFactory::ActorFactory(void)
+{
+	m_actorComponentCreatorMap["HealthComponent"] = CreateHealthComponent;
+}
+
+MyTypes::ActorId ActorFactory::GetNextActorId(void)
+{
+	++m_lastActorId;
+
+	return m_lastActorId;
 }

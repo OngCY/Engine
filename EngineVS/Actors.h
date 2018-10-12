@@ -4,11 +4,17 @@
 #include <memory>
 
 class BaseActor;
+class BaseActorComponent;
+
+typedef std::shared_ptr<BaseActor> StrongActorPtr;
+typedef std::shared_ptr<BaseActorComponent> StrongActorComponentPtr;
+typedef std::map<MyTypes::ComponentId, StrongActorComponentPtr> ActorComponentMap;
+typedef BaseActorComponent* (*ActorComponentCreator)(void);
+typedef std::map<std::string, ActorComponentCreator> ActorComponentCreatorMap;
 
 class BaseActorComponent
 {
 	friend class ActorFactory;
-	typedef std::shared_ptr<BaseActor> StrongActorPtr;
 
 public:
 	BaseActorComponent();
@@ -38,12 +44,12 @@ private:
 	std::string m_type;
 };
 
+BaseActorComponent* CreateHealthComponent();
+
 class BaseActor
 {
 	friend class ActorFactory;
-	typedef std::shared_ptr<BaseActorComponent> StrongActorComponentPtr;
-	typedef std::map<MyTypes::ComponentName, StrongActorComponentPtr> ActorComponentMap;
-
+	
 public:
 	explicit BaseActor(MyTypes::ActorId id);
 	~BaseActor(void);
@@ -63,5 +69,14 @@ private:
 
 class ActorFactory
 {
+public:
+	ActorFactory(void);
+	StrongActorPtr CreateActor(const char* filePath);
 
+private:
+	StrongActorComponentPtr CreateComponent(nlohmann::json jComponent);
+	MyTypes::ActorId GetNextActorId(void);
+	
+	MyTypes::ActorId m_lastActorId;
+	ActorComponentCreatorMap m_actorComponentCreatorMap;
 };
