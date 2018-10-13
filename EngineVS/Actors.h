@@ -2,6 +2,7 @@
 #include "MyTypes.h"
 #include "ThirdParty\json.hpp"
 #include <memory>
+#include <iostream>
 
 class BaseActor;
 class BaseActorComponent;
@@ -74,7 +75,7 @@ public:
 	StrongActorPtr CreateActor(const char* filePath);
 
 private:
-	StrongActorComponentPtr CreateComponent(nlohmann::json jComponent);
+	StrongActorComponentPtr CreateComponent(std::string compName, nlohmann::json jComponent, MyTypes::ComponentId compId);
 	MyTypes::ActorId GetNextActorId(void);
 	
 	MyTypes::ActorId m_lastActorId;

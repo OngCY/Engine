@@ -82,3 +82,31 @@ MyTypes::ActorId ActorFactory::GetNextActorId(void)
 
 	return m_lastActorId;
 }
+
+StrongActorComponentPtr ActorFactory::CreateComponent(std::string compName, nlohmann::json jComponent,MyTypes::ComponentId compId)
+{
+	StrongActorComponentPtr pComponent;
+
+	ActorComponentCreatorMap::iterator it = m_actorComponentCreatorMap.find(compName);
+	if (it != m_actorComponentCreatorMap.end())
+	{
+		ActorComponentCreator compCreator = it->second;
+		pComponent.reset(compCreator());
+	}
+	else
+	{
+		std::cout << "Cannot find ActorComponent named: " << compName << std::endl;
+		return StrongActorComponentPtr();
+	}
+	
+	if (pComponent)
+	{
+		if (!pComponent->VInit(jComponent, compId))
+		{
+			std::cout << "Component could not initialise: " << compName << std::endl;
+			return StrongActorComponentPtr();
+		}
+	}
+		
+	return pComponent;
+}
