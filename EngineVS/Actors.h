@@ -50,6 +50,8 @@ BaseActorComponent* CreateHealthComponent();
 
 class BaseActor
 {
+	typedef  std::map<MyTypes::ComponentId, StrongActorComponentPtr> ActorComponentsMap;
+	
 	friend class ActorFactory;
 	
 public:
@@ -65,7 +67,18 @@ public:
 	template<class ComponentType>
 	std::weak_ptr<ComponentType> GetComponent(MyTypes::ComponentId id)
 	{
-		return std::weak_ptr<ComponentType>();
+		ActorComponentsMap::iterator it = m_componentMap.find(id);
+		if (it != m_componentMap.end())
+		{
+			StrongActorComponentPtr pBaseComp(it->second);
+
+			std::shared_ptr<ComponentType> pActualComp(std::tr1::static_pointer_cast<ComponentType>(pBaseComp));
+			std::weak_ptr<ComponentType> pWeakActualComp(pActualComp);
+
+			return pWeakActualComp;
+		}
+		else
+			return std::weak_ptr<ComponentType>();
 	}
 
 private:
@@ -81,7 +94,7 @@ class ActorFactory
 public:
 	ActorFactory(void);
 	StrongActorPtr CreateActor(const char* filePath);
-
+	
 private:
 	StrongActorComponentPtr CreateComponent(std::string compName, nlohmann::json jComponent);
 	MyTypes::ActorId GetNextActorId(void);
