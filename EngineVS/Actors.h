@@ -10,7 +10,7 @@ class BaseActorComponent;
 typedef std::shared_ptr<BaseActor> StrongActorPtr;
 typedef std::shared_ptr<BaseActorComponent> StrongActorComponentPtr;
 typedef std::map<MyTypes::ComponentId, StrongActorComponentPtr> ActorComponentMap;
-typedef BaseActorComponent* (*ActorComponentCreator)(void);
+typedef BaseActorComponent* (*ActorComponentCreator)(void); //function pointer typedef. Returns a BaseActorComponent* and accepts no parameters
 typedef std::map<std::string, ActorComponentCreator> ActorComponentCreatorMap;
 
 class BaseActorComponent

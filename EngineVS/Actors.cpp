@@ -61,7 +61,7 @@ void BaseActor::Update(int deltaMs)
 
 void BaseActor::AddComponent(StrongActorComponentPtr pComponent)
 {
-	++m_lastComponentId;
+	++m_lastComponentId; //The component id is determined by its Actor owner
 	pComponent->VSetComponentId(m_lastComponentId);
 	m_componentMap.insert(std::pair<MyTypes::ComponentId, StrongActorComponentPtr>(m_lastComponentId,pComponent));
 }
@@ -69,7 +69,7 @@ void BaseActor::AddComponent(StrongActorComponentPtr pComponent)
 /*******ACTOR FACTORY**********/
 ActorFactory::ActorFactory(void):m_lastActorId(0)
 {
-	m_actorComponentCreatorMap["HealthComponent"] = CreateHealthComponent;
+	m_actorComponentCreatorMap["HealthComponent"] = CreateHealthComponent; //map of component name to function pointer returning a new component object
 }
 
 MyTypes::ActorId ActorFactory::GetNextActorId(void)
@@ -90,6 +90,7 @@ StrongActorPtr ActorFactory::CreateActor(const char* filePath)
 		return StrongActorPtr();
 	}
 
+	//Create the actor and assign an actor ID
 	StrongActorPtr pActor(new BaseActor(GetNextActorId()));
 	if (!pActor->Init())
 	{
@@ -97,7 +98,8 @@ StrongActorPtr ActorFactory::CreateActor(const char* filePath)
 		return StrongActorPtr();
 	}
 
-	std::vector<std::string> componentVector = jstream["Components"];
+	//Create the actor's components
+	std::vector<std::string> componentVector = jstream["Components"]; //get list of components from the json stream
 	for (std::string compName : componentVector)
 	{
 		StrongActorComponentPtr pComponent(CreateComponent(compName, jstream[compName]));
@@ -120,11 +122,12 @@ StrongActorComponentPtr ActorFactory::CreateComponent(std::string compName, nloh
 {
 	StrongActorComponentPtr pComponent;
 
+	//Create a new component object from a function pointer. Identify the function pointer by the component name
 	ActorComponentCreatorMap::iterator it = m_actorComponentCreatorMap.find(compName);
 	if (it != m_actorComponentCreatorMap.end())
 	{
 		ActorComponentCreator compCreator = it->second;
-		pComponent.reset(compCreator());
+		pComponent.reset(compCreator()); //reset replaces the pComponent object with the object returned by the component creator
 	}
 	else
 	{
