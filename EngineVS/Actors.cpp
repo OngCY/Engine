@@ -1,15 +1,7 @@
 #include "Actors.h"
 #include <fstream>
 
-/*******COMPONENT**********/
-BaseActorComponent::BaseActorComponent():m_componentId(0)
-{
-}
-
-HealthComponent::HealthComponent() :BaseActorComponent(),m_boost(0)
-{
-}
-
+/*******HEALTH COMPONENT**********/
 bool HealthComponent::VInit(nlohmann::json jHealthComponent)
 {
 	m_type = jHealthComponent["type"].get<std::string>();
@@ -23,22 +15,7 @@ BaseActorComponent* CreateHealthComponent()
 	return new HealthComponent;
 }
 
-/*******ACTOR**********/
-BaseActor::BaseActor(MyTypes::ActorId id) :m_actorId(id), m_lastComponentId(0)
-{
-
-}
-
-BaseActor::~BaseActor(void)
-{
-
-}
-
-MyTypes::ActorId BaseActor::GetActorID() const
-{
-	return m_actorId;
-}
-
+/*******BASE ACTOR**********/
 void BaseActor::Destroy()
 {
 	//clear empties the map but does not deallocate the memory of the individual elements
@@ -47,14 +24,14 @@ void BaseActor::Destroy()
 
 void BaseActor::PostInit()
 {
-	ActorComponentMap::iterator it;
+	ComponentMap::iterator it;
 	for (it = m_componentMap.begin(); it != m_componentMap.end(); ++it)
 		it->second->VPostInit();
 }
 
 void BaseActor::Update(int deltaMs)
 {
-	ActorComponentMap::iterator it;
+	ComponentMap::iterator it;
 	for (it = m_componentMap.begin(); it != m_componentMap.end(); ++it)
 		it->second->VUpdate(deltaMs);
 }
@@ -62,6 +39,7 @@ void BaseActor::Update(int deltaMs)
 void BaseActor::AddComponent(StrongActorComponentPtr pComponent)
 {
 	++m_lastComponentId; //The component id is determined by its Actor owner
+	
 	pComponent->VSetComponentId(m_lastComponentId);
 	m_componentMap.insert(std::pair<MyTypes::ComponentId, StrongActorComponentPtr>(m_lastComponentId,pComponent));
 }
