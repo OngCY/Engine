@@ -17,47 +17,49 @@ typedef std::map<MyTypes::ComponentId, StrongActorComponentPtr> ComponentMap;
 typedef BaseActorComponent* (*ActorComponentCreator)(void); //function pointer typedef. Returns a BaseActorComponent* and accepts no parameters
 typedef std::map<std::string, ActorComponentCreator> ActorComponentCreatorMap;
 
+/*******COMPONENT**********/
 class BaseActorComponent
 {
 	friend class ActorFactory;
 
 public:
-	BaseActorComponent() { m_componentId = 0; }
 	virtual ~BaseActorComponent(void) {}
 
-	virtual bool VInit(nlohmann::json jComponent) { return true; };
-	virtual void VPostInit(void) {}
-	virtual void VUpdate(int deltaMS) {}
-	virtual void VSetComponentId(MyTypes::ComponentId id) { m_componentId = id; }
-	virtual MyTypes::ComponentId VGetComponentId(void) const { return m_componentId; }
+	//to be overridden by the child classes
+	virtual bool VInit(nlohmann::json jComponent) = 0;
+	virtual void VPostInit(void) = 0;
+	virtual void VUpdate(int deltaMS) = 0;
+	virtual MyTypes::ComponentId VGetComponentId(void) const = 0;
 
-protected:
-	void SetOwner(StrongActorPtr pOwner) { m_pOwner = pOwner; }
-	
+protected:	
 	StrongActorPtr m_pOwner;
-	unsigned int m_componentId;	
+	
+private:
+	void SetOwner(StrongActorPtr pOwner) { m_pOwner = pOwner; }
 };
 
 /*******INTERFACE FOR PICKUP COMPONENTS**********/
 class IPickUpComponent : public BaseActorComponent
 {
 public:
-	IPickUpComponent() {}
 	virtual ~IPickUpComponent(void) {}
-	virtual bool VInit(nlohmann::json jComponent) { return true; }
-	virtual void VPostInit(void) {}
-	virtual void VUpdate(int deltaMS) {}
+	virtual bool VInit(nlohmann::json jComponent) = 0;
+	virtual void VPostInit(void) = 0;
+	virtual void VUpdate(int deltaMS) = 0;
+	virtual MyTypes::ComponentId VGetComponentId(void) const = 0;
 };
 
 /*******PICKUP COMPONENTS**********/
-class HealthComponent : public IPickUpComponent
+class HealthPickUp : public IPickUpComponent
 {
 public:
-	HealthComponent() { m_boost = 0; }
-	virtual ~HealthComponent(void) {}
+	const static MyTypes::ComponentId COMPONENT_ID; //unique id for this component type
+	HealthPickUp() { m_boost = 0; }
+	virtual ~HealthPickUp(void) {}
 	virtual bool VInit(nlohmann::json jComponent);
 	virtual void VPostInit(void) {}
 	virtual void VUpdate(int deltaMS) {}
+	virtual MyTypes::ComponentId VGetComponentId(void) const { return COMPONENT_ID; }
 
 private:
 	short int m_boost;
@@ -65,14 +67,15 @@ private:
 };
 
 /*******COMPONENT CREATOR FUNCTIONS**********/
-BaseActorComponent* CreateHealthComponent();
+BaseActorComponent* CreateHealthPickUp();
 
+/*******ACTOR**********/
 class BaseActor
 {
 	friend class ActorFactory;
 	
 public:
-	explicit BaseActor(MyTypes::ActorId id) { m_actorId = m_lastComponentId = 0; }
+	explicit BaseActor(MyTypes::ActorId id) { m_actorId = 0; }
 	~BaseActor(void) {}
 
 	bool Init() { return true; }
@@ -103,9 +106,9 @@ private:
 	
 	ComponentMap m_componentMap;
 	MyTypes::ActorId m_actorId;
-	MyTypes::ComponentId m_lastComponentId;
 };
 
+/*******ACTOR FACTORY**********/
 class ActorFactory
 {
 public:

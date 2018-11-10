@@ -1,8 +1,10 @@
 #include "Actors.h"
 #include <fstream>
 
+const MyTypes::ComponentId HealthPickUp::COMPONENT_ID = 1; //define static const in the cpp file
+
 /*******HEALTH COMPONENT**********/
-bool HealthComponent::VInit(nlohmann::json jHealthComponent)
+bool HealthPickUp::VInit(nlohmann::json jHealthComponent)
 {
 	m_type = jHealthComponent["type"].get<std::string>();
 	m_boost = jHealthComponent["boost"].get<int>();
@@ -10,16 +12,15 @@ bool HealthComponent::VInit(nlohmann::json jHealthComponent)
 	return true;
 }
 
-BaseActorComponent* CreateHealthComponent()
+BaseActorComponent* CreateHealthPickUp()
 {
-	return new HealthComponent;
+	return new HealthPickUp;
 }
 
 /*******BASE ACTOR**********/
 void BaseActor::Destroy()
 {
-	//clear empties the map but does not deallocate the memory of the individual elements
-	m_componentMap.clear();
+	m_componentMap.clear(); //clear empties the map but does not deallocate the memory of the individual elements
 }
 
 void BaseActor::PostInit()
@@ -38,16 +39,14 @@ void BaseActor::Update(int deltaMs)
 
 void BaseActor::AddComponent(StrongActorComponentPtr pComponent)
 {
-	++m_lastComponentId; //The component id is determined by its Actor owner
-	
-	pComponent->VSetComponentId(m_lastComponentId);
-	m_componentMap.insert(std::pair<MyTypes::ComponentId, StrongActorComponentPtr>(m_lastComponentId,pComponent));
+	MyTypes::ComponentId compId = pComponent->VGetComponentId();
+	m_componentMap.insert(std::pair<MyTypes::ComponentId, StrongActorComponentPtr>(compId,pComponent));
 }
 
 /*******ACTOR FACTORY**********/
 ActorFactory::ActorFactory(void):m_lastActorId(0)
 {
-	m_actorComponentCreatorMap["HealthComponent"] = CreateHealthComponent; //map of component name to function pointer returning a new component object
+	m_actorComponentCreatorMap["HealthPickUp"] = CreateHealthPickUp; //map of component name to function pointer returning a new component object
 }
 
 MyTypes::ActorId ActorFactory::GetNextActorId(void)
