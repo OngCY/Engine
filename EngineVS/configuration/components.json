@@ -1,12 +1,8 @@
 {
-    "NumComponents": "2",
-	"Components": ["PhysicsComponent","AIComponent"],
-    "PhysicsComponent": {
-        "material": "Smooth",
-        "frictionCoeff": 1,
-        "mass": 500
-    },
-    "AIComponent": { 
-        "script": "Path.lua"
+    "NumComponents": "1",
+	"Components": ["HealthPickUp"],
+    "HealthPickUp": {
+        "type": "Green",
+        "boost": 40
     }
 }

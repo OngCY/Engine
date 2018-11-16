@@ -51,13 +51,15 @@ ActorFactory::ActorFactory(void):m_lastActorId(0)
 
 MyTypes::ActorId ActorFactory::GetNextActorId(void)
 {
+	std::cout << "ActorFactory:GetNextActorId" << std::endl;
 	++m_lastActorId;
-
+	
 	return m_lastActorId;
 }
 
 StrongActorPtr ActorFactory::CreateActor(const char* filePath)
 {
+	std::cout << "ActorFactory:CreateActor" << std::endl;
 	std::ifstream ifs(filePath);
 	nlohmann::json jstream = nlohmann::json::parse(ifs);
 
@@ -68,6 +70,7 @@ StrongActorPtr ActorFactory::CreateActor(const char* filePath)
 	}
 
 	//Create the actor and assign an actor ID
+	std::cout << "Creating and initialising actor" << std::endl;
 	StrongActorPtr pActor(new BaseActor(GetNextActorId()));
 	if (!pActor->Init())
 	{
@@ -76,20 +79,27 @@ StrongActorPtr ActorFactory::CreateActor(const char* filePath)
 	}
 
 	//Create the actor's components
+	std::cout << "Creating components for the actor" << std::endl;
 	std::vector<std::string> componentVector = jstream["Components"]; //get list of components from the json stream
 	for (std::string compName : componentVector)
 	{
+		std::cout << "Creating Component:" << compName << std::endl;
 		StrongActorComponentPtr pComponent(CreateComponent(compName, jstream[compName]));
 
 		if (pComponent)
 		{
+			std::cout << "Adding component to actor" << std::endl;
 			pActor->AddComponent(pComponent);
 			pComponent->SetOwner(pActor);
 		}
 		else
+		{
+			std::cout << "Component not created. Returning empty actor" << std::endl;
 			return StrongActorPtr();
+		}
 	}
 
+	std::cout << "Post init actor" << std::endl;
 	pActor->PostInit();
 
 	return pActor;
@@ -97,12 +107,14 @@ StrongActorPtr ActorFactory::CreateActor(const char* filePath)
 
 StrongActorComponentPtr ActorFactory::CreateComponent(std::string compName, nlohmann::json jComponent)
 {
+	std::cout << "ActorFactory:CreateComponent" << std::endl;
 	StrongActorComponentPtr pComponent;
 
 	//Create a new component object from a function pointer. Identify the function pointer by the component name
 	ActorComponentCreatorMap::iterator it = m_actorComponentCreatorMap.find(compName);
 	if (it != m_actorComponentCreatorMap.end())
 	{
+		std::cout << "Creating component from component creator:" << compName << std::endl;
 		ActorComponentCreator compCreator = it->second;
 		pComponent.reset(compCreator()); //reset replaces the pComponent object with the object returned by the component creator
 	}
@@ -114,6 +126,7 @@ StrongActorComponentPtr ActorFactory::CreateComponent(std::string compName, nloh
 	
 	if (pComponent)
 	{
+		std::cout << "Initialising component" << std::endl;
 		if (!pComponent->VInit(jComponent))
 		{
 			std::cout << "Component could not initialise: " << compName << std::endl;
