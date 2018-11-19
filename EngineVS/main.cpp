@@ -10,6 +10,8 @@ using json = nlohmann::json;
 
 int main()
 {
+	/*********EVENT TEST********/
+	/*
 	std::shared_ptr<IEventManager> pEventManager(new EventManager());
 
 	//Service Locator pattern. Call the Initialise method early
@@ -25,8 +27,10 @@ int main()
 	ServiceLocator::GetEventService()->VTriggerEvent(pDestroyEvent);
 
 	delete tEventSystem;
+	*/
 
-	//testing the nlohmann json library: literal json string
+	/********NLOHMAN JSON LIBRARY TEST******/
+	/*
 	json j;
 	j = {
 		{"pi", 3.142 },
@@ -55,6 +59,9 @@ int main()
 	//nlohmann json library: sub object access
 	json jsubstream = jstream["PhysicsComponent"];
 	std::cout << jsubstream["material"] << std::endl;
+	*/
+
+
 
 	std::getchar();
 

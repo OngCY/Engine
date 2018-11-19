@@ -8,7 +8,8 @@ bool HealthPickUp::VInit(nlohmann::json jHealthComponent)
 {
 	m_type = jHealthComponent["type"].get<std::string>();
 	m_boost = jHealthComponent["boost"].get<int>();
-
+	std::cout << "Health Pickup:VInit" << std::endl;
+	std::cout << "type:" << m_type << " boost:" << m_boost << std::endl;
 	return true;
 }
 
@@ -25,6 +26,7 @@ void BaseActor::Destroy()
 
 void BaseActor::PostInit()
 {
+	std::cout << "BaseActor:PostInit" << std::endl;
 	ComponentMap::iterator it;
 	for (it = m_componentMap.begin(); it != m_componentMap.end(); ++it)
 		it->second->VPostInit();
@@ -32,6 +34,7 @@ void BaseActor::PostInit()
 
 void BaseActor::Update(int deltaMs)
 {
+	std::cout << "BaseActor:Update" << std::endl;
 	ComponentMap::iterator it;
 	for (it = m_componentMap.begin(); it != m_componentMap.end(); ++it)
 		it->second->VUpdate(deltaMs);
@@ -39,7 +42,9 @@ void BaseActor::Update(int deltaMs)
 
 void BaseActor::AddComponent(StrongActorComponentPtr pComponent)
 {
+	std::cout << "BaseActor:AddComponent" << std::endl;
 	MyTypes::ComponentId compId = pComponent->VGetComponentId();
+	std::cout << "ComponetID:" << compId << std::endl;
 	m_componentMap.insert(std::pair<MyTypes::ComponentId, StrongActorComponentPtr>(compId,pComponent));
 }
 
