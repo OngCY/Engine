@@ -19,7 +19,7 @@ int main()
 	ServiceLocator::SetEventService(pEventManager);
 
 	//Test system for event handling
-	TestEventSystem* tEventSystem = new TestEventSystem();
+	TestSystem* tEventSystem = new TestSystem();
 	tEventSystem->Init();
 
 	//Create the event and fire it immediately. The alternative is to queue the event
@@ -61,7 +61,9 @@ int main()
 	std::cout << jsubstream["material"] << std::endl;
 	*/
 
-
+	/********GAME ACTORS TEST******/
+	ActorFactory* actorFactory = new ActorFactory();
+	actorFactory->CreateActor("C:\\engine\\Engine\\EngineVS\\configuration\\components.json");
 
 	std::getchar();
 

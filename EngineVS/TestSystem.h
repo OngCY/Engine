@@ -2,14 +2,17 @@
 #include "ThirdParty\FastDelegate.h"
 #include "ThirdParty\FastDelegateBind.h"
 #include "ServiceLocator.h"
+#include "Actors.h"
 #include <iostream>
 
-class TestEventSystem
+class TestSystem
 {
 public:
-	TestEventSystem();
-	~TestEventSystem();
+	TestSystem() {}
+	~TestSystem();
 	void Init(void);
 	void DestroyActorDelegate(IEventPtr pEvent);
+
+
 	
 };

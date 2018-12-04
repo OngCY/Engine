@@ -51,6 +51,7 @@ void BaseActor::AddComponent(StrongActorComponentPtr pComponent)
 /*******ACTOR FACTORY**********/
 ActorFactory::ActorFactory(void):m_lastActorId(0)
 {
+	std::cout << "ActorFactory: constructor" << std::endl;
 	m_actorComponentCreatorMap["HealthPickUp"] = CreateHealthPickUp; //map of component name to function pointer returning a new component object
 }
 
@@ -66,11 +67,16 @@ StrongActorPtr ActorFactory::CreateActor(const char* filePath)
 {
 	std::cout << "ActorFactory:CreateActor" << std::endl;
 	std::ifstream ifs(filePath);
-	nlohmann::json jstream = nlohmann::json::parse(ifs);
+	nlohmann::json jstream;
 
-	if (!jstream)
+	try
+	{
+		jstream = nlohmann::json::parse(ifs);
+	}
+	catch (nlohmann::json::parse_error& e)
 	{
 		std::cout << "Unable to parse actor component file: " << filePath << std::endl;
+		std::cout << "parse error message: " << e.what() << "error id: " << e.id << std::endl;
 		return StrongActorPtr();
 	}
 
