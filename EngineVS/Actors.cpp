@@ -13,6 +13,11 @@ bool HealthPickUp::VInit(nlohmann::json jHealthComponent)
 	return true;
 }
 
+void HealthPickUp::VApply(WeakActorPtr pActor)
+{
+	std::cout << "Health Pickup:VApply" << std::endl;
+}
+
 BaseActorComponent* CreateHealthPickUp()
 {
 	return new HealthPickUp;

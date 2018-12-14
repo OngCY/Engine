@@ -8,6 +8,7 @@ class BaseActor;
 class BaseActorComponent;
 
 typedef std::shared_ptr<BaseActor> StrongActorPtr;
+typedef std::weak_ptr<BaseActor> WeakActorPtr;
 typedef std::shared_ptr<BaseActorComponent> StrongActorComponentPtr;
 
 //typedef for BaseActor
@@ -47,6 +48,7 @@ public:
 	virtual void VPostInit(void) = 0;
 	virtual void VUpdate(int deltaMS) = 0;
 	virtual MyTypes::ComponentId VGetComponentId(void) const = 0;
+	virtual void VApply(WeakActorPtr pActor) = 0;
 };
 
 /*******PICKUP COMPONENTS**********/
@@ -60,6 +62,7 @@ public:
 	virtual void VPostInit(void) {}
 	virtual void VUpdate(int deltaMS) {}
 	virtual MyTypes::ComponentId VGetComponentId(void) const { return COMPONENT_ID; }
+	virtual void VApply(WeakActorPtr pActor);
 
 private:
 	short int m_boost;
