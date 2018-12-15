@@ -63,8 +63,10 @@ int main()
 
 	/********GAME ACTORS TEST******/
 	ActorFactory* actorFactory = new ActorFactory();
-	actorFactory->CreateActor("C:\\engine\\Engine\\EngineVS\\configuration\\components.json");
-
+	StrongActorPtr greenHerbActor(actorFactory->CreateActor("C:\\engine\\Engine\\EngineVS\\configuration\\components.json"));
+	std::weak_ptr<HealthPickUp> wHealthPickUp(greenHerbActor->GetComponent<HealthPickUp>(COMPONENTS::PICKUP_HEALTH));
+	std::shared_ptr<HealthPickUp> sHealthPickUp = wHealthPickUp.lock(); //lock returns a shard_ptr
+	
 	std::getchar();
 
 	return 0;

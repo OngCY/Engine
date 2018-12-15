@@ -1,7 +1,8 @@
 #include "Actors.h"
 #include <fstream>
 
-const MyTypes::ComponentId HealthPickUp::COMPONENT_ID = 1; //define static const in the cpp file
+//define static constants in the cpp file
+const MyTypes::ComponentId HealthPickUp::COMPONENT_ID = COMPONENTS::PICKUP_HEALTH; 
 
 /*******HEALTH COMPONENT**********/
 bool HealthPickUp::VInit(nlohmann::json jHealthComponent)
@@ -16,6 +17,8 @@ bool HealthPickUp::VInit(nlohmann::json jHealthComponent)
 void HealthPickUp::VApply(WeakActorPtr pActor)
 {
 	std::cout << "Health Pickup:VApply" << std::endl;
+	std::cout << "Apply green herb pickup to receipient pActor" << std::endl;
+	std::cout << "Remove green herb from scene" << std::endl;
 }
 
 BaseActorComponent* CreateHealthPickUp()

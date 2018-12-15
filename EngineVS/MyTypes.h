@@ -7,3 +7,8 @@ namespace MyTypes
 	typedef unsigned int ComponentId;
 	typedef const char* ComponentName;
 }
+
+enum COMPONENTS:unsigned int
+{
+	PICKUP_HEALTH
+};

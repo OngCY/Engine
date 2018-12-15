@@ -7,11 +7,10 @@
 class BaseActor;
 class BaseActorComponent;
 
+//typedefs for BaseActor
 typedef std::shared_ptr<BaseActor> StrongActorPtr;
 typedef std::weak_ptr<BaseActor> WeakActorPtr;
 typedef std::shared_ptr<BaseActorComponent> StrongActorComponentPtr;
-
-//typedef for BaseActor
 typedef std::map<MyTypes::ComponentId, StrongActorComponentPtr> ComponentMap;
 
 //typedefs for ActorFactory
@@ -90,12 +89,13 @@ public:
 	template<class ComponentType>
 	std::weak_ptr<ComponentType> GetComponent(MyTypes::ComponentId id)
 	{
-		ActorComponentsMap::iterator it = m_componentMap.find(id);
+		ComponentMap::iterator it = m_componentMap.find(id);
 		if (it != m_componentMap.end())
 		{
 			StrongActorComponentPtr pBaseComp(it->second);
 
-			std::shared_ptr<ComponentType> pActualComp(std::tr1::static_pointer_cast<ComponentType>(pBaseComp));
+			//std::shared_ptr<ComponentType> pActualComp(std::tr1::static_pointer_cast<ComponentType>(pBaseComp));
+			std::shared_ptr<ComponentType> pActualComp(std::static_pointer_cast<ComponentType>(pBaseComp));
 			std::weak_ptr<ComponentType> pWeakActualComp(pActualComp);
 
 			return pWeakActualComp;
