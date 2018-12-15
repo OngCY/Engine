@@ -68,8 +68,25 @@ private:
 	std::string m_type;
 };
 
+class HealthLifeComponent : public BaseActorComponent
+{
+public:
+	const static MyTypes::ComponentId COMPONENT_ID;
+	HealthLifeComponent() { m_state = "OK"; m_health = 100; }
+	virtual ~HealthLifeComponent(void) {}
+	virtual bool VInit(nlohmann::json jComponent);
+	virtual void VPostInit(void) {}
+	virtual void VUpdate(int deltaMS) {}
+	virtual MyTypes::ComponentId VGetComponentId(void) const { return COMPONENT_ID; }
+
+private:
+	std::string m_state;
+	int m_health;
+};
+
 /*******COMPONENT CREATOR FUNCTIONS**********/
 BaseActorComponent* CreateHealthPickUp();
+BaseActorComponent* CreateHealthLifeComponent();
 
 /*******ACTOR**********/
 class BaseActor

@@ -67,7 +67,10 @@ int main()
 	std::weak_ptr<HealthPickUp> wHealthPickUp(greenHerbActor->GetComponent<HealthPickUp>(COMPONENTS::PICKUP_HEALTH));
 	std::shared_ptr<HealthPickUp> sHealthPickUp = wHealthPickUp.lock(); //lock returns a shard_ptr
 	
+	//StrongActorPtr 
 	std::getchar();
-
+	
+	delete actorFactory;
+	
 	return 0;
 }

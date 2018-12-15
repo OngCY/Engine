@@ -2,7 +2,8 @@
 #include <fstream>
 
 //define static constants in the cpp file
-const MyTypes::ComponentId HealthPickUp::COMPONENT_ID = COMPONENTS::PICKUP_HEALTH; 
+const MyTypes::ComponentId HealthPickUp::COMPONENT_ID = COMPONENTS::PICKUP_HEALTH;
+const MyTypes::ComponentId HealthLifeComponent::COMPONENT_ID = COMPONENTS::HEALTH_LIFE;
 
 /*******HEALTH COMPONENT**********/
 bool HealthPickUp::VInit(nlohmann::json jHealthComponent)
@@ -24,6 +25,21 @@ void HealthPickUp::VApply(WeakActorPtr pActor)
 BaseActorComponent* CreateHealthPickUp()
 {
 	return new HealthPickUp;
+}
+
+/*******HEALTH LIFE COMPONENT**********/
+bool HealthLifeComponent::VInit(nlohmann::json jHealthLifeComponent)
+{
+	m_state = jHealthLifeComponent["state"].get<std::string>();
+	m_health = jHealthLifeComponent["health"].get<int>();
+	std::cout << "HealthLifeComponent:VInit" << std::endl;
+	std::cout << "state:" << m_state << " health:" << m_health << std::endl;
+	return true;
+}
+
+BaseActorComponent* CreateHealthLifeComponent()
+{
+	return new HealthLifeComponent;
 }
 
 /*******BASE ACTOR**********/
@@ -61,6 +77,7 @@ ActorFactory::ActorFactory(void):m_lastActorId(0)
 {
 	std::cout << "ActorFactory: constructor" << std::endl;
 	m_actorComponentCreatorMap["HealthPickUp"] = CreateHealthPickUp; //map of component name to function pointer returning a new component object
+	m_actorComponentCreatorMap["HealthLifeComponent"] = CreateHealthLifeComponent;
 }
 
 MyTypes::ActorId ActorFactory::GetNextActorId(void)
