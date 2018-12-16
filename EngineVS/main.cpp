@@ -63,11 +63,22 @@ int main()
 
 	/********GAME ACTORS TEST******/
 	ActorFactory* actorFactory = new ActorFactory();
-	StrongActorPtr greenHerbActor(actorFactory->CreateActor("C:\\engine\\Engine\\EngineVS\\configuration\\components.json"));
+	
+	StrongActorPtr greenHerbActor(actorFactory->CreateActor("C:\\Git\\Engine\\EngineVS\\configuration\\components_GreenHerb.json"));
 	std::weak_ptr<HealthPickUp> wHealthPickUp(greenHerbActor->GetComponent<HealthPickUp>(COMPONENTS::PICKUP_HEALTH));
 	std::shared_ptr<HealthPickUp> sHealthPickUp = wHealthPickUp.lock(); //lock returns a shard_ptr
-	
-	//StrongActorPtr 
+	int boost = 0;
+	if (sHealthPickUp)
+		boost = sHealthPickUp->VGetHealthBoost();
+
+	StrongActorPtr npcPartnerActor(actorFactory->CreateActor("C:\\Git\\Engine\\EngineVS\\configuration\\components_NPCPartner.json"));
+	std::weak_ptr<HealthLifeComponent> wHealthLife(npcPartnerActor->GetComponent<HealthLifeComponent>(COMPONENTS::HEALTH_LIFE));
+	std::shared_ptr<HealthLifeComponent> sHealthLife = wHealthLife.lock(); //lock returns a shard_ptr
+	if (sHealthLife)
+		sHealthLife->VUpdateHealth(boost);
+	else
+		std::cout << "HealthLifeComponet shared pointer not valid" << std::endl;
+
 	std::getchar();
 	
 	delete actorFactory;

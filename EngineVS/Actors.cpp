@@ -22,6 +22,12 @@ void HealthPickUp::VApply(WeakActorPtr pActor)
 	std::cout << "Remove green herb from scene" << std::endl;
 }
 
+int HealthPickUp::VGetHealthBoost()
+{
+	std::cout << "Health Pickup:VGetHealthBoost" << std::endl;
+	return m_boost;
+}
+
 BaseActorComponent* CreateHealthPickUp()
 {
 	return new HealthPickUp;
@@ -35,6 +41,13 @@ bool HealthLifeComponent::VInit(nlohmann::json jHealthLifeComponent)
 	std::cout << "HealthLifeComponent:VInit" << std::endl;
 	std::cout << "state:" << m_state << " health:" << m_health << std::endl;
 	return true;
+}
+
+void HealthLifeComponent::VUpdateHealth(int health)
+{
+	std::cout << "HealthLifeComponent:VUpdateHealth" << std::endl;
+	m_health += health;
+	std::cout << "Health is now: " << m_health << std::endl;
 }
 
 BaseActorComponent* CreateHealthLifeComponent()

@@ -62,6 +62,7 @@ public:
 	virtual void VUpdate(int deltaMS) {}
 	virtual MyTypes::ComponentId VGetComponentId(void) const { return COMPONENT_ID; }
 	virtual void VApply(WeakActorPtr pActor);
+	virtual int VGetHealthBoost();
 
 private:
 	short int m_boost;
@@ -78,6 +79,7 @@ public:
 	virtual void VPostInit(void) {}
 	virtual void VUpdate(int deltaMS) {}
 	virtual MyTypes::ComponentId VGetComponentId(void) const { return COMPONENT_ID; }
+	virtual void VUpdateHealth(int health);
 
 private:
 	std::string m_state;
