@@ -1,7 +1,7 @@
 {
     "NumComponents": "1",
 	"Components": ["HealthLifeComponent"],
-    "HealthPickUp": {
+    "HealthLifeComponent": {
         "state": "OK",
         "health": 100
     }

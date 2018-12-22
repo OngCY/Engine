@@ -70,6 +70,8 @@ int main()
 	int boost = 0;
 	if (sHealthPickUp)
 		boost = sHealthPickUp->VGetHealthBoost();
+	else
+		std::cout << "HealthPickUp shard pointer not valid" << std::endl;
 
 	StrongActorPtr npcPartnerActor(actorFactory->CreateActor("C:\\Git\\Engine\\EngineVS\\configuration\\components_NPCPartner.json"));
 	std::weak_ptr<HealthLifeComponent> wHealthLife(npcPartnerActor->GetComponent<HealthLifeComponent>(COMPONENTS::HEALTH_LIFE));
