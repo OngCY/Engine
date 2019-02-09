@@ -160,6 +160,7 @@
     <ClCompile Include="Actors.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Process.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="TestSystem.cpp" />
   </ItemGroup>

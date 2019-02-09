@@ -17,28 +17,43 @@ public:
 		REMOVED,			//removed from the process list but not destroyed e.g. assign an already running process to another process
 		RUNNING,			//initialised and running
 		PAUSED,				//initialised and paused
-		SUCCEEDED,			//completed successfully
+		FINISHED,			//completed successfully
 		FAILED,				//did not complete successfully
 		ABORTED				//may not have started
 	};
 
-	Process(void);
-	virtual ~Process();
+	Process() {}
+	virtual ~Process() {}
 
 	//methods to end the process
-	inline void Succeed(void);
-	inline void Fail(void);
-	inline void Pause(void);
-	inline void Unpause(void);
+	inline void Finish();
+	inline void Fail();
+	
+	inline void Pause();
+	inline void Unpause();
+
+	//access methods
+	ProcessState GetState() const { return m_processState; }
+	bool IsAlive() const;
+	bool IsDead() const;
+	bool IsRemoved() const;
+	bool IsPaused() const;
+
+	//child process methods
+	inline void AttachChildProcess(StrongProcessPtr pChild);
+	StrongProcessPtr RemoveChildProcess();
+	StrongProcessPtr GetChildProcess() { return m_pChild; }
 
 protected:
-	virtual void VOnInit(void) { m_processState = RUNNING; }
+	virtual void VOnInit() { m_processState = RUNNING; }
 	virtual void VOnUpdate(unsigned long deltaMS) = 0;
-	virtual void VOnSuccess(void) {}
-	virtual void VOnFail(void) {}
-	virtual void VOnAbort(void) {}
+	virtual void VOnFinish() {}
+	virtual void VOnFail() {}
+	virtual void VOnAbort() {}
 
 private:
+	void SetState(ProcessState state) { m_processState = state; }
+
 	ProcessState m_processState;
 	StrongProcessPtr m_pChild;	//child process, if any
 };
