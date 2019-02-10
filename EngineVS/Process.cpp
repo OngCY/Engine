@@ -31,3 +31,8 @@ bool Process::IsRemoved() const
 	else
 		return false;
 }
+
+void Process::AttachChildProcess(StrongProcessPtr pChild)
+{
+	m_pChild = pChild;
+}

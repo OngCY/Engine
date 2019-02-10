@@ -1,10 +1,13 @@
 #pragma once
 #include <memory>
 #include <iostream>
+#include <list>
 
 class Process;
+class ProcessManager;
 typedef std::shared_ptr<Process> StrongProcessPtr;
 typedef std::weak_ptr<Process> WeakProcessPtr;
+typedef std::list<StrongProcessPtr> ProcessList;
 
 class Process
 {
@@ -56,4 +59,22 @@ private:
 
 	ProcessState m_processState;
 	StrongProcessPtr m_pChild;	//child process, if any
+};
+
+class ProcessManager
+{
+public:
+	~ProcessManager() {}
+
+	//processes
+	WeakProcessPtr AttachProcess(StrongProcessPtr pProcess);
+	unsigned int UpdateAllProcesses(unsigned long deltaMS);
+	void AbortAllProcesses(bool immediate);
+
+	size_t GetNumberOfProcesses() const { return m_processList.size(); }
+
+private:
+	void ClearAllProcesses(); //to be called by the destructor only
+
+	ProcessList m_processList;
 };
