@@ -11,7 +11,7 @@ typedef std::list<StrongProcessPtr> ProcessList;
 
 class Process
 {
-	//friend class ProcessManager;
+	friend class ProcessManager;
 
 public:
 	enum ProcessState
@@ -44,7 +44,7 @@ public:
 
 	//child process methods
 	inline void AttachChildProcess(StrongProcessPtr pChild);
-	StrongProcessPtr RemoveChildProcess();
+	inline void RemoveChildProcess();
 	StrongProcessPtr GetChildProcess() { return m_pChild; }
 
 protected:
