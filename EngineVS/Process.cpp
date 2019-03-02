@@ -105,3 +105,19 @@ unsigned int ProcessManager::UpdateAllProcesses(unsigned long deltaMs)
 
 	return ((finishCount << 16) | failCount);
 }
+
+DelayProcess::DelayProcess(unsigned long delay)
+{
+	m_delay = delay;
+	m_timeDelayedSoFar = 0;
+}
+
+void DelayProcess::OnUpdate(unsigned long deltaMs)
+{
+	m_timeDelayedSoFar += deltaMs;
+
+	if (m_timeDelayedSoFar >= m_delay)
+	{
+		VFinish();
+	}
+}

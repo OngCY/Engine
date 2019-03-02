@@ -28,13 +28,6 @@ public:
 	Process() {}
 	virtual ~Process() {}
 
-	//methods to end the process
-	inline void Finish();
-	inline void Fail();
-	
-	inline void Pause();
-	inline void Unpause();
-
 	//access methods
 	ProcessState GetState() const { return m_processState; }
 	bool IsAlive() const;
@@ -48,16 +41,23 @@ public:
 	StrongProcessPtr GetChildProcess() { return m_pChild; }
 
 protected:
+	//methods to end, pause or continue the process
+	virtual void VFinish() {}
+	virtual void VFail() {}
+	virtual void VPause() {}
+	virtual void VUnpause() {}
+
 	virtual void VOnInit() { m_processState = RUNNING; }
 	virtual void VOnUpdate(unsigned long deltaMS) = 0;
 	virtual void VOnFinish() {}
 	virtual void VOnFail() {}
 	virtual void VOnAbort() {}
 
+	ProcessState m_processState;
+
 private:
 	void SetState(ProcessState state) { m_processState = state; }
 
-	ProcessState m_processState;
 	StrongProcessPtr m_pChild;	//child process, if any
 };
 
@@ -77,4 +77,18 @@ private:
 	void ClearAllProcesses(); //to be called by the destructor only
 
 	ProcessList m_processList;
+};
+
+class DelayProcess : public Process
+{
+public:
+	DelayProcess(unsigned long delay);
+	virtual void VFinish() { m_processState = Process::FINISHED; }
+
+private:
+	unsigned long m_delay;
+	unsigned long m_timeDelayedSoFar;
+
+protected:
+	virtual void OnUpdate(unsigned long deltaMs);
 };
