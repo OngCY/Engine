@@ -5,6 +5,7 @@
 #include "ThirdParty\json.hpp"
 #include "Actors.h"
 #include <fstream>
+#include <chrono>
 #include <irrlicht.h>
 
 using json = nlohmann::json;
@@ -14,6 +15,7 @@ using namespace scene;
 using namespace video;
 using namespace io;
 using namespace gui;
+using namespace std::chrono;
 
 #ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
@@ -24,8 +26,7 @@ int main()
 {
 	IrrlichtDevice *device = createDevice(video::EDT_SOFTWARE, dimension2d<u32>(640, 480), 16, false, false, false, 0);
 	
-	if (!device)
-		return 1;
+	if (!device) return 1;
 
 	device->setWindowCaption(L"Test Demo");
 
@@ -34,6 +35,11 @@ int main()
 	IGUIEnvironment* guienv = device->getGUIEnvironment();
 
 	guienv->addStaticText(L"Hello World! Process Test", rect<s32>(10, 10, 260, 22), true);
+
+	//system time in miliseconds
+	std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+	std::chrono::system_clock::time_point now2 = std::chrono::system_clock::now();
+	auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now2 - now);
 
 	while (device->run())
 	{
