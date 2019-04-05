@@ -36,18 +36,30 @@ int main()
 
 	guienv->addStaticText(L"Hello World! Process Test", rect<s32>(10, 10, 260, 22), true);
 
-	//system time in miliseconds
-	std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
-	std::chrono::system_clock::time_point now2 = std::chrono::system_clock::now();
-	auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now2 - now);
-
+	system_clock::time_point startTime = system_clock::now();
+	int64_t lag = 0;
+	const int64_t MS_PER_UPDATE = 16; //60 fps
+	
 	while (device->run())
 	{
-		driver->beginScene(true, true, SColor(255, 100, 101, 140));
+		system_clock::time_point currentTime = system_clock::now();
+		int64_t elapsed = duration_cast<std::chrono::milliseconds>(currentTime - startTime).count();
+		startTime = currentTime;
+		lag += elapsed;
 
+		//processInput()
+
+		//game update
+		while (lag >= MS_PER_UPDATE)
+		{
+			//update()
+			lag -= MS_PER_UPDATE;
+		}
+
+		//render
+		driver->beginScene(true, true, SColor(255, 100, 101, 140));
 		smgr->drawAll();
 		guienv->drawAll();
-
 		driver->endScene();
 	}
 	
