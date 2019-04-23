@@ -10,4 +10,7 @@ public:
 	virtual ~LogManager() {}
 	
 	virtual void VInitLogging();
+
+private:
+	std::shared_ptr<spdlog::logger> m_fileLogger;
 };
