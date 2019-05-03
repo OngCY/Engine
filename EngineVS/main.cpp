@@ -4,6 +4,8 @@
 #include "TestSystem.h"
 #include "ThirdParty\json.hpp"
 #include "Actors.h"
+#include "ThirdParty\spdlog\spdlog.h"
+#include "ThirdParty\spdlog\sinks\basic_file_sink.h"
 #include <fstream>
 #include <chrono>
 #include <irrlicht.h>
@@ -24,7 +26,7 @@ using namespace std::chrono;
 
 int main()
 {
-	IrrlichtDevice *device = createDevice(video::EDT_SOFTWARE, dimension2d<u32>(640, 480), 16, false, false, false, 0);
+	/*IrrlichtDevice *device = createDevice(video::EDT_SOFTWARE, dimension2d<u32>(640, 480), 16, false, false, false, 0);
 	
 	if (!device) return 1;
 
@@ -35,11 +37,15 @@ int main()
 	IGUIEnvironment* guienv = device->getGUIEnvironment();
 
 	guienv->addStaticText(L"Hello World! Process Test", rect<s32>(10, 10, 260, 22), true);
-
+	*/
 	system_clock::time_point startTime = system_clock::now();
 	int64_t lag = 0;
 	const int64_t MS_PER_UPDATE = 16; //60 fps
-	
+
+	auto my_logger = spdlog::basic_logger_mt("basic_logger", "basic.txt");
+	my_logger->info("test log");
+	spdlog::drop_all();
+	/*
 	while (device->run())
 	{
 		system_clock::time_point currentTime = system_clock::now();
@@ -61,9 +67,9 @@ int main()
 		smgr->drawAll();
 		guienv->drawAll();
 		driver->endScene();
-	}
+	}*/
 	
-	device->drop();
+	//device->drop();
 
 	return 0;
 }
