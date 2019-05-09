@@ -10,8 +10,20 @@ public:
 	virtual ~LogManager() {}
 	
 	virtual void VInitLogging();
-	void CloseLogging();
+	virtual void VCloseLogging();
+	virtual std::shared_ptr<spdlog::logger> VGetLogger();
 
 private:
 	std::shared_ptr<spdlog::logger> m_fileLogger;
+};
+
+class NullLogManager : public LogManager
+{
+public:
+	NullLogManager() {}
+	virtual ~NullLogManager() {}
+
+	virtual void VInitLogging() {}
+	virtual void VCloseLogging() {}
+	virtual std::shared_ptr<spdlog::logger> VGetLogger() { return nullptr; }
 };

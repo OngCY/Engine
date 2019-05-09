@@ -1,11 +1,10 @@
 #include "Events.h"
 #include "EventManager.h"
+#include "LogManager.h"
 #include "ServiceLocator.h"
 #include "TestSystem.h"
 #include "ThirdParty\json.hpp"
 #include "Actors.h"
-#include "ThirdParty\spdlog\spdlog.h"
-#include "ThirdParty\spdlog\sinks\basic_file_sink.h"
 #include <fstream>
 #include <chrono>
 #include <irrlicht.h>
@@ -38,13 +37,17 @@ int main()
 
 	guienv->addStaticText(L"Hello World! Process Test", rect<s32>(10, 10, 260, 22), true);
 	*/
+
+	std::shared_ptr<LogManager> pLogManager(new LogManager());
+	pLogManager->VInitLogging();
+
+	ServiceLocator::Initialise();
+	ServiceLocator::SetLogService(pLogManager);
+
 	system_clock::time_point startTime = system_clock::now();
 	int64_t lag = 0;
-	const int64_t MS_PER_UPDATE = 16; //60 fps
-
-	auto my_logger = spdlog::basic_logger_mt("basic_logger", "basic.txt");
-	my_logger->info("test log");
-	spdlog::drop_all();
+	const int64_t MS_PER_UPDATE = 16; //60 fps	
+	
 	/*
 	while (device->run())
 	{
@@ -149,4 +152,10 @@ std::cout << "HealthLifeComponet shared pointer not valid" << std::endl;
 std::getchar();
 
 delete actorFactory;
+*/
+/********LOG TEST******/
+/*
+auto my_logger = spdlog::basic_logger_mt("basic_logger", "basic.txt");
+my_logger->info("test log");
+spdlog::drop_all();
 */

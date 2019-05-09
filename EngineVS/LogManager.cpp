@@ -7,7 +7,12 @@ void LogManager::VInitLogging()
 	spdlog::register_logger(m_fileLogger);
 }
 
-void LogManager::CloseLogging()
+void LogManager::VCloseLogging()
 {
 	spdlog::drop_all();
+}
+
+std::shared_ptr<spdlog::logger> LogManager::VGetLogger()
+{
+	return m_fileLogger;
 }
