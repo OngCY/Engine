@@ -9,10 +9,10 @@
 #include "spdlog/spdlog.h"
 #endif
 
-#include "spdlog/details/file_helper.h"
-#include "spdlog/details/null_mutex.h"
-#include "spdlog/fmt/fmt.h"
-#include "spdlog/sinks/base_sink.h"
+#include "ThirdParty\spdlog\details\file_helper.h"
+#include "ThirdParty\spdlog\details\null_mutex.h"
+#include "ThirdParty\spdlog\fmt\fmt.h"
+#include "ThirdParty\spdlog\sinks\base_sink.h"
 
 #include <cerrno>
 #include <chrono>

@@ -1,11 +1,10 @@
 #pragma once
 #include "ThirdParty\spdlog\spdlog.h"
-#include "ThirdParty\spdlog\sinks\basic_file_sink.h"
+#include "ThirdParty\spdlog\sinks\rotating_file_sink.h"
 
 class LogManager
 {
 public:
-
 	LogManager() {}
 	virtual ~LogManager() {}
 	

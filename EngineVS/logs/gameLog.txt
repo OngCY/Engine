@@ -1,0 +1,1 @@
+[2019-05-13 13:18:03.964] [rotating_logger] [info] Welcome to SPD Rotating Log

@@ -43,6 +43,8 @@ int main()
 
 	ServiceLocator::Initialise();
 	ServiceLocator::SetLogService(pLogManager);
+	ServiceLocator::GetLogService()->VGetLogger()->info("Welcome to SPD Rotating Log");
+	ServiceLocator::GetLogService()->VCloseLogging();
 
 	system_clock::time_point startTime = system_clock::now();
 	int64_t lag = 0;
