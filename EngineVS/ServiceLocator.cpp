@@ -5,12 +5,15 @@ IEventManagerPtr ServiceLocator::eventService;
 NullEventManagerPtr ServiceLocator::nullEventService(new NullEventManager());
 LogManagerPtr ServiceLocator::logService;
 NullLogManagerPtr ServiceLocator::nullLogService(new NullLogManager());
+RenderManagerPtr ServiceLocator::renderService;
+NullRenderManagerPtr ServiceLocator::nullRenderService(new NullRenderManager());
 
 //ensure that eventService points to an object and does not return NULL. Should be called early
 void ServiceLocator::Initialise()
 {
 	eventService = nullEventService;
 	logService = nullLogService;
+	renderService = nullRenderService;
 }
 
 ////////////////////////////EVENT MANAGER//////////////////////////////////////
@@ -41,4 +44,18 @@ void ServiceLocator::SetLogService(LogManagerPtr service)
 		logService = nullLogService;
 	else
 		logService = service;
+}
+
+////////////////////////////RENDER MANAGER//////////////////////////////////////
+RenderManagerPtr ServiceLocator::GetRenderService()
+{
+	return renderService;
+}
+
+void ServiceLocator::SetRenderService(RenderManagerPtr service)
+{
+	if (service == NULL)
+		renderService = nullRenderService;
+	else
+		renderService = service;
 }
