@@ -4,6 +4,7 @@
 #include "Actors.h"
 #include <fstream>
 #include <chrono>
+#include <string>
 
 using json = nlohmann::json;
 using namespace std::chrono;
@@ -18,14 +19,11 @@ int main()
 
 	ServiceLocator::Initialise();
 	ServiceLocator::SetLogService(pLogManager);
-	ServiceLocator::GetLogService()->VGetLogger()->info("Welcome to SPD Rotating Log");
-	ServiceLocator::GetLogService()->VCloseLogging();
 	ServiceLocator::SetRenderService(pRenderManager);
 
 	system_clock::time_point startTime = system_clock::now();
 	int64_t lag = 0;
 	const int64_t MS_PER_UPDATE = 16; //60 fps	
-	
 	
 	while (ServiceLocator::GetRenderService()->VRunRenderer())
 	{
@@ -33,7 +31,15 @@ int main()
 		int64_t elapsed = duration_cast<std::chrono::milliseconds>(currentTime - startTime).count();
 		startTime = currentTime;
 		lag += elapsed;
+		
+		std::string elapsedTimeLog("Elapsed time in ms: ");
+		elapsedTimeLog += std::to_string(elapsed);
+		ServiceLocator::GetLogService()->VGetLogger()->info(elapsedTimeLog);
 
+		std::string lagTimeLog("Lag time in ms: ");
+		lagTimeLog += std::to_string(lag);
+		ServiceLocator::GetLogService()->VGetLogger()->info(lagTimeLog);
+		
 		//processInput()
 
 		//game update
@@ -51,6 +57,7 @@ int main()
 	}	
 
 	ServiceLocator::GetRenderService()->VCloseRenderer();
+	ServiceLocator::GetLogService()->VCloseLogging();
 
 	return 0;
 }
