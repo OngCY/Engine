@@ -61,24 +61,6 @@ private:
 	StrongProcessPtr m_pChild;	//child process, if any
 };
 
-class ProcessManager
-{
-public:
-	~ProcessManager() {}
-
-	//processes
-	WeakProcessPtr AttachProcess(StrongProcessPtr pProcess);
-	unsigned int UpdateAllProcesses(unsigned long deltaMS);
-	void AbortAllProcesses(bool immediate);
-
-	size_t GetNumberOfProcesses() const { return m_processList.size(); }
-
-private:
-	void ClearAllProcesses(); //to be called by the destructor only
-
-	ProcessList m_processList;
-};
-
 class DelayProcess : public Process
 {
 public:
@@ -91,4 +73,33 @@ private:
 
 protected:
 	virtual void OnUpdate(unsigned long deltaMs);
+};
+
+class ProcessManager
+{
+public:
+	~ProcessManager() {}
+
+	//processes
+	WeakProcessPtr AttachProcess(StrongProcessPtr pProcess);
+	unsigned int UpdateAllProcesses(unsigned long deltaMS);
+	void AbortAllProcesses();
+
+	size_t GetNumberOfProcesses() const { return m_processList.size(); }
+
+private:
+	void ClearAllProcesses(); //to be called by the destructor only
+
+	ProcessList m_processList;
+};
+
+class NullProcessManager : public ProcessManager
+{
+public:
+	NullProcessManager() {}
+	~NullProcessManager() {}
+
+	WeakProcessPtr AttachProcess(StrongProcessPtr pProcess) { return WeakProcessPtr(); } //weak_ptr does not have constructors that take nullptr_t or raw pointers
+	unsigned int UpdateAllProcessess(unsigned long deltaMS) { return 0; }
+	void AbortAllProcesses() {}
 };

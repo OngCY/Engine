@@ -1,5 +1,6 @@
 #include "Process.h"
 
+////////////////////////////PROCESS//////////////////////////////////////
 bool Process::IsAlive() const
 {
 	if (m_processState == RUNNING || m_processState == PAUSED)
@@ -42,6 +43,7 @@ void Process::RemoveChildProcess()
 	m_pChild.reset();
 }
 
+////////////////////////////PROCESS MANAGER//////////////////////////////////////
 WeakProcessPtr ProcessManager::AttachProcess(StrongProcessPtr pProcess)
 {
 	m_processList.push_back(pProcess);
@@ -106,6 +108,25 @@ unsigned int ProcessManager::UpdateAllProcesses(unsigned long deltaMs)
 	return ((finishCount << 16) | failCount);
 }
 
+void ProcessManager::AbortAllProcesses()
+{
+	for (ProcessList::iterator it = m_processList.begin(); it != m_processList.end();)
+	{
+		StrongProcessPtr pCurrentProcess = (*it);
+		ProcessList::iterator currentIt = it;
+		++it;
+
+		pCurrentProcess->VOnAbort();
+		m_processList.erase(currentIt);
+	}
+}
+
+void ProcessManager::ClearAllProcesses()
+{
+	m_processList.clear();
+}
+
+////////////////////////////DELAY PROCESS//////////////////////////////////////
 DelayProcess::DelayProcess(unsigned long delay)
 {
 	m_delay = delay;

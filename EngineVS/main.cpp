@@ -16,10 +16,12 @@ int main()
 	pLogManager->VInitLogging();
 	std::shared_ptr<RenderManager> pRenderManager(new RenderManager());
 	pRenderManager->VInitRenderer();
+	std::shared_ptr<ProcessManager> pProcessManager(new ProcessManager());
 
 	ServiceLocator::Initialise();
 	ServiceLocator::SetLogService(pLogManager);
 	ServiceLocator::SetRenderService(pRenderManager);
+	ServiceLocator::SetProcessService(pProcessManager);
 
 	system_clock::time_point startTime = system_clock::now();
 	int64_t lag = 0;
@@ -34,11 +36,11 @@ int main()
 		
 		std::string elapsedTimeLog("Elapsed time in ms: ");
 		elapsedTimeLog += std::to_string(elapsed);
-		ServiceLocator::GetLogService()->VGetLogger()->info(elapsedTimeLog);
+		//ServiceLocator::GetLogService()->VGetLogger()->info(elapsedTimeLog);
 
 		std::string lagTimeLog("Lag time in ms: ");
 		lagTimeLog += std::to_string(lag);
-		ServiceLocator::GetLogService()->VGetLogger()->info(lagTimeLog);
+		//ServiceLocator::GetLogService()->VGetLogger()->info(lagTimeLog);
 		
 		//processInput()
 
