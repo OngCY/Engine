@@ -25,7 +25,9 @@ int main()
 
 	system_clock::time_point startTime = system_clock::now();
 	int64_t lag = 0;
-	const int64_t MS_PER_UPDATE = 16; //60 fps	
+	const int64_t MS_PER_UPDATE = 16; //60 fps
+
+	//StrongProcessPtr processPtr(new DelayProcess(5000));
 	
 	while (ServiceLocator::GetRenderService()->VRunRenderer())
 	{
