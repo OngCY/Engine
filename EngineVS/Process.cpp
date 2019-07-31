@@ -40,7 +40,33 @@ void Process::AttachChildProcess(StrongProcessPtr pChild)
 
 void Process::RemoveChildProcess()
 {
-	m_pChild.reset();
+	if(m_pChild)
+		m_pChild.reset();
+}
+
+////////////////////////////DELAY PROCESS//////////////////////////////////////
+DelayProcess::DelayProcess(unsigned long delay)
+{
+	Process::VOnInit(); //call a protected method from a derived class method
+	m_delay = delay;
+	m_timeDelayedSoFar = 0;
+}
+
+void DelayProcess::VFinish()
+{
+	m_processState = Process::FINISHED;
+	m_timeDelayedSoFar = 0;
+	std::cout << "Time delay reached!" << std::endl;
+}
+
+void DelayProcess::VOnUpdate(unsigned long deltaMs)
+{
+	m_timeDelayedSoFar += deltaMs;
+
+	if (m_timeDelayedSoFar >= m_delay)
+	{
+		VFinish();
+	}
 }
 
 ////////////////////////////PROCESS MANAGER//////////////////////////////////////
@@ -126,19 +152,3 @@ void ProcessManager::ClearAllProcesses()
 	m_processList.clear();
 }
 
-////////////////////////////DELAY PROCESS//////////////////////////////////////
-DelayProcess::DelayProcess(unsigned long delay)
-{
-	m_delay = delay;
-	m_timeDelayedSoFar = 0;
-}
-
-void DelayProcess::OnUpdate(unsigned long deltaMs)
-{
-	m_timeDelayedSoFar += deltaMs;
-
-	if (m_timeDelayedSoFar >= m_delay)
-	{
-		VFinish();
-	}
-}

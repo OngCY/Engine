@@ -27,7 +27,9 @@ int main()
 	int64_t lag = 0;
 	const int64_t MS_PER_UPDATE = 16; //60 fps
 
-	//StrongProcessPtr processPtr(new DelayProcess(5000));
+	/*********DELAY PROCESS TEST********/
+	StrongProcessPtr delayProcessPtr(new DelayProcess(5000));
+	pProcessManager->AttachProcess(delayProcessPtr);
 	
 	while (ServiceLocator::GetRenderService()->VRunRenderer())
 	{
@@ -49,7 +51,8 @@ int main()
 		//game update
 		while (lag >= MS_PER_UPDATE)
 		{
-			//update()
+			//update methods
+			ServiceLocator::GetProcessService()->UpdateAllProcesses(lag);
 			lag -= MS_PER_UPDATE;
 		}
 

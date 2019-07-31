@@ -41,7 +41,8 @@ public:
 	StrongProcessPtr GetChildProcess() { return m_pChild; }
 
 protected:
-	//methods to end, pause or continue the process
+	//methods to initialise, end, pause or continue the process
+	virtual void VInit() {}
 	virtual void VFinish() {}
 	virtual void VFail() {}
 	virtual void VPause() {}
@@ -65,14 +66,14 @@ class DelayProcess : public Process
 {
 public:
 	DelayProcess(unsigned long delay);
-	virtual void VFinish() { m_processState = Process::FINISHED; }
+	virtual void VFinish();
 
 private:
 	unsigned long m_delay;
 	unsigned long m_timeDelayedSoFar;
 
 protected:
-	virtual void OnUpdate(unsigned long deltaMs);
+	virtual void VOnUpdate(unsigned long deltaMs);
 };
 
 class ProcessManager
