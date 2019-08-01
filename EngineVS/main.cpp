@@ -9,7 +9,6 @@
 using json = nlohmann::json;
 using namespace std::chrono;
 
-
 int main()
 {
 	std::shared_ptr<LogManager> pLogManager(new LogManager());
@@ -38,13 +37,9 @@ int main()
 		startTime = currentTime;
 		lag += elapsed;
 		
-		std::string elapsedTimeLog("Elapsed time in ms: ");
-		elapsedTimeLog += std::to_string(elapsed);
+		//std::string elapsedTimeLog("Elapsed time in ms: ");
+		//elapsedTimeLog += std::to_string(elapsed);
 		//ServiceLocator::GetLogService()->VGetLogger()->info(elapsedTimeLog);
-
-		std::string lagTimeLog("Lag time in ms: ");
-		lagTimeLog += std::to_string(lag);
-		//ServiceLocator::GetLogService()->VGetLogger()->info(lagTimeLog);
 		
 		//processInput()
 
@@ -52,7 +47,7 @@ int main()
 		while (lag >= MS_PER_UPDATE)
 		{
 			//update methods
-			ServiceLocator::GetProcessService()->UpdateAllProcesses(lag);
+			ServiceLocator::GetProcessService()->UpdateAllProcesses(MS_PER_UPDATE);
 			lag -= MS_PER_UPDATE;
 		}
 

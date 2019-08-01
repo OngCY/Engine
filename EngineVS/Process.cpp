@@ -40,8 +40,7 @@ void Process::AttachChildProcess(StrongProcessPtr pChild)
 
 void Process::RemoveChildProcess()
 {
-	if(m_pChild)
-		m_pChild.reset();
+	m_pChild.reset();
 }
 
 ////////////////////////////DELAY PROCESS//////////////////////////////////////
@@ -56,7 +55,6 @@ void DelayProcess::VFinish()
 {
 	m_processState = Process::FINISHED;
 	m_timeDelayedSoFar = 0;
-	std::cout << "Time delay reached!" << std::endl;
 }
 
 void DelayProcess::VOnUpdate(unsigned long deltaMs)
@@ -105,12 +103,16 @@ unsigned int ProcessManager::UpdateAllProcesses(unsigned long deltaMs)
 			{
 				pCurrentProccess->VOnFinish();
 				StrongProcessPtr pChild = pCurrentProccess->GetChildProcess();
-				pCurrentProccess->RemoveChildProcess();
-
+				
 				if (pChild)
+				{
+					pCurrentProccess->RemoveChildProcess();
 					AttachProcess(pChild);
+				}
 				else
 					++finishCount;
+
+				m_processList.erase(currentIt);
 
 				break;
 			}
@@ -128,7 +130,7 @@ unsigned int ProcessManager::UpdateAllProcesses(unsigned long deltaMs)
 			}
 		}
 
-		m_processList.erase(currentIt);		
+		
 	}
 
 	return ((finishCount << 16) | failCount);
@@ -151,4 +153,3 @@ void ProcessManager::ClearAllProcesses()
 {
 	m_processList.clear();
 }
-

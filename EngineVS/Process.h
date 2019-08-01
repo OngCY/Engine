@@ -42,11 +42,10 @@ public:
 
 protected:
 	//methods to initialise, end, pause or continue the process
-	virtual void VInit() {}
 	virtual void VFinish() {}
 	virtual void VFail() {}
 	virtual void VPause() {}
-	virtual void VUnpause() {}
+	virtual void VContinue() {}
 
 	virtual void VOnInit() { m_processState = RUNNING; }
 	virtual void VOnUpdate(unsigned long deltaMS) = 0;
