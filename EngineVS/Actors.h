@@ -17,7 +17,7 @@ typedef std::map<MyTypes::ComponentId, StrongActorComponentPtr> ComponentMap;
 typedef BaseActorComponent* (*ActorComponentCreator)(void); //function pointer typedef. Returns a BaseActorComponent* and accepts no parameters
 typedef std::map<std::string, ActorComponentCreator> ActorComponentCreatorMap;
 
-/*******COMPONENT**********/
+//////////////////////COMPONENTS/////////////////////
 class BaseActorComponent
 {
 	friend class ActorFactory;
@@ -25,7 +25,7 @@ class BaseActorComponent
 public:
 	virtual ~BaseActorComponent(void) {}
 
-	//to be overridden by the child classes
+	//pure virtual functions to be overridden by child classes
 	virtual bool VInit(nlohmann::json jComponent) = 0;
 	virtual void VPostInit(void) = 0;
 	virtual void VUpdate(int deltaMS) = 0;
@@ -86,11 +86,11 @@ private:
 	int m_health;
 };
 
-/*******COMPONENT CREATOR FUNCTIONS**********/
+//////////////////////COMPONENT CREATOR FUNCTIONS/////////////////////
 BaseActorComponent* CreateHealthPickUp();
 BaseActorComponent* CreateHealthLifeComponent();
 
-/*******ACTOR**********/
+//////////////////////ACTORS/////////////////////
 class BaseActor
 {
 	friend class ActorFactory;
@@ -130,7 +130,7 @@ private:
 	MyTypes::ActorId m_actorId;
 };
 
-/*******ACTOR FACTORY**********/
+//////////////////////ACTOR FACTORY/////////////////////
 class ActorFactory
 {
 public:
