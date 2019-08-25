@@ -1,5 +1,6 @@
 #pragma once
 #include "MyTypes.h"
+#include "ServiceLocator.h"
 #include "ThirdParty\json.hpp"
 #include <memory>
 #include <iostream>
