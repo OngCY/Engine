@@ -9,6 +9,7 @@ typedef std::shared_ptr<Process> StrongProcessPtr;
 typedef std::weak_ptr<Process> WeakProcessPtr;
 typedef std::list<StrongProcessPtr> ProcessList;
 
+//////////////////////PROCESSES/////////////////////
 class Process
 {
 	friend class ProcessManager;
@@ -48,7 +49,7 @@ protected:
 	virtual void VContinue() {}
 
 	virtual void VOnInit() { m_processState = RUNNING; }
-	virtual void VOnUpdate(unsigned long deltaMS) = 0;
+	virtual void VOnUpdate(unsigned long deltaMS) = 0; //child processes must implement this
 	virtual void VOnFinish() {}
 	virtual void VOnFail() {}
 	virtual void VOnAbort() {}
@@ -75,6 +76,7 @@ protected:
 	virtual void VOnUpdate(unsigned long deltaMs);
 };
 
+//////////////////////PROCESS MANAGER/////////////////////
 class ProcessManager
 {
 public:

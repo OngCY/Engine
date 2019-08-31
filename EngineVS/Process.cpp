@@ -40,13 +40,13 @@ void Process::AttachChildProcess(StrongProcessPtr pChild)
 
 void Process::RemoveChildProcess()
 {
-	m_pChild.reset();
+	m_pChild.reset(); //decrement the reference count of the shared pointer by 1
 }
 
 ////////////////////////////DELAY PROCESS//////////////////////////////////////
 DelayProcess::DelayProcess(unsigned long delay)
 {
-	Process::VOnInit(); //call a protected method from a derived class method
+	Process::VOnInit(); //call a parent protected method from a derived class method
 	m_delay = delay;
 	m_timeDelayedSoFar = 0;
 }
@@ -128,9 +128,7 @@ unsigned int ProcessManager::UpdateAllProcesses(unsigned long deltaMs)
 				++failCount;
 				break;
 			}
-		}
-
-		
+		}		
 	}
 
 	return ((finishCount << 16) | failCount);
@@ -145,11 +143,11 @@ void ProcessManager::AbortAllProcesses()
 		++it;
 
 		pCurrentProcess->VOnAbort();
-		m_processList.erase(currentIt);
+		m_processList.erase(currentIt); //deletes the object (in this case, reduces the reference count of the smart pointer. For a raw pointer, the ptr is deleted but not necessarily for the pointee object)
 	}
 }
 
 void ProcessManager::ClearAllProcesses()
 {
-	m_processList.clear();
+	m_processList.clear(); //deletes all objects in the list
 }
