@@ -8,10 +8,10 @@
 #include <map>
 
 typedef std::shared_ptr<IEvent> IEventPtr;
-typedef fastdelegate::FastDelegate1<IEventPtr> EventListenerDelegate;
+typedef fastdelegate::FastDelegate1<IEventPtr> EventListenerDelegate; //represents the callback function
 const unsigned int EVENTMANAGER_NUM_QUEUES = 2;
 
-//event manager interface class
+//////////////////////EVENT MANAGER INTERFACE/////////////////////
 class IEventManager
 {
 public:
@@ -46,9 +46,10 @@ public:
 	virtual bool VTickUpdate(unsigned long maxMillis = kINFINITE) = 0;
 };
 
+//////////////////////EVENT MANAGER/////////////////////
 class EventManager : public IEventManager
 {
-	typedef std::list<EventListenerDelegate> EventListenerList;
+	typedef std::list<EventListenerDelegate> EventListenerList; //list of callback functions
 	typedef std::map<MyTypes::EventId, EventListenerList> EventListenerMap;
 	typedef std::list<IEventPtr> EventQueue;
 

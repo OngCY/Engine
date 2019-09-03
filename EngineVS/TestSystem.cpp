@@ -10,8 +10,8 @@ TestSystem::~TestSystem()
 void TestSystem::DestroyActorDelegate(IEventPtr pEvent)
 {
 	std::shared_ptr<Event_DestroyActor> pDestroyActorEvent = std::static_pointer_cast<Event_DestroyActor>(pEvent);
-	MyTypes::ActorId id = pDestroyActorEvent->GetId();
-	std::cout << "Destroy actor event received. Actor ID: " << id << std::endl;
+	MyTypes::ActorId id = pDestroyActorEvent->GetActorId();
+	//std::cout << "Destroy actor event received. Actor ID: " << id << std::endl;
 }
 
 //create a delegate for the call back and register the delegate with the event manager

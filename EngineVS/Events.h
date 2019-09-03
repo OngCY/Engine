@@ -2,7 +2,7 @@
 #include "MyTypes.h"
 #include <sstream>
 
-//event interface class
+//////////////////////EVENT INTERFACE/////////////////////
 class IEvent
 {
 public:
@@ -13,6 +13,7 @@ public:
 	//virtual IEventPtr VCopy(void) const = 0;
 };
 
+//////////////////////BASE EVENT/////////////////////
 class BaseEvent : public IEvent
 {
 	const float m_timeStamp;
@@ -27,7 +28,7 @@ public:
 	virtual const char* GetName(void) const { return "BaseEvent"; }
 };
 
-//destroy actor event class
+//////////////////////DESTROY ACTOR EVENT/////////////////////
 class Event_DestroyActor : public BaseEvent
 {
 	MyTypes::ActorId m_id;
@@ -53,7 +54,7 @@ public:
 		return "Event_DestroyActor";
 	}
 
-	MyTypes::ActorId GetId(void) const
+	MyTypes::ActorId GetActorId(void) const
 	{
 		return m_id;
 	}
