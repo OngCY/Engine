@@ -11,8 +11,5 @@ public:
 	TestSystem() {}
 	~TestSystem();
 	void Init(void);
-	void DestroyActorDelegate(IEventPtr pEvent);
-
-
-	
+	void DestroyActorDelegate(IEventPtr pEvent); //event callback function
 };
