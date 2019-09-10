@@ -10,7 +10,7 @@ NullRenderManagerPtr ServiceLocator::nullRenderService(new NullRenderManager());
 ProcessManagerPtr ServiceLocator::processService;
 NullProcessManagerPtr ServiceLocator::nullProcessService(new NullProcessManager());
 
-//ensure that the services points to an object and do not return NULL. Should be called early
+//ensure that the services point to an object and do not return NULL. Should be called early
 void ServiceLocator::Initialise()
 {
 	eventService = nullEventService;
@@ -42,7 +42,6 @@ LogManagerPtr ServiceLocator::GetLogService()
 
 void ServiceLocator::SetLogService(LogManagerPtr service)
 {
-	//ensure that eventService is assigned to an object and does not return NULL
 	if (service == NULL)
 		logService = nullLogService;
 	else

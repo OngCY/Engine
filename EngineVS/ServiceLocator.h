@@ -13,12 +13,13 @@ typedef std::shared_ptr<NullRenderManager> NullRenderManagerPtr;
 typedef std::shared_ptr<ProcessManager> ProcessManagerPtr;
 typedef std::shared_ptr<NullProcessManager> NullProcessManagerPtr;
 
-//Service Locator pattern
+//////////////////////SERVICE LOCATOR PATTERN/////////////////////
 //Global point of access to services without coupling clients to the concrete classes
 class ServiceLocator
 {
 public:
 	static void Initialise();
+
 	static IEventManagerPtr GetEventService();
 	static void SetEventService(IEventManagerPtr service);
 	static LogManagerPtr GetLogService();
