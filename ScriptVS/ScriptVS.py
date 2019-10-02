@@ -31,3 +31,6 @@ if __name__ == "__main__":
     print('Running benchmarks with COUNT = {}'.format(COUNT))
 
     test(lambda d: [tanh(x) for x in d], '[tanh(x) for x in d] (Python implementation)')
+
+from PythonModuleVS import fast_tanh2
+test(lambda d: [fast_tanh2(x) for x in d], '[fast_tanh2(x) for x in d] (PyBind11 C++ extension)')

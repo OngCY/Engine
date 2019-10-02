@@ -27,6 +27,13 @@
   <ItemGroup>
     <InterpreterReference Include="Global|PythonCore|3.7" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PythonModuleVS\PythonModuleVS.vcxproj">
+      <Name>PythonModuleVS</Name>
+      <Project>{3b862caa-60bd-4082-aab8-21d16fc683f6}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
        Visual Studio and specify your pre- and post-build commands in
