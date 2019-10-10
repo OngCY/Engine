@@ -18,10 +18,12 @@ double tanh_impl(double x) {
 	return sinh_impl(x) / cosh_impl(x);
 }
 
-PYBIND11_MODULE(PythonModuleVS, m) {
-	m.def("fast_tanh2", &tanh_impl, R"pbdoc(
+PYBIND11_MODULE(PythonModuleVS, m) 
+{
+	m.def("fast_tanh", &tanh_impl, "Compute a hyperbolic tangent of a single argument in radians");
+	/*m.def("fast_tanh2", &tanh_impl, R"pbdoc(
         Compute a hyperbolic tangent of a single argument expressed in radians.
-    )pbdoc");
+    )pbdoc");*/
 
 #ifdef VERSION_INFO
 	m.attr("__version__") = VERSION_INFO;
