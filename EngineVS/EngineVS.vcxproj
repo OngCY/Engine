@@ -161,6 +161,7 @@
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Interfaces.h" />
     <ClInclude Include="LogManager.h" />
     <ClInclude Include="MyTypes.h" />
     <ClInclude Include="Process.h" />
