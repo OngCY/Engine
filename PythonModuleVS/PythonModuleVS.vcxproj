@@ -71,14 +71,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetExt>.pyd</TargetExt>
-    <IncludePath>C:\Program Files\Python37\include;C:\engine\Engine\PythonModuleVS\ThirdParty\pybind11\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Program Files\Python37\include;C:\Program Files\pybind11\include;C:\engine\Engine\PythonModuleVS\ThirdParty\pybind11\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files\Python37\libs;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\Test\$(PlatformName)$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Temp\$(ProjectName)$(PlatformName)$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetExt>.pyd</TargetExt>
-    <IncludePath>C:\Program Files\Python37\include;C:\engine\Engine\PythonModuleVS\ThirdParty\pybind11\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Program Files\Python37\include;C:\Program Files\pybind11\include;C:\Program Files\pybind11\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files\Python37\libs;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\Game\$(PlatformName)$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Temp\$(ProjectName)$(PlatformName)$(Configuration)\</IntDir>
