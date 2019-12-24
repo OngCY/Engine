@@ -160,7 +160,7 @@
     <ClInclude Include="Actors.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="Events.h" />
-    <ClInclude Include="Input.h" />
+    <ClInclude Include="HumanView.h" />
     <ClInclude Include="Interfaces.h" />
     <ClInclude Include="LogManager.h" />
     <ClInclude Include="MyTypes.h" />
@@ -176,7 +176,7 @@
   <ItemGroup>
     <ClCompile Include="Actors.cpp" />
     <ClCompile Include="EventManager.cpp" />
-    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="HumanView.cpp" />
     <ClCompile Include="LogManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Process.cpp" />
