@@ -54,10 +54,10 @@
     <ClInclude Include="RenderManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Interfaces.h">
+    <ClInclude Include="HumanView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HumanView.h">
+    <ClInclude Include="UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -87,6 +87,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="HumanView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

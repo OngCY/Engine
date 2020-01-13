@@ -1,7 +1,6 @@
 #include <windows.h>
 #include <irrlicht.h>
 #include <memory>
-#include "Interfaces.h"
 
 using namespace irr;
 typedef unsigned int GameViewId;
@@ -31,9 +30,9 @@ protected:
 	//ScreenElementList m_ScreenElements;
 
 	// Interface sensitive objects
-	std::shared_ptr<IMouseHandler> m_MouseHandler;
-	int m_PointerRadius;
-	std::shared_ptr<IKeyboardHandler> m_KeyboardHandler;
+	//std::shared_ptr<IMouseHandler> m_MouseHandler;
+	//int m_PointerRadius;
+	//std::shared_ptr<IKeyboardHandler> m_KeyboardHandler;
 
 private:
 	void RegisterAllDelegates(void);

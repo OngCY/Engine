@@ -2,6 +2,7 @@
 #include "MyTypes.h"
 #include <sstream>
 
+
 //////////////////////EVENT INTERFACE/////////////////////
 class IEvent
 {
