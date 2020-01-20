@@ -1,6 +1,6 @@
 #include "MovementController.h"
 
-bool MovementController::VOnEvent(const irr::SEvent& event)
+bool MovementController::OnEvent(const irr::SEvent& event)
 {
 	if (event.EventType == irr::EET_KEY_INPUT_EVENT)
 		m_keyDown[event.KeyInput.Key] = event.KeyInput.PressedDown;

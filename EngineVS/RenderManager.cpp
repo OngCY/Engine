@@ -38,3 +38,8 @@ void RenderManager::VCloseRenderer()
 	device->closeDevice();
 	device->drop();
 }
+
+void RenderManager::VSetEventReceiver(IEventReceiver* receiver)
+{
+	device->setEventReceiver(receiver);
+}

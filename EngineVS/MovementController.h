@@ -5,10 +5,11 @@
 class MovementController : public irr::IEventReceiver
 {
 public:
+	MovementController() {}
 	MovementController(std::shared_ptr<irr::scene::ISceneNode> node) : m_sceneNode(node) {}
 	virtual ~MovementController() {}
 	void SetObject(std::shared_ptr<irr::scene::ISceneNode> node) { m_sceneNode = node; }
-	virtual bool VOnEvent(const irr::SEvent& event);
+	virtual bool OnEvent(const irr::SEvent& event);
 	virtual void VOnUpdate(const int deltaMilliseconds);
 
 protected:

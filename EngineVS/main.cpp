@@ -2,6 +2,7 @@
 #include "TestSystem.h"
 #include "ThirdParty\json.hpp"
 #include "Actors.h"
+#include "MovementController.h"
 #include <fstream>
 #include <chrono>
 #include <string>
@@ -21,6 +22,9 @@ int main()
 	ServiceLocator::SetLogService(pLogManager);
 	ServiceLocator::SetRenderService(pRenderManager);
 	ServiceLocator::SetProcessService(pProcessManager);
+
+	MovementController* pMovementCtrl = new MovementController();
+	ServiceLocator::GetRenderService()->VSetEventReceiver(pMovementCtrl);
 
 	system_clock::time_point startTime = system_clock::now();
 	int64_t lag = 0;

@@ -18,7 +18,6 @@ class RenderManager
 public:
 	RenderManager() {}
 	virtual ~RenderManager() {}
-
 	virtual void VInitRenderer();
 	virtual bool VRunRenderer();
 	virtual bool VStartScene();
@@ -26,6 +25,7 @@ public:
 	virtual void VDrawUIElements();
 	virtual bool VRenderToScreen();
 	virtual void VCloseRenderer();
+	virtual void VSetEventReceiver(IEventReceiver* receiver);
 
 private:
 	IrrlichtDevice* device;
@@ -47,4 +47,5 @@ public:
 	virtual void VDrawUIElements() {}
 	virtual bool VRenderToScreen() { return true; }
 	virtual void VCloseRenderer() {}
+	virtual void VSetEventReceiver(IEventReceiver* receiver) {}
 };
