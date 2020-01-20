@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <irrlicht.h>
 #include <memory>
+#include <iostream>
 
 class MovementController : public irr::IEventReceiver
 {

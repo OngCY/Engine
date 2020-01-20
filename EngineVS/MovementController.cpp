@@ -40,10 +40,12 @@ void MovementController::VOnUpdate(const int deltaMilliseconds)
 	if (m_keyDown[irr::KEY_KEY_W] || m_keyDown[irr::KEY_KEY_S])
 	{
 		//forward & backward movement
+		
 	}
 
 	if (m_keyDown[irr::KEY_KEY_A] || m_keyDown[irr::KEY_KEY_D])
 	{
 		//left & right movement
+		
 	}
 }
