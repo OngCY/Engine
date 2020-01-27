@@ -2,6 +2,7 @@
 #include <irrlicht.h>
 #include <memory>
 #include <iostream>
+#include "ServiceLocator.h"
 
 class MovementController : public irr::IEventReceiver
 {

@@ -17,11 +17,13 @@ int main()
 	std::shared_ptr<RenderManager> pRenderManager(new RenderManager());
 	pRenderManager->VInitRenderer();
 	std::shared_ptr<ProcessManager> pProcessManager(new ProcessManager());
+	std::shared_ptr<IEventManager> pEventManager(new EventManager());
 
 	ServiceLocator::Initialise();
 	ServiceLocator::SetLogService(pLogManager);
 	ServiceLocator::SetRenderService(pRenderManager);
 	ServiceLocator::SetProcessService(pProcessManager);
+	ServiceLocator::SetEventService(pEventManager);
 
 	MovementController* pMovementCtrl = new MovementController();
 	ServiceLocator::GetRenderService()->VSetEventReceiver(pMovementCtrl);

@@ -29,6 +29,38 @@ public:
 	virtual const char* GetName(void) const { return "BaseEvent"; }
 };
 
+//////////////////////TRANSLATE ACTOR EVENT/////////////////////
+class Event_TranslateActor : public BaseEvent
+{
+	MyTypes::ActorId m_id;
+	MyTypes::TranslateType m_type;
+
+public:
+	static const MyTypes::EventId sk_EventId;
+
+	explicit Event_TranslateActor(MyTypes::ActorId id, MyTypes::TranslateType type) :m_id(id), m_type(type) {}
+	
+	virtual const MyTypes::EventId& VGetEventId(void) const
+	{
+		return sk_EventId;
+	}
+
+	virtual const char* GetName(void) const
+	{
+		return "Event_TranslateActor";
+	}
+
+	MyTypes::ActorId GetActorId(void) const
+	{
+		return m_id;
+	}
+
+	MyTypes::TranslateType GetTranslateType(void) const
+	{
+		return m_type;
+	}
+};
+
 //////////////////////DESTROY ACTOR EVENT/////////////////////
 class Event_DestroyActor : public BaseEvent
 {

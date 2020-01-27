@@ -37,15 +37,27 @@ bool MovementController::OnEvent(const irr::SEvent& event)
 
 void MovementController::VOnUpdate(const int deltaMilliseconds)
 {
-	if (m_keyDown[irr::KEY_KEY_W] || m_keyDown[irr::KEY_KEY_S])
-	{
-		//forward & backward movement
-		
+	if (m_keyDown[irr::KEY_KEY_W]) //forward movement
+	{		
+		std::shared_ptr<Event_TranslateActor> pTranslateEvent(new Event_TranslateActor(01,TRANSLATION::FORWARD));
+		ServiceLocator::GetEventService()->VTriggerEvent(pTranslateEvent);	
 	}
 
-	if (m_keyDown[irr::KEY_KEY_A] || m_keyDown[irr::KEY_KEY_D])
+	if (m_keyDown[irr::KEY_KEY_S]) //backward
 	{
-		//left & right movement
-		
+		std::shared_ptr<Event_TranslateActor> pTranslateEvent(new Event_TranslateActor(01, TRANSLATION::BACKWARD));
+		ServiceLocator::GetEventService()->VTriggerEvent(pTranslateEvent);
+	}
+
+	if (m_keyDown[irr::KEY_KEY_A]) //left
+	{
+		std::shared_ptr<Event_TranslateActor> pTranslateEvent(new Event_TranslateActor(01, TRANSLATION::LEFT));
+		ServiceLocator::GetEventService()->VTriggerEvent(pTranslateEvent);	
+	}
+
+	if (m_keyDown[irr::KEY_KEY_D]) //right
+	{
+		std::shared_ptr<Event_TranslateActor> pTranslateEvent(new Event_TranslateActor(01, TRANSLATION::RIGHT));
+		ServiceLocator::GetEventService()->VTriggerEvent(pTranslateEvent);
 	}
 }
