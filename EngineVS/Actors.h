@@ -51,6 +51,16 @@ public:
 	virtual void VApply(WeakActorPtr pActor) = 0;
 };
 
+class ITransformComponent : public BaseActorComponent
+{
+public:
+	virtual ~ITransformComponent(void) {}
+	virtual bool VInit(nlohmann::json jComponent) = 0;
+	virtual void VPostInit(void) = 0;
+	virtual MyTypes::ComponentId VGetComponentId(void) const = 0;
+	virtual void VApplyTransform() = 0;
+};
+
 /*******PICKUP COMPONENTS**********/
 class HealthPickUp : public IPickUpComponent
 {
