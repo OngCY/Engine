@@ -12,6 +12,7 @@ namespace MyTypes
 enum COMPONENTS:unsigned int
 {
 	PICKUP_HEALTH,
+	TRANSFORM,
 	HEALTH_LIFE
 };
 

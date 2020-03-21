@@ -51,16 +51,6 @@ public:
 	virtual void VApply(WeakActorPtr pActor) = 0;
 };
 
-class ITransformComponent : public BaseActorComponent
-{
-public:
-	virtual ~ITransformComponent(void) {}
-	virtual bool VInit(nlohmann::json jComponent) = 0;
-	virtual void VPostInit(void) = 0;
-	virtual MyTypes::ComponentId VGetComponentId(void) const = 0;
-	virtual void VApplyTransform() = 0;
-};
-
 /*******PICKUP COMPONENTS**********/
 class HealthPickUp : public IPickUpComponent
 {
@@ -78,6 +68,18 @@ public:
 private:
 	short int m_boost;
 	std::string m_type;
+};
+
+class TransformComponent : public BaseActorComponent
+{
+public:
+	const static MyTypes::ComponentId COMPONENT_ID; //unique id for this component type
+	virtual ~TransformComponent(void) {}
+	virtual bool VInit(nlohmann::json jComponent);
+	virtual void VPostInit(void) {}
+	virtual MyTypes::ComponentId VGetComponentId(void) const { return COMPONENT_ID; }
+	virtual void VApplyTransform();
+
 };
 
 class HealthLifeComponent : public BaseActorComponent

@@ -3,6 +3,7 @@
 
 //define static constants in the cpp file
 const MyTypes::ComponentId HealthPickUp::COMPONENT_ID = COMPONENTS::PICKUP_HEALTH;
+const MyTypes::ComponentId TransformComponent::COMPONENT_ID = COMPONENTS::TRANSFORM;
 const MyTypes::ComponentId HealthLifeComponent::COMPONENT_ID = COMPONENTS::HEALTH_LIFE;
 
 //////////////////////HEALTH PICKUP COMPONENT/////////////////////
@@ -27,6 +28,19 @@ int HealthPickUp::VGetHealthBoost()
 BaseActorComponent* CreateHealthPickUp()
 {
 	return new HealthPickUp;
+}
+
+
+//////////////////////TRANSFORM COMPONENT/////////////////////
+bool TransformComponent::VInit(nlohmann::json jTransformComponent)
+{
+	return true;
+}
+
+void TransformComponent::VApplyTransform()
+{
+	//apply transform to m_pOwner
+	std::cout << "Transform applied to actor" << std::endl;
 }
 
 //////////////////////HEALTH LIFE COMPONENT/////////////////////
