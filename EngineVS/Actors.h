@@ -19,14 +19,13 @@ typedef BaseActorComponent* (*ActorComponentCreator)(void); //function pointer t
 typedef std::map<std::string, ActorComponentCreator> ActorComponentCreatorMap;
 
 //////////////////////COMPONENTS/////////////////////
+/*******BASE COMPONENT**********/
 class BaseActorComponent
 {
 	friend class ActorFactory;
 
 public:
 	virtual ~BaseActorComponent(void) {}
-
-	//pure virtual functions to be overridden by child classes
 	virtual bool VInit(nlohmann::json jComponent) = 0;
 	virtual void VPostInit(void) = 0;
 	virtual void VUpdate(int deltaMS) = 0;
@@ -39,7 +38,7 @@ private:
 	void SetOwner(StrongActorPtr pOwner) { m_pOwner = pOwner; }
 };
 
-/*******INTERFACE FOR PICKUP COMPONENTS**********/
+/*******INTERFACES FOR COMPONENTS**********/
 class IPickUpComponent : public BaseActorComponent
 {
 public:
@@ -48,21 +47,24 @@ public:
 	virtual void VPostInit(void) = 0;
 	virtual void VUpdate(int deltaMS) = 0;
 	virtual MyTypes::ComponentId VGetComponentId(void) const = 0;
-	virtual void VApply(WeakActorPtr pActor) = 0;
+	
+	virtual void VApplyPickup(WeakActorPtr pActor) = 0;
 };
 
-/*******PICKUP COMPONENTS**********/
+/*******SPECIFIC COMPONENTS**********/
 class HealthPickUp : public IPickUpComponent
 {
 public:
 	const static MyTypes::ComponentId COMPONENT_ID; //unique id for this component type
+	
 	HealthPickUp() { m_boost = 0; }
 	virtual ~HealthPickUp(void) {}
 	virtual bool VInit(nlohmann::json jComponent);
 	virtual void VPostInit(void) {}
 	virtual void VUpdate(int deltaMS) {}
 	virtual MyTypes::ComponentId VGetComponentId(void) const { return COMPONENT_ID; }
-	virtual void VApply(WeakActorPtr pActor);
+	
+	virtual void VApplyPickup(WeakActorPtr pActor);
 	virtual int VGetHealthBoost();
 
 private:
@@ -70,28 +72,18 @@ private:
 	std::string m_type;
 };
 
-class TransformComponent : public BaseActorComponent
-{
-public:
-	const static MyTypes::ComponentId COMPONENT_ID; //unique id for this component type
-	virtual ~TransformComponent(void) {}
-	virtual bool VInit(nlohmann::json jComponent);
-	virtual void VPostInit(void) {}
-	virtual MyTypes::ComponentId VGetComponentId(void) const { return COMPONENT_ID; }
-	virtual void VApplyTransform();
-
-};
-
 class HealthLifeComponent : public BaseActorComponent
 {
 public:
 	const static MyTypes::ComponentId COMPONENT_ID;
+	
 	HealthLifeComponent() { m_state = "OK"; m_health = 100; }
 	virtual ~HealthLifeComponent(void) {}
 	virtual bool VInit(nlohmann::json jComponent);
 	virtual void VPostInit(void) {}
 	virtual void VUpdate(int deltaMS) {}
 	virtual MyTypes::ComponentId VGetComponentId(void) const { return COMPONENT_ID; }
+	
 	virtual void VUpdateHealth(int health);
 
 private:
@@ -99,9 +91,25 @@ private:
 	int m_health;
 };
 
+class TransformComponent : public BaseActorComponent
+{
+public:
+	const static MyTypes::ComponentId COMPONENT_ID; //unique id for this component type
+
+	TransformComponent() {}
+	virtual ~TransformComponent(void) {}
+	virtual bool VInit(nlohmann::json jComponent);
+	virtual void VPostInit(void) {}
+	virtual void VUpdate(int deltaMS) {}
+	virtual MyTypes::ComponentId VGetComponentId(void) const { return COMPONENT_ID; }
+
+	virtual void VApplyTransform();
+};
+
 //////////////////////COMPONENT CREATOR FUNCTIONS/////////////////////
 BaseActorComponent* CreateHealthPickUp();
 BaseActorComponent* CreateHealthLifeComponent();
+BaseActorComponent* CreateTransformComponent();
 
 //////////////////////ACTORS/////////////////////
 class BaseActor

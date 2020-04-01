@@ -6,7 +6,8 @@ const MyTypes::ComponentId HealthPickUp::COMPONENT_ID = COMPONENTS::PICKUP_HEALT
 const MyTypes::ComponentId TransformComponent::COMPONENT_ID = COMPONENTS::TRANSFORM;
 const MyTypes::ComponentId HealthLifeComponent::COMPONENT_ID = COMPONENTS::HEALTH_LIFE;
 
-//////////////////////HEALTH PICKUP COMPONENT/////////////////////
+//////////////////////COMPONENTS/////////////////////
+/**********HEALTH PICKUP COMPONENT**********/
 bool HealthPickUp::VInit(nlohmann::json jHealthComponent)
 {
 	m_type = jHealthComponent["type"].get<std::string>();
@@ -15,7 +16,7 @@ bool HealthPickUp::VInit(nlohmann::json jHealthComponent)
 	return true;
 }
 
-void HealthPickUp::VApply(WeakActorPtr pActor)
+void HealthPickUp::VApplyPickup(WeakActorPtr pActor)
 {
 	return;
 }
@@ -30,25 +31,12 @@ BaseActorComponent* CreateHealthPickUp()
 	return new HealthPickUp;
 }
 
-
-//////////////////////TRANSFORM COMPONENT/////////////////////
-bool TransformComponent::VInit(nlohmann::json jTransformComponent)
-{
-	return true;
-}
-
-void TransformComponent::VApplyTransform()
-{
-	//apply transform to m_pOwner
-	std::cout << "Transform applied to actor" << std::endl;
-}
-
-//////////////////////HEALTH LIFE COMPONENT/////////////////////
+/**********HEALTH LIFE COMPONENT**********/
 bool HealthLifeComponent::VInit(nlohmann::json jHealthLifeComponent)
 {
 	m_state = jHealthLifeComponent["state"].get<std::string>();
 	m_health = jHealthLifeComponent["health"].get<int>();
-	
+
 	return true;
 }
 
@@ -60,6 +48,23 @@ void HealthLifeComponent::VUpdateHealth(int health)
 BaseActorComponent* CreateHealthLifeComponent()
 {
 	return new HealthLifeComponent;
+}
+
+/**********TRANSFORM COMPONENT**********/
+bool TransformComponent::VInit(nlohmann::json jTransformComponent)
+{
+	return true;
+}
+
+void TransformComponent::VApplyTransform()
+{
+	//apply transform to m_pOwner
+	std::cout << "Transform applied to actor" << std::endl;
+}
+
+BaseActorComponent* CreateTransformComponent()
+{
+	return new TransformComponent;
 }
 
 //////////////////////BASE ACTOR/////////////////////
@@ -91,8 +96,9 @@ void BaseActor::AddComponent(StrongActorComponentPtr pComponent)
 //////////////////////ACTOR FACTORY/////////////////////
 ActorFactory::ActorFactory(void):m_lastActorId(0)
 {
-	m_actorComponentCreatorMap["HealthPickUp"] = CreateHealthPickUp; //map of component name to function pointer returning a new component object
+	m_actorComponentCreatorMap["HealthPickUp"] = CreateHealthPickUp; //map component name to function pointer returning a new component object
 	m_actorComponentCreatorMap["HealthLifeComponent"] = CreateHealthLifeComponent;
+	m_actorComponentCreatorMap["TransformComponent"] = CreateTransformComponent;
 }
 
 MyTypes::ActorId ActorFactory::GetNextActorId(void)
