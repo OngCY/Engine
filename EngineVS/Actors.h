@@ -104,6 +104,11 @@ public:
 	virtual MyTypes::ComponentId VGetComponentId(void) const { return COMPONENT_ID; }
 
 	virtual void VApplyTransform();
+
+private:
+	float m_translateX, m_translateY, m_translateZ;
+	float m_rotateX, m_rotateY, m_rotateZ;
+	float m_scaleX, m_scaleY, m_scaleZ;
 };
 
 //////////////////////COMPONENT CREATOR FUNCTIONS/////////////////////

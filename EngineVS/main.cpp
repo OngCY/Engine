@@ -10,6 +10,8 @@
 using json = nlohmann::json;
 using namespace std::chrono;
 
+void CreateActor();
+
 int main()
 {
 	std::shared_ptr<LogManager> pLogManager(new LogManager());
@@ -70,6 +72,19 @@ int main()
 	return 0;
 }
 
+void CreateActor()
+{
+	ActorFactory* actorFactory = new ActorFactory();
+
+	StrongActorPtr player(actorFactory->CreateActor("C:\\Git\\Engine\\EngineVS\\configuration\\components_ActorTransform.json"));
+	std::weak_ptr<TransformComponent> wTransformComp(player->GetComponent<TransformComponent>(COMPONENTS::TRANSFORM));
+	std::shared_ptr<TransformComponent> sTransformComp = wTransformComp.lock(); //lock returns a shared_ptr
+	
+	std::getchar();
+
+	delete actorFactory;
+}
+
 /////////////Previous Test Code/////////////////
 /*********EVENT TEST********/
 /*
@@ -122,30 +137,7 @@ json jsubstream = jstream["PhysicsComponent"];
 std::cout << jsubstream["material"] << std::endl;
 */
 /********GAME ACTORS TEST******/
-/*
-ActorFactory* actorFactory = new ActorFactory();
 
-StrongActorPtr greenHerbActor(actorFactory->CreateActor("C:\\Git\\Engine\\EngineVS\\configuration\\components_GreenHerb.json"));
-std::weak_ptr<HealthPickUp> wHealthPickUp(greenHerbActor->GetComponent<HealthPickUp>(COMPONENTS::PICKUP_HEALTH));
-std::shared_ptr<HealthPickUp> sHealthPickUp = wHealthPickUp.lock(); //lock returns a shard_ptr
-int boost = 0;
-if (sHealthPickUp)
-boost = sHealthPickUp->VGetHealthBoost();
-else
-std::cout << "HealthPickUp shard pointer not valid" << std::endl;
-
-StrongActorPtr npcPartnerActor(actorFactory->CreateActor("C:\\Git\\Engine\\EngineVS\\configuration\\components_NPCPartner.json"));
-std::weak_ptr<HealthLifeComponent> wHealthLife(npcPartnerActor->GetComponent<HealthLifeComponent>(COMPONENTS::HEALTH_LIFE));
-std::shared_ptr<HealthLifeComponent> sHealthLife = wHealthLife.lock(); //lock returns a shard_ptr
-if (sHealthLife)
-sHealthLife->VUpdateHealth(boost);
-else
-std::cout << "HealthLifeComponet shared pointer not valid" << std::endl;
-
-std::getchar();
-
-delete actorFactory;
-*/
 /********LOG TEST******/
 /*
 auto my_logger = spdlog::basic_logger_mt("basic_logger", "basic.txt");

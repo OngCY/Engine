@@ -53,6 +53,18 @@ BaseActorComponent* CreateHealthLifeComponent()
 /**********TRANSFORM COMPONENT**********/
 bool TransformComponent::VInit(nlohmann::json jTransformComponent)
 {
+	m_translateX = jTransformComponent["translateX"].get<float>();
+	m_translateY = jTransformComponent["translateY"].get<float>();
+	m_translateZ = jTransformComponent["translateZ"].get<float>();
+	
+	m_rotateX = jTransformComponent["rotateX"].get<float>();
+	m_rotateY = jTransformComponent["rotateY"].get<float>();
+	m_rotateZ = jTransformComponent["rotateZ"].get<float>();
+	
+	m_scaleX = jTransformComponent["scaleX"].get<float>();
+	m_scaleY = jTransformComponent["scaleY"].get<float>();
+	m_scaleZ = jTransformComponent["scaleZ"].get<float>();
+
 	return true;
 }
 
