@@ -167,7 +167,7 @@
     <ClInclude Include="Process.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="ServiceLocator.h" />
-    <ClInclude Include="TestSystem.h" />
+    <ClInclude Include="GameLogic.h" />
     <ClInclude Include="ThirdParty\FastDelegate.h" />
     <ClInclude Include="ThirdParty\FastDelegateBind.h" />
     <ClInclude Include="ThirdParty\irrlicht-1.8.4\include\irrlicht.h" />
@@ -182,7 +182,7 @@
     <ClCompile Include="Process.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
-    <ClCompile Include="TestSystem.cpp" />
+    <ClCompile Include="GameLogic.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

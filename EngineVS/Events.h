@@ -1,6 +1,7 @@
 #pragma once
 #include "MyTypes.h"
 #include <sstream>
+#include <matrix4.h>
 
 
 //////////////////////EVENT INTERFACE/////////////////////
@@ -30,15 +31,15 @@ public:
 };
 
 //////////////////////TRANSLATE ACTOR EVENT/////////////////////
-class Event_TranslateActor : public BaseEvent
+class Event_TransformPlayer : public BaseEvent
 {
 	MyTypes::ActorId m_id;
-	MyTypes::TranslateType m_type;
+	irr::core::matrix4 m_matrix;
 
 public:
 	static const MyTypes::EventId sk_EventId;
 
-	explicit Event_TranslateActor(MyTypes::ActorId id, MyTypes::TranslateType type) :m_id(id), m_type(type) {}
+	explicit Event_TransformPlayer(MyTypes::ActorId id, irr::core::matrix4 matrix) :m_id(id), m_matrix(matrix) {}
 	
 	virtual const MyTypes::EventId& VGetEventId(void) const
 	{
@@ -47,17 +48,12 @@ public:
 
 	virtual const char* GetName(void) const
 	{
-		return "Event_TranslateActor";
+		return "Event_TransformPlayer";
 	}
 
 	MyTypes::ActorId GetActorId(void) const
 	{
 		return m_id;
-	}
-
-	MyTypes::TranslateType GetTranslateType(void) const
-	{
-		return m_type;
 	}
 };
 

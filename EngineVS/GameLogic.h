@@ -5,11 +5,17 @@
 #include "Actors.h"
 #include <iostream>
 
-class TestSystem
+class GameLogic
 {
 public:
-	TestSystem() {}
-	~TestSystem();
+	GameLogic() {}
+	~GameLogic();
 	void Init(void);
+
+	//event delegates
 	void DestroyActorDelegate(IEventPtr pEvent); //event callback function
+
+private:
+	void RegisterAllDelegates(void);
+	void RemoveAllDelegates(void);
 };

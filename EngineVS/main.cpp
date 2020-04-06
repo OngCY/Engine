@@ -1,5 +1,5 @@
 #include "ServiceLocator.h"
-#include "TestSystem.h"
+#include "GameLogic.h"
 #include "ThirdParty\json.hpp"
 #include "Actors.h"
 #include "MovementController.h"
@@ -10,7 +10,7 @@
 using json = nlohmann::json;
 using namespace std::chrono;
 
-void CreateActor();
+void CreateActor(ActorFactory*);
 
 int main()
 {
@@ -29,6 +29,9 @@ int main()
 
 	MovementController* pMovementCtrl = new MovementController();
 	ServiceLocator::GetRenderService()->VSetEventReceiver(pMovementCtrl);
+
+	ActorFactory* actorFactory = new ActorFactory();
+	CreateActor(actorFactory);
 
 	system_clock::time_point startTime = system_clock::now();
 	int64_t lag = 0;
@@ -66,23 +69,19 @@ int main()
 		ServiceLocator::GetRenderService()->VRenderToScreen();
 	}	
 
+	delete actorFactory;
+
 	ServiceLocator::GetRenderService()->VCloseRenderer();
 	ServiceLocator::GetLogService()->VCloseLogging();
 
 	return 0;
 }
 
-void CreateActor()
+void CreateActor(ActorFactory* actorFactory)
 {
-	ActorFactory* actorFactory = new ActorFactory();
-
 	StrongActorPtr player(actorFactory->CreateActor("C:\\Git\\Engine\\EngineVS\\configuration\\components_ActorTransform.json"));
 	std::weak_ptr<TransformComponent> wTransformComp(player->GetComponent<TransformComponent>(COMPONENTS::TRANSFORM));
 	std::shared_ptr<TransformComponent> sTransformComp = wTransformComp.lock(); //lock returns a shared_ptr
-	
-	std::getchar();
-
-	delete actorFactory;
 }
 
 /////////////Previous Test Code/////////////////

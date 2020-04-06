@@ -4,7 +4,7 @@
 
 //define static member variables in a cpp file
 const MyTypes::EventId Event_DestroyActor::sk_EventId = 0x50dbd404;
-const MyTypes::EventId Event_TranslateActor::sk_EventId = 0x50dbd405;
+const MyTypes::EventId Event_TransformPlayer::sk_EventId = 0x50dbd405;
 
 bool EventManager::VRegisterListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId)
 {	

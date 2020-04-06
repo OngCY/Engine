@@ -39,7 +39,7 @@ void MovementController::VOnUpdate(const int deltaMilliseconds)
 {
 	if (m_keyDown[irr::KEY_KEY_W]) //forward movement
 	{		
-		std::shared_ptr<Event_TranslateActor> pTranslateEvent(new Event_TranslateActor(01,TRANSLATION::FORWARD));
+		//std::shared_ptr<Event_TransformPlayer> pTranslateEvent(new Event_TransformPlayer(01));
 		//ServiceLocator::GetEventService()->VTriggerEvent(pTranslateEvent);	
 	}
 
