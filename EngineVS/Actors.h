@@ -161,7 +161,7 @@ class ActorFactory
 {
 public:
 	ActorFactory(void);
-	StrongActorPtr CreateActor(const char* filePath);
+	StrongActorPtr CreateActor(const char* filePath, MyTypes::ActorId actorId);
 	
 private:
 	StrongActorComponentPtr CreateComponent(std::string compName, nlohmann::json jComponent);

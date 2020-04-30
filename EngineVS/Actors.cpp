@@ -120,7 +120,7 @@ MyTypes::ActorId ActorFactory::GetNextActorId(void)
 	return m_lastActorId;
 }
 
-StrongActorPtr ActorFactory::CreateActor(const char* filePath)
+StrongActorPtr ActorFactory::CreateActor(const char* filePath, MyTypes::ActorId actorId)
 {
 	std::ifstream ifs(filePath);
 	nlohmann::json jstream;
@@ -138,7 +138,7 @@ StrongActorPtr ActorFactory::CreateActor(const char* filePath)
 	}
 
 	//Create an actor object and assign an actor ID
-	StrongActorPtr pActor(new BaseActor(GetNextActorId()));
+	StrongActorPtr pActor(new BaseActor(actorId));
 	if (!pActor->Init())
 	{
 		ServiceLocator::GetLogService()->VGetLogger()->error("Unable to initialise actor");
