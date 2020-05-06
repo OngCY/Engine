@@ -51,19 +51,37 @@ BaseActorComponent* CreateHealthLifeComponent()
 }
 
 /**********TRANSFORM COMPONENT**********/
+TransformComponent::TransformComponent()
+{
+	m_transformMatrix.makeIdentity();
+}
+
 bool TransformComponent::VInit(nlohmann::json jTransformComponent)
 {
-	m_translateX = jTransformComponent["translateX"].get<float>();
-	m_translateY = jTransformComponent["translateY"].get<float>();
-	m_translateZ = jTransformComponent["translateZ"].get<float>();
+	//build translation matrix
+	irr::core::vector3df translationVec = m_transformMatrix.getTranslation();
 	
-	m_rotateX = jTransformComponent["rotateX"].get<float>();
-	m_rotateY = jTransformComponent["rotateY"].get<float>();
-	m_rotateZ = jTransformComponent["rotateZ"].get<float>();
-	
-	m_scaleX = jTransformComponent["scaleX"].get<float>();
-	m_scaleY = jTransformComponent["scaleY"].get<float>();
-	m_scaleZ = jTransformComponent["scaleZ"].get<float>();
+	irr::f32 posX = jTransformComponent["posX"].get<float>();
+	irr::f32 posY = jTransformComponent["posY"].get<float>();
+	irr::f32 posZ = jTransformComponent["posZ"].get<float>();
+
+	translationVec = irr::core::vector3df(posX, posY, posZ);
+	irr::core::matrix4 translationMat;
+	translationMat.setTranslation(translationVec);
+
+	//build rotation matrix
+	irr::core::vector3df rotationVec = m_transformMatrix.getRotationDegrees();
+
+	irr::f32 roll = jTransformComponent["roll"].get<float>();
+	irr::f32 pitch = jTransformComponent["pitch"].get<float>();
+	irr::f32 yaw = jTransformComponent["yaw"].get<float>();
+
+	rotationVec = irr::core::vector3df(roll, pitch, yaw);
+	irr::core::matrix4 rotationMat;
+	rotationMat.setRotationRadians(rotationVec);
+
+	//build transformation matrix
+	m_transformMatrix = rotationMat * translationMat;
 
 	return true;
 }

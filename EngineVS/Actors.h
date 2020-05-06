@@ -4,6 +4,7 @@
 #include "ThirdParty\json.hpp"
 #include <memory>
 #include <iostream>
+#include <matrix4.h>
 
 class BaseActor;
 class BaseActorComponent;
@@ -96,7 +97,7 @@ class TransformComponent : public BaseActorComponent
 public:
 	const static MyTypes::ComponentId COMPONENT_ID; //unique id for this component type
 
-	TransformComponent() {}
+	TransformComponent();
 	virtual ~TransformComponent(void) {}
 	virtual bool VInit(nlohmann::json jComponent);
 	virtual void VPostInit(void) {}
@@ -106,9 +107,7 @@ public:
 	virtual void VApplyTransform();
 
 private:
-	float m_translateX, m_translateY, m_translateZ;
-	float m_rotateX, m_rotateY, m_rotateZ;
-	float m_scaleX, m_scaleY, m_scaleZ;
+	irr::core::matrix4 m_transformMatrix;
 };
 
 //////////////////////COMPONENT CREATOR FUNCTIONS/////////////////////
