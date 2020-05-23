@@ -39,25 +39,41 @@ void MovementController::VOnUpdate(const int deltaMilliseconds)
 {
 	if (m_keyDown[irr::KEY_KEY_W]) //forward movement
 	{		
-		//std::shared_ptr<Event_TransformPlayer> pTranslateEvent(new Event_TransformPlayer(01));
-		//ServiceLocator::GetEventService()->VTriggerEvent(pTranslateEvent);	
+		irr::core::vector3df translationVector = irr::core::vector3df(0.0, 0.0, 1.0);
+		irr::core::matrix4 transformMatrix;
+		transformMatrix.setTranslation(translationVector);
+
+		std::shared_ptr<Event_TransformActor> pTransformEvent(new Event_TransformActor(1, transformMatrix));
+		ServiceLocator::GetEventService()->VTriggerEvent(pTransformEvent);	
 	}
 
 	if (m_keyDown[irr::KEY_KEY_S]) //backward
 	{
-		//std::shared_ptr<Event_TranslateActor> pTranslateEvent(new Event_TranslateActor(01, TRANSLATION::BACKWARD));
-		//ServiceLocator::GetEventService()->VTriggerEvent(pTranslateEvent);
+		irr::core::vector3df translationVector = irr::core::vector3df(0.0, 0.0, -1.0);
+		irr::core::matrix4 transformMatrix;
+		transformMatrix.setTranslation(translationVector);
+
+		std::shared_ptr<Event_TransformActor> pTransformEvent(new Event_TransformActor(1, transformMatrix));
+		ServiceLocator::GetEventService()->VTriggerEvent(pTransformEvent);
 	}
 
 	if (m_keyDown[irr::KEY_KEY_A]) //left
 	{
-		//std::shared_ptr<Event_TranslateActor> pTranslateEvent(new Event_TranslateActor(01, TRANSLATION::LEFT));
-		//ServiceLocator::GetEventService()->VTriggerEvent(pTranslateEvent);	
+		irr::core::vector3df translationVector = irr::core::vector3df(-1.0, 0.0, 0.0);
+		irr::core::matrix4 transformMatrix;
+		transformMatrix.setTranslation(translationVector);
+
+		std::shared_ptr<Event_TransformActor> pTransformEvent(new Event_TransformActor(1, transformMatrix));
+		ServiceLocator::GetEventService()->VTriggerEvent(pTransformEvent);
 	}
 
 	if (m_keyDown[irr::KEY_KEY_D]) //right
 	{
-		//std::shared_ptr<Event_TranslateActor> pTranslateEvent(new Event_TranslateActor(01, TRANSLATION::RIGHT));
-		//ServiceLocator::GetEventService()->VTriggerEvent(pTranslateEvent);
+		irr::core::vector3df translationVector = irr::core::vector3df(1.0, 0.0, 0.0);
+		irr::core::matrix4 transformMatrix;
+		transformMatrix.setTranslation(translationVector);
+
+		std::shared_ptr<Event_TransformActor> pTransformEvent(new Event_TransformActor(1, transformMatrix));
+		ServiceLocator::GetEventService()->VTriggerEvent(pTransformEvent);
 	}
 }

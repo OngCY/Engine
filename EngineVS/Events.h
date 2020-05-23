@@ -38,7 +38,7 @@ class Event_TransformActor : public BaseEvent
 
 public:
 	static const MyTypes::EventId sk_EventId;
-
+	
 	explicit Event_TransformActor(MyTypes::ActorId id, irr::core::matrix4 matrix) :m_id(id), m_matrix(matrix) {}
 	
 	virtual const MyTypes::EventId& VGetEventId(void) const
