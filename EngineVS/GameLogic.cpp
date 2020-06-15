@@ -3,10 +3,16 @@
 bool GameLogic::Init(void)
 {
 	m_pActorFactory = CreateActorFactory();
+	CreatePlayerActor("configuration\\components_TranslatePlayer.json", ACTORID::PLAYER);
+	RegisterPlayerDelegates();
+
+	return true;
 }
 
 void GameLogic::Cleanup(void)
 {
+	RemovePlayerDelegates();
+
 	if (m_pActorFactory)
 	{
 		delete m_pActorFactory;
@@ -14,7 +20,8 @@ void GameLogic::Cleanup(void)
 	}
 }
 
-StrongActorPtr GameLogic::CreateActor(std::string filePath, MyTypes::ActorId actorId)
+/*******ACTORS**********/
+StrongActorPtr GameLogic::CreatePlayerActor(std::string filePath, MyTypes::ActorId actorId)
 {
 	StrongActorPtr pActor = m_pActorFactory->CreateActor(filePath.c_str(), actorId);
 	if (pActor)
@@ -41,32 +48,34 @@ ActorFactory* GameLogic::CreateActorFactory(void)
 	return new ActorFactory();
 }
 
-//create a delegate for the call back and register the delegate with the event manager
-void GameLogic::RegisterAllDelegates(void)
+/*******EVENT DELEGATIONS**********/
+void GameLogic::RegisterPlayerDelegates(void)
 {
-	//EventListenerDelegate delegateListener = fastdelegate::MakeDelegate(this, &GameLogic::OnEvtTransformActor);
-	ServiceLocator::GetEventService()->VRegisterListener(fastdelegate::MakeDelegate(this, &GameLogic::OnEvtTransformActor), Event_TransformActor::sk_EventId);
+	//create a delegate for the call back and register the delegate with the event manager
+	ServiceLocator::GetEventService()->VRegisterListener(fastdelegate::MakeDelegate(this, &GameLogic::OnEvtTranslatePlayer), Event_TranslatePlayer::sk_EventId);
 }
 
-void GameLogic::RemoveAllDelegates(void)
+void GameLogic::RemovePlayerDelegates(void)
 {
-	//EventListenerDelegate delegateFunc = fastdelegate::MakeDelegate(this, &GameLogic::OnEvtTransformActor);
-	ServiceLocator::GetEventService()->VRemoveListener(fastdelegate::MakeDelegate(this, &GameLogic::OnEvtTransformActor), Event_TransformActor::sk_EventId);
+	//deregister the delegate from the event manager
+	ServiceLocator::GetEventService()->VRemoveListener(fastdelegate::MakeDelegate(this, &GameLogic::OnEvtTranslatePlayer), Event_TranslatePlayer::sk_EventId);
 }
 
 //call back method
-void GameLogic::OnEvtTransformActor(IEventPtr pEvent)
+void GameLogic::OnEvtTranslatePlayer(IEventPtr pEvent)
 {
-	std::shared_ptr<Event_TransformActor> pEvtTransformActor = std::static_pointer_cast<Event_TransformActor>(pEvent);
-	MyTypes::ActorId id = pEvtTransformActor->GetActorId();
+	std::shared_ptr<Event_TranslatePlayer> pEvtTranslatePlayer = std::static_pointer_cast<Event_TranslatePlayer>(pEvent);
+	MyTypes::ActorId id = pEvtTranslatePlayer->GetActorId();
 
 	//add code to call the actor and execute its component
 	StrongActorPtr pActor = GetActor(id).lock();
 	if (pActor)
-		std::shared_ptr<TransformComponent> pTransformComponent = pActor->GetComponent<TransformComponent>(TransformComponent::COMPONENT_ID).lock();
-		//find the proper use of components
+	{
+		std::shared_ptr<TranslateComponent> pTranslateComponent = pActor->GetComponent<TranslateComponent>(TranslateComponent::COMPONENT_ID).lock();
+		pTranslateComponent->VApplyTranslation();
+	}
 
-	std::string eventLog("Transform Actor event received for actor ID: ");
+	std::string eventLog("TranslatePlayer event received for actor ID: ");
 	eventLog += std::to_string(id);
 	ServiceLocator::GetLogService()->VGetLogger()->info(eventLog);
 }

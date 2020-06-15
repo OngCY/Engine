@@ -19,8 +19,7 @@ typedef std::map<MyTypes::ComponentId, StrongActorComponentPtr> ComponentMap;
 typedef BaseActorComponent* (*ActorComponentCreator)(void); //function pointer typedef. Returns a BaseActorComponent* and accepts no parameters
 typedef std::map<std::string, ActorComponentCreator> ActorComponentCreatorMap;
 
-//////////////////////COMPONENTS/////////////////////
-/*******BASE COMPONENT**********/
+/*******COMPONENTS**********/
 class BaseActorComponent
 {
 	friend class ActorFactory;
@@ -39,7 +38,6 @@ private:
 	void SetOwner(StrongActorPtr pOwner) { m_pOwner = pOwner; }
 };
 
-/*******INTERFACES FOR COMPONENTS**********/
 class IPickUpComponent : public BaseActorComponent
 {
 public:
@@ -52,7 +50,6 @@ public:
 	virtual void VApplyPickup(WeakActorPtr pActor) = 0;
 };
 
-/*******SPECIFIC COMPONENTS**********/
 class HealthPickUp : public IPickUpComponent
 {
 public:
@@ -92,30 +89,29 @@ private:
 	int m_health;
 };
 
-class TransformComponent : public BaseActorComponent
+class TranslateComponent : public BaseActorComponent
 {
 public:
 	const static MyTypes::ComponentId COMPONENT_ID; //unique id for this component type
 
-	TransformComponent();
-	virtual ~TransformComponent(void) {}
+	TranslateComponent();
+	virtual ~TranslateComponent(void) {}
 	virtual bool VInit(nlohmann::json jComponent);
 	virtual void VPostInit(void) {}
 	virtual void VUpdate(int deltaMS) {}
 	virtual MyTypes::ComponentId VGetComponentId(void) const { return COMPONENT_ID; }
-
-	virtual void VApplyTransform();
+	virtual void VApplyTranslation();
 
 private:
-	irr::core::matrix4 m_transformMatrix;
+	MyTypes::TranslateType m_translateType;
 };
 
-//////////////////////COMPONENT CREATOR FUNCTIONS/////////////////////
+/*******COMPONENT CREATORS**********/
 BaseActorComponent* CreateHealthPickUp();
 BaseActorComponent* CreateHealthLifeComponent();
 BaseActorComponent* CreateTransformComponent();
 
-//////////////////////ACTORS/////////////////////
+/*******ACTOR**********/
 class BaseActor
 {
 	friend class ActorFactory;
@@ -155,7 +151,7 @@ private:
 	MyTypes::ActorId m_actorId;
 };
 
-//////////////////////ACTOR FACTORY/////////////////////
+/*******ACTOR FACTORY**********/
 class ActorFactory
 {
 public:

@@ -9,15 +9,21 @@ namespace MyTypes
 	typedef unsigned int TranslateType;
 }
 
+enum ACTORID :unsigned int
+{
+	PLAYER
+};
+
 enum COMPONENTS:unsigned int
 {
 	PICKUP_HEALTH,
-	TRANSFORM,
+	TRANSLATE,
 	HEALTH_LIFE
 };
 
 enum TRANSLATION :unsigned int
 {
+	STATIONARY,
 	FORWARD,
 	BACKWARD,
 	LEFT,

@@ -31,15 +31,15 @@ public:
 };
 
 //////////////////////TRANSLATE ACTOR EVENT/////////////////////
-class Event_TransformActor : public BaseEvent
+class Event_TranslatePlayer : public BaseEvent
 {
 	MyTypes::ActorId m_id;
-	irr::core::matrix4 m_matrix;
+	MyTypes::TranslateType m_type;
 
 public:
 	static const MyTypes::EventId sk_EventId;
 	
-	explicit Event_TransformActor(MyTypes::ActorId id, irr::core::matrix4 matrix) :m_id(id), m_matrix(matrix) {}
+	explicit Event_TranslatePlayer(MyTypes::ActorId id, MyTypes::TranslateType type) :m_id(id), m_type(type) {}
 	
 	virtual const MyTypes::EventId& VGetEventId(void) const
 	{
@@ -48,7 +48,7 @@ public:
 
 	virtual const char* GetName(void) const
 	{
-		return "Event_TransformActor";
+		return "Event_TranslatePlayer";
 	}
 
 	MyTypes::ActorId GetActorId(void) const

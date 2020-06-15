@@ -15318,3 +15318,8 @@
 [2019-07-18 18:00:11.604] [rotating_logger] [info] Lag time in ms: 14
 [2019-07-18 18:00:11.604] [rotating_logger] [info] Elapsed time in ms: 0
 [2019-07-18 18:00:11.604] [rotating_logger] [info] Lag time in ms: 14
+[2020-06-15 16:09:20.915] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-06-15 16:15:07.094] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-06-15 16:15:08.008] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-06-15 16:15:08.882] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-06-15 16:15:09.635] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0

@@ -18,16 +18,16 @@ public:
 	bool Init(void);
 	void Cleanup(void);
 
-	StrongActorPtr CreateActor(std::string filePath, MyTypes::ActorId);
 	WeakActorPtr GetActor(MyTypes::ActorId id);
 
 	//event delegates
-	void OnEvtTransformActor(IEventPtr pEvent); //event callback function
+	void OnEvtTranslatePlayer(IEventPtr pEvent); //event callback function
 
 private:
 	ActorFactory* CreateActorFactory(void);
-	void RegisterAllDelegates(void);
-	void RemoveAllDelegates(void);
+	StrongActorPtr CreatePlayerActor(std::string filePath, MyTypes::ActorId);
+	void RegisterPlayerDelegates(void);
+	void RemovePlayerDelegates(void);
 
 	ActorMap_t m_actors;
 	ActorFactory* m_pActorFactory;

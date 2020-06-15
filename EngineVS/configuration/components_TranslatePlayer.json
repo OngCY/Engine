@@ -1,0 +1,7 @@
+{
+    "NumComponents": "1",
+	"Components": ["TranslateComponent"],
+    "TranslateComponent": {
+        "type": 0
+    }
+}

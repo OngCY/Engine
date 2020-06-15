@@ -3,11 +3,10 @@
 
 //define static constants in the cpp file
 const MyTypes::ComponentId HealthPickUp::COMPONENT_ID = COMPONENTS::PICKUP_HEALTH;
-const MyTypes::ComponentId TransformComponent::COMPONENT_ID = COMPONENTS::TRANSFORM;
+const MyTypes::ComponentId TranslateComponent::COMPONENT_ID = COMPONENTS::TRANSLATE;
 const MyTypes::ComponentId HealthLifeComponent::COMPONENT_ID = COMPONENTS::HEALTH_LIFE;
 
-//////////////////////COMPONENTS/////////////////////
-/**********HEALTH PICKUP COMPONENT**********/
+/**********COMPONENTS**********/
 bool HealthPickUp::VInit(nlohmann::json jHealthComponent)
 {
 	m_type = jHealthComponent["type"].get<std::string>();
@@ -31,7 +30,7 @@ BaseActorComponent* CreateHealthPickUp()
 	return new HealthPickUp;
 }
 
-/**********HEALTH LIFE COMPONENT**********/
+
 bool HealthLifeComponent::VInit(nlohmann::json jHealthLifeComponent)
 {
 	m_state = jHealthLifeComponent["state"].get<std::string>();
@@ -50,54 +49,32 @@ BaseActorComponent* CreateHealthLifeComponent()
 	return new HealthLifeComponent;
 }
 
-/**********TRANSFORM COMPONENT**********/
-TransformComponent::TransformComponent()
+
+TranslateComponent::TranslateComponent()
 {
-	m_transformMatrix.makeIdentity();
+	m_translateType = TRANSLATION::STATIONARY;
 }
 
-bool TransformComponent::VInit(nlohmann::json jTransformComponent)
+bool TranslateComponent::VInit(nlohmann::json jTranslateComponent)
 {
 	//build translation matrix
-	irr::core::vector3df translationVec = m_transformMatrix.getTranslation();
+	m_translateType = jTranslateComponent["type"].get<int>();
 	
-	irr::f32 posX = jTransformComponent["posX"].get<float>();
-	irr::f32 posY = jTransformComponent["posY"].get<float>();
-	irr::f32 posZ = jTransformComponent["posZ"].get<float>();
-
-	translationVec = irr::core::vector3df(posX, posY, posZ);
-	irr::core::matrix4 translationMat;
-	translationMat.setTranslation(translationVec);
-
-	//build rotation matrix
-	irr::core::vector3df rotationVec = m_transformMatrix.getRotationDegrees();
-
-	irr::f32 roll = jTransformComponent["roll"].get<float>();
-	irr::f32 pitch = jTransformComponent["pitch"].get<float>();
-	irr::f32 yaw = jTransformComponent["yaw"].get<float>();
-
-	rotationVec = irr::core::vector3df(roll, pitch, yaw);
-	irr::core::matrix4 rotationMat;
-	rotationMat.setRotationRadians(rotationVec);
-
-	//build transformation matrix
-	m_transformMatrix = rotationMat * translationMat;
-
 	return true;
 }
 
-void TransformComponent::VApplyTransform()
+void TranslateComponent::VApplyTranslation()
 {
 	//apply transform to m_pOwner
-	std::cout << "Transform applied to actor" << std::endl;
+	std::cout << "Translation applied to actor" << std::endl;
 }
 
-BaseActorComponent* CreateTransformComponent()
+BaseActorComponent* CreateTranslateComponent()
 {
-	return new TransformComponent;
+	return new TranslateComponent;
 }
 
-//////////////////////BASE ACTOR/////////////////////
+/**********ACTOR**********/
 void BaseActor::Destroy()
 {
 	m_componentMap.clear(); //clear empties the map but does not deallocate the memory of the individual elements
@@ -123,12 +100,12 @@ void BaseActor::AddComponent(StrongActorComponentPtr pComponent)
 	m_componentMap.insert(std::pair<MyTypes::ComponentId, StrongActorComponentPtr>(compId,pComponent));
 }
 
-//////////////////////ACTOR FACTORY/////////////////////
+/**********ACTOR FACTORY**********/
 ActorFactory::ActorFactory(void):m_lastActorId(0)
 {
 	m_actorComponentCreatorMap["HealthPickUp"] = CreateHealthPickUp; //map component name to function pointer returning a new component object
 	m_actorComponentCreatorMap["HealthLifeComponent"] = CreateHealthLifeComponent;
-	m_actorComponentCreatorMap["TransformComponent"] = CreateTransformComponent;
+	m_actorComponentCreatorMap["TranslateComponent"] = CreateTranslateComponent;
 }
 
 MyTypes::ActorId ActorFactory::GetNextActorId(void)
