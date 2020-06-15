@@ -7,7 +7,7 @@
 
 class ActorFactory;
 
-typedef std::map<MyTypes::ActorId, StrongActorPtr> ActorMap_t;
+typedef std::map<MyTypes::ActorId, StrongActorPtr_t> ActorMap_t;
 
 class GameLogic
 {
@@ -25,7 +25,7 @@ public:
 
 private:
 	ActorFactory* CreateActorFactory(void);
-	StrongActorPtr CreatePlayerActor(std::string filePath, MyTypes::ActorId);
+	StrongActorPtr_t CreatePlayerActor(std::string filePath, MyTypes::ActorId);
 	void RegisterPlayerDelegates(void);
 	void RemovePlayerDelegates(void);
 

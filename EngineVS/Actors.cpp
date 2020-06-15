@@ -3,10 +3,16 @@
 
 //define static constants in the cpp file
 const MyTypes::ComponentId HealthPickUp::COMPONENT_ID = COMPONENTS::PICKUP_HEALTH;
-const MyTypes::ComponentId TranslateComponent::COMPONENT_ID = COMPONENTS::TRANSLATE;
 const MyTypes::ComponentId HealthLifeComponent::COMPONENT_ID = COMPONENTS::HEALTH_LIFE;
+const MyTypes::ComponentId TranslateComponent::COMPONENT_ID = COMPONENTS::TRANSLATE;
 
 /**********COMPONENTS**********/
+void BaseActorComponent::SetOwner(StrongActorPtr_t pOwner)
+{
+	m_pOwner = pOwner;
+}
+
+/////
 bool HealthPickUp::VInit(nlohmann::json jHealthComponent)
 {
 	m_type = jHealthComponent["type"].get<std::string>();
@@ -15,9 +21,9 @@ bool HealthPickUp::VInit(nlohmann::json jHealthComponent)
 	return true;
 }
 
-void HealthPickUp::VApplyPickup(WeakActorPtr pActor)
-{
-	return;
+MyTypes::ComponentId HealthPickUp::VGetComponentId(void) const
+{ 
+	return HealthPickUp::COMPONENT_ID; 
 }
 
 int HealthPickUp::VGetHealthBoost()
@@ -30,13 +36,18 @@ BaseActorComponent* CreateHealthPickUp()
 	return new HealthPickUp;
 }
 
-
+/////
 bool HealthLifeComponent::VInit(nlohmann::json jHealthLifeComponent)
 {
 	m_state = jHealthLifeComponent["state"].get<std::string>();
 	m_health = jHealthLifeComponent["health"].get<int>();
 
 	return true;
+}
+
+MyTypes::ComponentId HealthLifeComponent::VGetComponentId(void) const
+{
+	return HealthLifeComponent::COMPONENT_ID;
 }
 
 void HealthLifeComponent::VUpdateHealth(int health)
@@ -49,18 +60,17 @@ BaseActorComponent* CreateHealthLifeComponent()
 	return new HealthLifeComponent;
 }
 
-
-TranslateComponent::TranslateComponent()
-{
-	m_translateType = TRANSLATION::STATIONARY;
-}
-
+/////
 bool TranslateComponent::VInit(nlohmann::json jTranslateComponent)
 {
 	//build translation matrix
 	m_translateType = jTranslateComponent["type"].get<int>();
-	
 	return true;
+}
+
+MyTypes::ComponentId TranslateComponent::VGetComponentId(void) const
+{
+	return TranslateComponent::COMPONENT_ID;
 }
 
 void TranslateComponent::VApplyTranslation()
@@ -115,7 +125,7 @@ MyTypes::ActorId ActorFactory::GetNextActorId(void)
 	return m_lastActorId;
 }
 
-StrongActorPtr ActorFactory::CreateActor(const char* filePath, MyTypes::ActorId actorId)
+StrongActorPtr_t ActorFactory::CreateActor(const char* filePath, MyTypes::ActorId actorId)
 {
 	std::ifstream ifs(filePath);
 	nlohmann::json jstream;
@@ -129,15 +139,15 @@ StrongActorPtr ActorFactory::CreateActor(const char* filePath, MyTypes::ActorId 
 		ServiceLocator::GetLogService()->VGetLogger()->error("Error parsing actor component file: {}", filePath);
 		ServiceLocator::GetLogService()->VGetLogger()->error("Parse error message: {} error ID: {}", e.what(), e.id);
 		
-		return StrongActorPtr(); //return an empty actor pointer in the case of exceptions
+		return StrongActorPtr_t(); //return an empty actor pointer in the case of exceptions
 	}
 
 	//Create an actor object and assign an actor ID
-	StrongActorPtr pActor(new BaseActor(actorId));
+	StrongActorPtr_t pActor(new BaseActor(actorId));
 	if (!pActor->Init())
 	{
 		ServiceLocator::GetLogService()->VGetLogger()->error("Unable to initialise actor");
-		return StrongActorPtr();
+		return StrongActorPtr_t();
 	}
 
 	//Create the actor's components from the json stream
@@ -153,7 +163,7 @@ StrongActorPtr ActorFactory::CreateActor(const char* filePath, MyTypes::ActorId 
 		}
 		else
 		{
-			return StrongActorPtr();
+			return StrongActorPtr_t();
 		}
 	}
 

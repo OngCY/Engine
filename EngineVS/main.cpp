@@ -10,14 +10,10 @@
 using json = nlohmann::json;
 using namespace std::chrono;
 
-void CreateActor(ActorFactory*);
-
 int main()
 {
-	std::shared_ptr<LogManager> pLogManager(new LogManager());
-	pLogManager->VInitLogging();
-	std::shared_ptr<RenderManager> pRenderManager(new RenderManager());
-	pRenderManager->VInitRenderer();
+	std::shared_ptr<LogManager> pLogManager(new LogManager()); pLogManager->VInitLogging();
+	std::shared_ptr<RenderManager> pRenderManager(new RenderManager()); pRenderManager->VInitRenderer();
 	std::shared_ptr<ProcessManager> pProcessManager(new ProcessManager());
 	std::shared_ptr<IEventManager> pEventManager(new EventManager());
 
@@ -26,15 +22,11 @@ int main()
 	ServiceLocator::SetRenderService(pRenderManager);
 	ServiceLocator::SetProcessService(pProcessManager);
 	ServiceLocator::SetEventService(pEventManager);
-
 	MovementController* pMovementCtrl = new MovementController();
 	ServiceLocator::GetRenderService()->VSetEventReceiver(pMovementCtrl);
 
 	GameLogic *gameLogic = new GameLogic();
 	gameLogic->Init();
-	
-	//ActorFactory* actorFactory = new ActorFactory();
-	//CreateActor(actorFactory);
 
 	system_clock::time_point startTime = system_clock::now();
 	int64_t lag = 0;
@@ -51,12 +43,6 @@ int main()
 		startTime = currentTime;
 		lag += elapsed;
 		
-		//std::string elapsedTimeLog("Elapsed time in ms: ");
-		//elapsedTimeLog += std::to_string(elapsed);
-		//ServiceLocator::GetLogService()->VGetLogger()->info(elapsedTimeLog);
-		
-		//processInput()
-
 		//game update
 		while (lag >= MS_PER_UPDATE)
 		{
@@ -80,13 +66,6 @@ int main()
 	ServiceLocator::GetLogService()->VCloseLogging();
 
 	return 0;
-}
-
-void CreateActor(ActorFactory* actorFactory)
-{
-	StrongActorPtr player(actorFactory->CreateActor("C:\\engine\\Engine\\EngineVS\\configuration\\components_TranslatePlayer.json",ACTORID::PLAYER));
-	std::weak_ptr<TranslateComponent> wTransformComp(player->GetComponent<TranslateComponent>(COMPONENTS::TRANSLATE));
-	std::shared_ptr<TranslateComponent> sTransformComp = wTransformComp.lock(); //lock returns a shared_ptr
 }
 
 /////////////Previous Test Code/////////////////

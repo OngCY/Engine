@@ -21,16 +21,16 @@ void GameLogic::Cleanup(void)
 }
 
 /*******ACTORS**********/
-StrongActorPtr GameLogic::CreatePlayerActor(std::string filePath, MyTypes::ActorId actorId)
+StrongActorPtr_t GameLogic::CreatePlayerActor(std::string filePath, MyTypes::ActorId actorId)
 {
-	StrongActorPtr pActor = m_pActorFactory->CreateActor(filePath.c_str(), actorId);
+	StrongActorPtr_t pActor = m_pActorFactory->CreateActor(filePath.c_str(), actorId);
 	if (pActor)
 	{
 		m_actors.insert(std::make_pair(pActor->GetActorID(), pActor));
 		return pActor;
 	}
 
-	return StrongActorPtr();
+	return StrongActorPtr_t();
 }
 
 WeakActorPtr GameLogic::GetActor(MyTypes::ActorId id)
@@ -68,7 +68,7 @@ void GameLogic::OnEvtTranslatePlayer(IEventPtr pEvent)
 	MyTypes::ActorId id = pEvtTranslatePlayer->GetActorId();
 
 	//add code to call the actor and execute its component
-	StrongActorPtr pActor = GetActor(id).lock();
+	StrongActorPtr_t pActor = GetActor(id).lock();
 	if (pActor)
 	{
 		std::shared_ptr<TranslateComponent> pTranslateComponent = pActor->GetComponent<TranslateComponent>(TranslateComponent::COMPONENT_ID).lock();

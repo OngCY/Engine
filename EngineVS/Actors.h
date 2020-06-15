@@ -10,7 +10,7 @@ class BaseActor;
 class BaseActorComponent;
 
 //typedefs for BaseActor
-typedef std::shared_ptr<BaseActor> StrongActorPtr;
+typedef std::shared_ptr<BaseActor> StrongActorPtr_t;
 typedef std::weak_ptr<BaseActor> WeakActorPtr;
 typedef std::shared_ptr<BaseActorComponent> StrongActorComponentPtr;
 typedef std::map<MyTypes::ComponentId, StrongActorComponentPtr> ComponentMap;
@@ -32,38 +32,26 @@ public:
 	virtual MyTypes::ComponentId VGetComponentId(void) const = 0;
 
 protected:	
-	StrongActorPtr m_pOwner;
+	StrongActorPtr_t m_pOwner;
 	
 private:
-	void SetOwner(StrongActorPtr pOwner) { m_pOwner = pOwner; }
+	void SetOwner(StrongActorPtr_t pOwner);
 };
 
-class IPickUpComponent : public BaseActorComponent
-{
-public:
-	virtual ~IPickUpComponent(void) {}
-	virtual bool VInit(nlohmann::json jComponent) = 0;
-	virtual void VPostInit(void) = 0;
-	virtual void VUpdate(int deltaMS) = 0;
-	virtual MyTypes::ComponentId VGetComponentId(void) const = 0;
-	
-	virtual void VApplyPickup(WeakActorPtr pActor) = 0;
-};
-
-class HealthPickUp : public IPickUpComponent
+class HealthPickUp : public BaseActorComponent
 {
 public:
 	const static MyTypes::ComponentId COMPONENT_ID; //unique id for this component type
 	
-	HealthPickUp() { m_boost = 0; }
+	HealthPickUp() : m_boost(0) {}
 	virtual ~HealthPickUp(void) {}
 	virtual bool VInit(nlohmann::json jComponent);
 	virtual void VPostInit(void) {}
 	virtual void VUpdate(int deltaMS) {}
-	virtual MyTypes::ComponentId VGetComponentId(void) const { return COMPONENT_ID; }
-	
-	virtual void VApplyPickup(WeakActorPtr pActor);
-	virtual int VGetHealthBoost();
+	virtual MyTypes::ComponentId VGetComponentId(void) const;
+
+	void VApplyPickup(WeakActorPtr pActor) {}
+	int VGetHealthBoost();
 
 private:
 	short int m_boost;
@@ -75,14 +63,14 @@ class HealthLifeComponent : public BaseActorComponent
 public:
 	const static MyTypes::ComponentId COMPONENT_ID;
 	
-	HealthLifeComponent() { m_state = "OK"; m_health = 100; }
+	HealthLifeComponent() : m_state("OK"), m_health(100) {}
 	virtual ~HealthLifeComponent(void) {}
 	virtual bool VInit(nlohmann::json jComponent);
 	virtual void VPostInit(void) {}
 	virtual void VUpdate(int deltaMS) {}
-	virtual MyTypes::ComponentId VGetComponentId(void) const { return COMPONENT_ID; }
+	virtual MyTypes::ComponentId VGetComponentId(void) const;
 	
-	virtual void VUpdateHealth(int health);
+	void VUpdateHealth(int health);
 
 private:
 	std::string m_state;
@@ -94,13 +82,14 @@ class TranslateComponent : public BaseActorComponent
 public:
 	const static MyTypes::ComponentId COMPONENT_ID; //unique id for this component type
 
-	TranslateComponent();
+	TranslateComponent() : m_translateType(TRANSLATION::STATIONARY) {}
 	virtual ~TranslateComponent(void) {}
 	virtual bool VInit(nlohmann::json jComponent);
 	virtual void VPostInit(void) {}
 	virtual void VUpdate(int deltaMS) {}
-	virtual MyTypes::ComponentId VGetComponentId(void) const { return COMPONENT_ID; }
-	virtual void VApplyTranslation();
+	virtual MyTypes::ComponentId VGetComponentId(void) const;
+	
+	void VApplyTranslation();
 
 private:
 	MyTypes::TranslateType m_translateType;
@@ -156,7 +145,7 @@ class ActorFactory
 {
 public:
 	ActorFactory(void);
-	StrongActorPtr CreateActor(const char* filePath, MyTypes::ActorId actorId);
+	StrongActorPtr_t CreateActor(const char* filePath, MyTypes::ActorId actorId);
 	
 private:
 	StrongActorComponentPtr CreateComponent(std::string compName, nlohmann::json jComponent);
