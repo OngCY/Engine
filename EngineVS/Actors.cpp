@@ -92,22 +92,22 @@ void BaseActor::Destroy()
 
 void BaseActor::PostInit()
 {
-	ComponentMap::iterator it;
+	ComponentMap_t::iterator it;
 	for (it = m_componentMap.begin(); it != m_componentMap.end(); ++it)
 		it->second->VPostInit();
 }
 
 void BaseActor::Update(int deltaMs) //update the actor's components every game loop
 {
-	ComponentMap::iterator it;
+	ComponentMap_t::iterator it;
 	for (it = m_componentMap.begin(); it != m_componentMap.end(); ++it)
 		it->second->VUpdate(deltaMs);
 }
 
-void BaseActor::AddComponent(StrongActorComponentPtr pComponent)
+void BaseActor::AddComponent(StrongActorComponentPtr_t pComponent)
 {
 	MyTypes::ComponentId compId = pComponent->VGetComponentId();
-	m_componentMap.insert(std::pair<MyTypes::ComponentId, StrongActorComponentPtr>(compId,pComponent));
+	m_componentMap.insert(std::pair<MyTypes::ComponentId, StrongActorComponentPtr_t>(compId,pComponent));
 }
 
 /**********ACTOR FACTORY**********/
@@ -154,7 +154,7 @@ StrongActorPtr_t ActorFactory::CreateActor(const char* filePath, MyTypes::ActorI
 	std::vector<std::string> componentVector = jstream["Components"]; //get the component names from the json stream
 	for (std::string compName : componentVector)
 	{
-		StrongActorComponentPtr pComponent(CreateComponent(compName, jstream[compName])); //instantiate each component
+		StrongActorComponentPtr_t pComponent(CreateComponent(compName, jstream[compName])); //instantiate each component
 
 		if (pComponent)
 		{
@@ -172,21 +172,21 @@ StrongActorPtr_t ActorFactory::CreateActor(const char* filePath, MyTypes::ActorI
 	return pActor;
 }
 
-StrongActorComponentPtr ActorFactory::CreateComponent(std::string compName, nlohmann::json jComponent)
+StrongActorComponentPtr_t ActorFactory::CreateComponent(std::string compName, nlohmann::json jComponent)
 {
-	StrongActorComponentPtr pComponent;
+	StrongActorComponentPtr_t pComponent;
 
 	//Create a new component object from a function pointer. Identify the function pointer by the component name
-	ActorComponentCreatorMap::iterator it = m_actorComponentCreatorMap.find(compName);
+	ActorComponentCreatorMap_t::iterator it = m_actorComponentCreatorMap.find(compName);
 	if (it != m_actorComponentCreatorMap.end())
 	{
-		ActorComponentCreator compCreator = it->second; //get the component creator function pointer
+		ActorComponentCreator_t compCreator = it->second; //get the component creator function pointer
 		pComponent.reset(compCreator()); //reset replaces the pComponent object with the object returned by the component creator
 	}
 	else
 	{
 		ServiceLocator::GetLogService()->VGetLogger()->error("Cannot find actor component named: {}", compName);
-		return StrongActorComponentPtr();
+		return StrongActorComponentPtr_t();
 	}
 	
 	if (pComponent)
@@ -194,7 +194,7 @@ StrongActorComponentPtr ActorFactory::CreateComponent(std::string compName, nloh
 		if (!pComponent->VInit(jComponent))
 		{
 			ServiceLocator::GetLogService()->VGetLogger()->error("Component could not be initialised: {}", compName);
-			return StrongActorComponentPtr();
+			return StrongActorComponentPtr_t();
 		}
 	}
 		

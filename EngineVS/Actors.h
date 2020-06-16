@@ -11,13 +11,13 @@ class BaseActorComponent;
 
 //typedefs for BaseActor
 typedef std::shared_ptr<BaseActor> StrongActorPtr_t;
-typedef std::weak_ptr<BaseActor> WeakActorPtr;
-typedef std::shared_ptr<BaseActorComponent> StrongActorComponentPtr;
-typedef std::map<MyTypes::ComponentId, StrongActorComponentPtr> ComponentMap;
+typedef std::weak_ptr<BaseActor> WeakActorPtr_t;
+typedef std::shared_ptr<BaseActorComponent> StrongActorComponentPtr_t;
+typedef std::map<MyTypes::ComponentId, StrongActorComponentPtr_t> ComponentMap_t;
 
 //typedefs for ActorFactory
-typedef BaseActorComponent* (*ActorComponentCreator)(void); //function pointer typedef. Returns a BaseActorComponent* and accepts no parameters
-typedef std::map<std::string, ActorComponentCreator> ActorComponentCreatorMap;
+typedef BaseActorComponent* (*ActorComponentCreator_t)(void); //function pointer typedef. Returns a BaseActorComponent* and accepts no parameters
+typedef std::map<std::string, ActorComponentCreator_t> ActorComponentCreatorMap_t;
 
 /*******COMPONENTS**********/
 class BaseActorComponent
@@ -50,7 +50,7 @@ public:
 	virtual void VUpdate(int deltaMS) {}
 	virtual MyTypes::ComponentId VGetComponentId(void) const;
 
-	void VApplyPickup(WeakActorPtr pActor) {}
+	void VApplyPickup(WeakActorPtr_t pActor) {}
 	int VGetHealthBoost();
 
 private:
@@ -118,10 +118,10 @@ public:
 	template<class ComponentType>
 	std::weak_ptr<ComponentType> GetComponent(MyTypes::ComponentId id)
 	{
-		ComponentMap::iterator it = m_componentMap.find(id);
+		ComponentMap_t::iterator it = m_componentMap.find(id);
 		if (it != m_componentMap.end())
 		{
-			StrongActorComponentPtr pBaseComp(it->second);
+			StrongActorComponentPtr_t pBaseComp(it->second);
 
 			//std::shared_ptr<ComponentType> pActualComp(std::tr1::static_pointer_cast<ComponentType>(pBaseComp));
 			std::shared_ptr<ComponentType> pActualComp(std::static_pointer_cast<ComponentType>(pBaseComp));
@@ -134,9 +134,9 @@ public:
 	}
 
 private:
-	void AddComponent(StrongActorComponentPtr pComponent);
+	void AddComponent(StrongActorComponentPtr_t pComponent);
 	
-	ComponentMap m_componentMap;
+	ComponentMap_t m_componentMap;
 	MyTypes::ActorId m_actorId;
 };
 
@@ -148,9 +148,9 @@ public:
 	StrongActorPtr_t CreateActor(const char* filePath, MyTypes::ActorId actorId);
 	
 private:
-	StrongActorComponentPtr CreateComponent(std::string compName, nlohmann::json jComponent);
+	StrongActorComponentPtr_t CreateComponent(std::string compName, nlohmann::json jComponent);
 	MyTypes::ActorId GetNextActorId(void);
 	
 	MyTypes::ActorId m_lastActorId;
-	ActorComponentCreatorMap m_actorComponentCreatorMap;
+	ActorComponentCreatorMap_t m_actorComponentCreatorMap;
 };

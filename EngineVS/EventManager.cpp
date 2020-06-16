@@ -6,13 +6,13 @@
 const MyTypes::EventId Event_DestroyActor::sk_EventId = 0x50dbd404;
 const MyTypes::EventId Event_TranslatePlayer::sk_EventId = 0x50dbd405;
 
-bool EventManager::VRegisterListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId)
+bool EventManager::VRegisterListener(const EventListenerDelegate_t& eventDelegate, const MyTypes::EventId& eventId)
 {	
 	//find or create the event-listener
 	//If k matches the key of an element in the container, the function returns a reference to its mapped value.
 	//If k does not match the key of any element in the container, the function inserts a new element with that key and returns a reference to its mapped value
-	EventListenerList& eventListenerList = m_eventRegistry[eventId];
-	for (EventListenerList::iterator listenerIt = eventListenerList.begin(); listenerIt != eventListenerList.end(); ++listenerIt)
+	EventListenerList_t& eventListenerList = m_eventRegistry[eventId];
+	for (EventListenerList_t::iterator listenerIt = eventListenerList.begin(); listenerIt != eventListenerList.end(); ++listenerIt)
 	{
 		//disallow duplicate event listener delegates for an event
 		if ((*listenerIt) == eventDelegate)
@@ -27,12 +27,12 @@ bool EventManager::VRegisterListener(const EventListenerDelegate& eventDelegate,
 	return true;
 }
 
-bool EventManager::VRemoveListener(const EventListenerDelegate& eventDelegate, const MyTypes::EventId& eventId)
+bool EventManager::VRemoveListener(const EventListenerDelegate_t& eventDelegate, const MyTypes::EventId& eventId)
 { 
 	bool removed = false;
 
 	//check that the event exists first
-	EventListenerMap::iterator eventIt = m_eventRegistry.find(eventId);
+	EventListenerMap_t::iterator eventIt = m_eventRegistry.find(eventId);
 	if (eventIt == m_eventRegistry.end())
 	{
 		std::cout << "VRemoveListener: The event is not found" << std::endl;
@@ -41,8 +41,8 @@ bool EventManager::VRemoveListener(const EventListenerDelegate& eventDelegate, c
 
 	//then search through the list of event listener delegates and remove the matching one
 	//there should only be 1 match. Each event listener delegate should be unique for an event
-	EventListenerList& eventListenerList = eventIt->second;
-	for (EventListenerList::iterator listenerIt = eventListenerList.begin(); listenerIt != eventListenerList.end(); ++listenerIt)
+	EventListenerList_t& eventListenerList = eventIt->second;
+	for (EventListenerList_t::iterator listenerIt = eventListenerList.begin(); listenerIt != eventListenerList.end(); ++listenerIt)
 	{
 		if ((*listenerIt) == eventDelegate)
 		{
@@ -55,18 +55,18 @@ bool EventManager::VRemoveListener(const EventListenerDelegate& eventDelegate, c
 	return removed;
 }
 
-bool EventManager::VTriggerEvent(const IEventPtr& pEvent) const
+bool EventManager::VTriggerEvent(const IEventPtr_t& pEvent) const
 {
 	bool triggered = false;
 
 	//find the event in the registry and trigger the delegates registered with the event
-	EventListenerMap::const_iterator eventIt = m_eventRegistry.find(pEvent->VGetEventId());
+	EventListenerMap_t::const_iterator eventIt = m_eventRegistry.find(pEvent->VGetEventId());
 	if (eventIt != m_eventRegistry.end())
 	{
-		const EventListenerList& listenerList = eventIt->second;
-		for (EventListenerList::const_iterator listenerIt = listenerList.begin(); listenerIt != listenerList.end(); ++listenerIt)
+		const EventListenerList_t& listenerList = eventIt->second;
+		for (EventListenerList_t::const_iterator listenerIt = listenerList.begin(); listenerIt != listenerList.end(); ++listenerIt)
 		{
-			EventListenerDelegate listener = (*listenerIt);
+			EventListenerDelegate_t listener = (*listenerIt);
 			listener(pEvent);
 			triggered = true;
 		}
@@ -75,13 +75,13 @@ bool EventManager::VTriggerEvent(const IEventPtr& pEvent) const
 	return true;
 }
 
-bool EventManager::VQueueEvent(const IEventPtr& pEvent)  
+bool EventManager::VQueueEvent(const IEventPtr_t& pEvent)  
 {
 	_ASSERT(m_activeQueue >= 0);
 	_ASSERT(m_activeQueue < EVENTMANAGER_NUM_QUEUES);
 
 	//add an event to the queue if the event is registered and has delegate call backs
-	EventListenerMap::const_iterator eventIt = m_eventRegistry.find(pEvent->VGetEventId());
+	EventListenerMap_t::const_iterator eventIt = m_eventRegistry.find(pEvent->VGetEventId());
 	if (eventIt != m_eventRegistry.end() && !eventIt->second.empty())
 	{
 		m_eventQueue[m_activeQueue].push_back(pEvent);
@@ -99,19 +99,19 @@ bool EventManager::VAbortEvent(const MyTypes::EventId& id, bool abortAllOfType)
 	bool abortSuccess = false;
 
 	//check that the event exists in the registry first
-	EventListenerMap::const_iterator registryIt = m_eventRegistry.find(id);
+	EventListenerMap_t::const_iterator registryIt = m_eventRegistry.find(id);
 
 	if (registryIt != m_eventRegistry.end())
 	{
 		//get the current active processed queue
-		EventQueue& eventQ = m_eventQueue[m_activeQueue];
+		EventQueue_t& eventQ = m_eventQueue[m_activeQueue];
 
 		//search through the queue for the event and remove it from the queue
-		for (EventQueue::iterator eventQIt = eventQ.begin(); eventQIt != eventQ.end(); ++eventQIt)
+		for (EventQueue_t::iterator eventQIt = eventQ.begin(); eventQIt != eventQ.end(); ++eventQIt)
 		{
 			//create a temp iterator and use it for the rest of the loop
 			//because removing an item from the std list will invalidate the iterator
-			EventQueue::iterator tempIt = eventQIt;
+			EventQueue_t::iterator tempIt = eventQIt;
 
 			if ((*tempIt)->VGetEventId() == id)
 			{
@@ -144,18 +144,18 @@ bool EventManager::VTickUpdate(unsigned long deltaMillis)
 	while (!m_eventQueue[currentQueue].empty())
 	{
 		//process the event which is the first in the queue and remove it
-		IEventPtr pEvent = m_eventQueue[currentQueue].front();
+		IEventPtr_t pEvent = m_eventQueue[currentQueue].front();
 		m_eventQueue[currentQueue].pop_front();
 
 		//execute all delegate functions registered using the event ID
-		EventListenerMap::const_iterator registryIt = m_eventRegistry.find(pEvent->VGetEventId());
+		EventListenerMap_t::const_iterator registryIt = m_eventRegistry.find(pEvent->VGetEventId());
 		if (registryIt != m_eventRegistry.end())
 		{
-			const EventListenerList& listenerList = registryIt->second;
+			const EventListenerList_t& listenerList = registryIt->second;
 
-			for (EventListenerList::const_iterator listenerIt = listenerList.begin(); listenerIt != listenerList.end(); ++listenerIt)
+			for (EventListenerList_t::const_iterator listenerIt = listenerList.begin(); listenerIt != listenerList.end(); ++listenerIt)
 			{
-				EventListenerDelegate listenerDelegate = (*listenerIt);
+				EventListenerDelegate_t listenerDelegate = (*listenerIt);
 				listenerDelegate(pEvent);
 			}
 		}
@@ -181,7 +181,7 @@ bool EventManager::VTickUpdate(unsigned long deltaMillis)
 	{
 		while (!m_eventQueue[currentQueue].empty())
 		{
-			IEventPtr pEvent = m_eventQueue[currentQueue].back();
+			IEventPtr_t pEvent = m_eventQueue[currentQueue].back();
 			m_eventQueue[currentQueue].pop_back();
 			m_eventQueue[m_activeQueue].push_front(pEvent);
 		}

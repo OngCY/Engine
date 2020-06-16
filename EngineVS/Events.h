@@ -1,10 +1,7 @@
 #pragma once
 #include "MyTypes.h"
 #include <sstream>
-#include <matrix4.h>
 
-
-//////////////////////EVENT INTERFACE/////////////////////
 class IEvent
 {
 public:
@@ -12,10 +9,8 @@ public:
 	virtual float VGetTimeStamp(void) const = 0;
 	virtual void VSerialise(std::ostringstream& out) const = 0;
 	virtual const char* GetName(void) const = 0;
-	//virtual IEventPtr VCopy(void) const = 0;
 };
 
-//////////////////////BASE EVENT/////////////////////
 class BaseEvent : public IEvent
 {
 	const float m_timeStamp;
@@ -30,7 +25,6 @@ public:
 	virtual const char* GetName(void) const { return "BaseEvent"; }
 };
 
-//////////////////////TRANSLATE ACTOR EVENT/////////////////////
 class Event_TranslatePlayer : public BaseEvent
 {
 	MyTypes::ActorId m_id;
@@ -57,7 +51,6 @@ public:
 	}
 };
 
-//////////////////////DESTROY ACTOR EVENT/////////////////////
 class Event_DestroyActor : public BaseEvent
 {
 	MyTypes::ActorId m_id;

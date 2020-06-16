@@ -18,10 +18,10 @@ public:
 	bool Init(void);
 	void Cleanup(void);
 
-	WeakActorPtr GetActor(MyTypes::ActorId id);
+	WeakActorPtr_t GetActor(MyTypes::ActorId id);
 
 	//event delegates
-	void OnEvtTranslatePlayer(IEventPtr pEvent); //event callback function
+	void OnEvtTranslatePlayer(IEventPtr_t pEvent); //event callback function
 
 private:
 	ActorFactory* CreateActorFactory(void);

@@ -33,14 +33,14 @@ StrongActorPtr_t GameLogic::CreatePlayerActor(std::string filePath, MyTypes::Act
 	return StrongActorPtr_t();
 }
 
-WeakActorPtr GameLogic::GetActor(MyTypes::ActorId id)
+WeakActorPtr_t GameLogic::GetActor(MyTypes::ActorId id)
 {
 	ActorMap_t::iterator it = m_actors.find(id);
 
 	if (it != m_actors.end())
 		return it->second;
 
-	return WeakActorPtr();
+	return WeakActorPtr_t();
 }
 
 ActorFactory* GameLogic::CreateActorFactory(void)
@@ -62,7 +62,7 @@ void GameLogic::RemovePlayerDelegates(void)
 }
 
 //call back method
-void GameLogic::OnEvtTranslatePlayer(IEventPtr pEvent)
+void GameLogic::OnEvtTranslatePlayer(IEventPtr_t pEvent)
 {
 	std::shared_ptr<Event_TranslatePlayer> pEvtTranslatePlayer = std::static_pointer_cast<Event_TranslatePlayer>(pEvent);
 	MyTypes::ActorId id = pEvtTranslatePlayer->GetActorId();
