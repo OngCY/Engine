@@ -47,6 +47,7 @@ int main()
 		while (lag >= MS_PER_UPDATE)
 		{
 			//update methods
+			ServiceLocator::GetEventService()->VTickUpdate(MS_PER_UPDATE);
 			ServiceLocator::GetProcessService()->UpdateAllProcesses(MS_PER_UPDATE);
 			lag -= MS_PER_UPDATE;
 		}
