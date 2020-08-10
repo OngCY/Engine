@@ -14,7 +14,8 @@ public:
 	bool OnEvent(const irr::SEvent& event);
 
 protected:
-	void ProcessKeyInput();
+	void ProcessKeyDown(irr::EKEY_CODE key);
+	void ProcessKeyUp(irr::EKEY_CODE key);
 
 	std::shared_ptr<irr::scene::ISceneNode> m_sceneNode;
 	bool m_keyDown[irr::KEY_KEY_CODES_COUNT];
