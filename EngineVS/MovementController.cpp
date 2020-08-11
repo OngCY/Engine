@@ -47,8 +47,10 @@ void MovementController::ProcessKeyDown(irr::EKEY_CODE key)
 
 void MovementController::ProcessKeyUp(irr::EKEY_CODE key)
 {
-
+	std::shared_ptr<Event_TranslatePlayer> pStopPlayerEvent(new Event_TranslatePlayer(ACTORID::PLAYER, TRANSLATION::STATIONARY));
+	ServiceLocator::GetEventService()->VQueueEvent(pStopPlayerEvent);
 }
+
 /*
 	if (m_keyDown[irr::KEY_KEY_W]) //forward movement
 	{		

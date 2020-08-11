@@ -89,7 +89,7 @@ public:
 	virtual void VUpdate(int deltaMS) {}
 	virtual MyTypes::ComponentId VGetComponentId(void) const;
 	
-	void VApplyTranslation();
+	void VApplyTranslation(unsigned int type);
 
 private:
 	MyTypes::TranslateType m_translateType;
@@ -98,7 +98,7 @@ private:
 /*******COMPONENT CREATORS**********/
 BaseActorComponent* CreateHealthPickUp();
 BaseActorComponent* CreateHealthLifeComponent();
-BaseActorComponent* CreateTransformComponent();
+BaseActorComponent* CreateTranslateComponent();
 
 /*******ACTOR**********/
 class BaseActor

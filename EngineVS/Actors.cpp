@@ -73,7 +73,7 @@ MyTypes::ComponentId TranslateComponent::VGetComponentId(void) const
 	return TranslateComponent::COMPONENT_ID;
 }
 
-void TranslateComponent::VApplyTranslation()
+void TranslateComponent::VApplyTranslation(unsigned int type)
 {
 	//apply transform to m_pOwner
 	std::cout << "Translation applied to actor" << std::endl;

@@ -49,35 +49,9 @@ public:
 	{
 		return m_id;
 	}
-};
 
-class Event_DestroyActor : public BaseEvent
-{
-	MyTypes::ActorId m_id;
-
-public:
-	static const MyTypes::EventId sk_EventId;
-
-	explicit Event_DestroyActor(MyTypes::ActorId id) :m_id(id) {}
-	explicit Event_DestroyActor(std::istringstream &in) { in >> m_id; }
-
-	virtual const MyTypes::EventId& VGetEventId(void) const
+	MyTypes::TranslateType GetTranslateType(void) const
 	{
-		return sk_EventId;
-	}
-
-	virtual void VSerialize(std::ostringstream &out) const
-	{
-		out << m_id;
-	}
-
-	virtual const char* GetName(void) const
-	{
-		return "Event_DestroyActor";
-	}
-
-	MyTypes::ActorId GetActorId(void) const
-	{
-		return m_id;
+		return m_type;
 	}
 };

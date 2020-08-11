@@ -67,12 +67,12 @@ void GameLogic::OnEvtTranslatePlayer(IEventPtr_t pEvent)
 	std::shared_ptr<Event_TranslatePlayer> pEvtTranslatePlayer = std::static_pointer_cast<Event_TranslatePlayer>(pEvent);
 	MyTypes::ActorId id = pEvtTranslatePlayer->GetActorId();
 
-	//add code to call the actor and execute its component
-	StrongActorPtr_t pActor = GetActor(id).lock();
+	//call the actor and execute its component
+	StrongActorPtr_t pActor = GetActor(id).lock(); //use lock to convert from weak ptr to shared ptr
 	if (pActor)
 	{
 		std::shared_ptr<TranslateComponent> pTranslateComponent = pActor->GetComponent<TranslateComponent>(TranslateComponent::COMPONENT_ID).lock();
-		pTranslateComponent->VApplyTranslation();
+		pTranslateComponent->VApplyTranslation(pEvtTranslatePlayer->GetTranslateType());
 	}
 
 	std::string eventLog("TranslatePlayer event received for actor ID: ");
