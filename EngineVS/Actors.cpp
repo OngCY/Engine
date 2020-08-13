@@ -73,10 +73,35 @@ MyTypes::ComponentId TranslateComponent::VGetComponentId(void) const
 	return TranslateComponent::COMPONENT_ID;
 }
 
-void TranslateComponent::VApplyTranslation(unsigned int type)
+void TranslateComponent::VApplyTranslation(MyTypes::TranslateType type)
 {
+	std::string eventLog("Applying transation type to player: ");
+	eventLog += std::to_string(type);
+	eventLog += type;
+	
 	//apply transform to m_pOwner
-	std::cout << "Translation applied to actor" << std::endl;
+	if(type == TRANSLATION::FORWARD)
+	{
+		
+	}
+	else if (type == TRANSLATION::LEFT)
+	{
+	
+	}
+	else if(type == TRANSLATION::BACKWARD)
+	{
+	
+	}
+	else if(type == TRANSLATION::RIGHT)
+	{
+		
+	}
+	else
+	{
+		
+	}
+
+	ServiceLocator::GetLogService()->VGetLogger()->info(eventLog);
 }
 
 BaseActorComponent* CreateTranslateComponent()

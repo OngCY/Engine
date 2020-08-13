@@ -21,7 +21,7 @@ enum COMPONENTS:unsigned int
 	HEALTH_LIFE
 };
 
-enum TRANSLATION :unsigned int
+enum TRANSLATION :const unsigned int
 {
 	STATIONARY,
 	FORWARD,

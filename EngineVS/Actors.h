@@ -89,7 +89,7 @@ public:
 	virtual void VUpdate(int deltaMS) {}
 	virtual MyTypes::ComponentId VGetComponentId(void) const;
 	
-	void VApplyTranslation(unsigned int type);
+	void VApplyTranslation(MyTypes::TranslateType type);
 
 private:
 	MyTypes::TranslateType m_translateType;

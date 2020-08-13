@@ -77,5 +77,7 @@ void GameLogic::OnEvtTranslatePlayer(IEventPtr_t pEvent)
 
 	std::string eventLog("TranslatePlayer event received for actor ID: ");
 	eventLog += std::to_string(id);
+	eventLog += " Translate mode: ";
+	eventLog += std::to_string(pEvtTranslatePlayer->GetTranslateType());
 	ServiceLocator::GetLogService()->VGetLogger()->info(eventLog);
 }
