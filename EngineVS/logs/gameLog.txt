@@ -15372,3 +15372,67 @@
 [2020-08-13 13:49:27.369] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0 Translate mode: 3
 [2020-08-13 13:49:27.449] [rotating_logger] [info] Applying transation type to player: 0 
 [2020-08-13 13:49:27.449] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0 Translate mode: 0
+[2020-08-14 13:05:25.853] [rotating_logger] [info] Applying transation to actor: FORWARD
+[2020-08-14 13:05:25.855] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:05:25.949] [rotating_logger] [info] Applying transation to actor: STATIONARY
+[2020-08-14 13:05:25.949] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:05:27.246] [rotating_logger] [info] Applying transation to actor: BACKWARD
+[2020-08-14 13:05:27.246] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:05:27.389] [rotating_logger] [info] Applying transation to actor: STATIONARY
+[2020-08-14 13:05:27.389] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:05:28.446] [rotating_logger] [info] Applying transation to actor: RIGHT
+[2020-08-14 13:05:28.446] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:05:28.542] [rotating_logger] [info] Applying transation to actor: STATIONARY
+[2020-08-14 13:05:28.542] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:05:29.726] [rotating_logger] [info] Applying transation to actor: LEFT
+[2020-08-14 13:05:29.726] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:05:29.854] [rotating_logger] [info] Applying transation to actor: STATIONARY
+[2020-08-14 13:05:29.854] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:10:44.951] [rotating_logger] [info] Applying transation to actor: RIGHT
+[2020-08-14 13:10:44.953] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:10:45.063] [rotating_logger] [info] Applying transation to actor: STATIONARY
+[2020-08-14 13:10:45.063] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:10:47.095] [rotating_logger] [info] Applying transation to actor: LEFT
+[2020-08-14 13:10:47.095] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:10:47.191] [rotating_logger] [info] Applying transation to actor: STATIONARY
+[2020-08-14 13:10:47.191] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:10:48.423] [rotating_logger] [info] Applying transation to actor: FORWARD
+[2020-08-14 13:10:48.423] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:10:48.503] [rotating_logger] [info] Applying transation to actor: STATIONARY
+[2020-08-14 13:10:48.503] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:10:49.815] [rotating_logger] [info] Applying transation to actor: BACKWARD
+[2020-08-14 13:10:49.815] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:10:49.895] [rotating_logger] [info] Applying transation to actor: STATIONARY
+[2020-08-14 13:10:49.895] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:18:44.383] [rotating_logger] [info] Applying transation to actor: FORWARD
+[2020-08-14 13:18:44.384] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:18:44.447] [rotating_logger] [info] Applying transation to actor: STATIONARY
+[2020-08-14 13:18:44.447] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:18:45.855] [rotating_logger] [info] Applying transation to actor: FORWARD
+[2020-08-14 13:18:45.855] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:18:45.919] [rotating_logger] [info] Applying transation to actor: STATIONARY
+[2020-08-14 13:18:45.919] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:18:47.263] [rotating_logger] [info] Applying transation to actor: RIGHT
+[2020-08-14 13:18:47.263] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:18:47.343] [rotating_logger] [info] Applying transation to actor: STATIONARY
+[2020-08-14 13:18:47.343] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:18:48.287] [rotating_logger] [info] Applying transation to actor: RIGHT
+[2020-08-14 13:18:48.287] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:18:48.367] [rotating_logger] [info] Applying transation to actor: STATIONARY
+[2020-08-14 13:18:48.367] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:18:49.535] [rotating_logger] [info] Applying transation to actor: BACKWARD
+[2020-08-14 13:18:49.535] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:18:49.615] [rotating_logger] [info] Applying transation to actor: STATIONARY
+[2020-08-14 13:18:49.615] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:18:50.559] [rotating_logger] [info] Applying transation to actor: BACKWARD
+[2020-08-14 13:18:50.559] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:18:50.655] [rotating_logger] [info] Applying transation to actor: STATIONARY
+[2020-08-14 13:18:50.655] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:18:51.663] [rotating_logger] [info] Applying transation to actor: LEFT
+[2020-08-14 13:18:51.663] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:18:51.744] [rotating_logger] [info] Applying transation to actor: STATIONARY
+[2020-08-14 13:18:51.744] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:18:52.528] [rotating_logger] [info] Applying transation to actor: LEFT
+[2020-08-14 13:18:52.528] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0
+[2020-08-14 13:18:52.608] [rotating_logger] [info] Applying transation to actor: STATIONARY
+[2020-08-14 13:18:52.608] [rotating_logger] [info] TranslatePlayer event received for actor ID: 0

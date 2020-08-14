@@ -75,30 +75,35 @@ MyTypes::ComponentId TranslateComponent::VGetComponentId(void) const
 
 void TranslateComponent::VApplyTranslation(MyTypes::TranslateType type)
 {
-	std::string eventLog("Applying transation type to player: ");
-	eventLog += std::to_string(type);
-	eventLog += type;
+	std::string eventLog("Applying transation to actor: ");
 	
-	//apply transform to m_pOwner
-	if(type == TRANSLATION::FORWARD)
+	switch (type)
 	{
-		
-	}
-	else if (type == TRANSLATION::LEFT)
-	{
-	
-	}
-	else if(type == TRANSLATION::BACKWARD)
-	{
-	
-	}
-	else if(type == TRANSLATION::RIGHT)
-	{
-		
-	}
-	else
-	{
-		
+		case TRANSLATION::FORWARD:
+		{
+			eventLog += "FORWARD";
+			break;
+		}
+		case TRANSLATION::LEFT:
+		{
+			eventLog += "LEFT";
+			break;
+		}
+		case TRANSLATION::BACKWARD:
+		{
+			eventLog += "BACKWARD";
+			break;
+		}
+		case TRANSLATION::RIGHT:
+		{
+			eventLog += "RIGHT";
+			break;
+		}
+		default:
+		{
+			eventLog += "STATIONARY";
+			break;
+		}
 	}
 
 	ServiceLocator::GetLogService()->VGetLogger()->info(eventLog);
