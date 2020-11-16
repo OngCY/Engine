@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{6edbd88e-eb36-4bc2-a24e-848087596aee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Events.h">
@@ -60,6 +63,12 @@
     <ClInclude Include="GameLogic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Physics\core.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\precision.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -91,6 +100,9 @@
     </ClCompile>
     <ClCompile Include="GameLogic.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\core.cpp">
+      <Filter>Physics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

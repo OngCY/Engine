@@ -161,6 +161,8 @@
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="MovementController.h" />
+    <ClInclude Include="Physics\core.h" />
+    <ClInclude Include="Physics\precision.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="LogManager.h" />
     <ClInclude Include="MyTypes.h" />
@@ -179,6 +181,7 @@
     <ClCompile Include="MovementController.cpp" />
     <ClCompile Include="LogManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Physics\core.cpp" />
     <ClCompile Include="Process.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
