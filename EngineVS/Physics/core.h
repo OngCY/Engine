@@ -86,8 +86,6 @@
  * the accompanying software and documentation license.
  */
 
-#include <math.h>
-
 /**
  * @file
  *
@@ -97,6 +95,7 @@
 #ifndef CYCLONE_CORE_H
 #define CYCLONE_CORE_H
 
+#include <math.h>
 #include "precision.h"
 
 /**
@@ -104,8 +103,8 @@
  * classes. It is defined as a namespace to allow function and class
  * names to be simple without causing conflicts.
  */
-namespace cyclone {
-
+namespace cyclone 
+{
     /**
      * Holds the value for energy under which a body will be put to
      * sleep. This is a global value for the whole solution.  By
@@ -177,8 +176,7 @@ namespace cyclone {
          * The explicit constructor creates a vector with the given
          * components.
          */
-        Vector3(const real x, const real y, const real z)
-            : x(x), y(y), z(z) {}
+        Vector3(const real x, const real y, const real z): x(x), y(y), z(z) {}
 
         const static Vector3 GRAVITY;
         const static Vector3 HIGH_GRAVITY;
@@ -214,9 +212,7 @@ namespace cyclone {
             z += v.z;
         }
 
-        /**
-         * Returns the value of the given vector added to this.
-         */
+        /** Returns the value of the given vector added to this. */
         Vector3 operator+(const Vector3& v) const
         {
             return Vector3(x+v.x, y+v.y, z+v.z);
@@ -230,9 +226,7 @@ namespace cyclone {
             z -= v.z;
         }
 
-        /**
-         * Returns the value of the given vector subtracted from this.
-         */
+        /** Returns the value of the given vector subtracted from this. */
         Vector3 operator-(const Vector3& v) const
         {
             return Vector3(x-v.x, y-v.y, z-v.z);
@@ -252,19 +246,13 @@ namespace cyclone {
             return Vector3(x*value, y*value, z*value);
         }
 
-        /**
-         * Calculates and returns a component-wise product of this
-         * vector with the given vector.
-         */
+        /** Calculates and returns a component-wise product of this vector with the given vector. */
         Vector3 componentProduct(const Vector3 &vector) const
         {
             return Vector3(x * vector.x, y * vector.y, z * vector.z);
         }
 
-        /**
-         * Performs a component-wise product with the given vector and
-         * sets this vector to its result.
-         */
+        /**Performs a component-wise product with the given vector and sets this vector to its result. */
         void componentProductUpdate(const Vector3 &vector)
         {
             x *= vector.x;
@@ -272,10 +260,7 @@ namespace cyclone {
             z *= vector.z;
         }
 
-        /**
-         * Calculates and returns the vector product of this vector
-         * with the given vector.
-         */
+        /**Calculates and returns the vector product (cross product) of this vector with the given vector. */
         Vector3 vectorProduct(const Vector3 &vector) const
         {
             return Vector3(y*vector.z-z*vector.y,
@@ -283,19 +268,13 @@ namespace cyclone {
                            x*vector.y-y*vector.x);
         }
 
-        /**
-         * Updates this vector to be the vector product of its current
-         * value and the given vector.
-         */
+        /**Updates this vector to be the vector product (cross product) of its current value and the given vector. */
         void operator %=(const Vector3 &vector)
         {
             *this = vectorProduct(vector);
         }
 
-        /**
-         * Calculates and returns the vector product of this vector
-         * with the given vector.
-         */
+        /**Calculates and returns the vector product (cross product) of this vector with the given vector. */
         Vector3 operator%(const Vector3 &vector) const
         {
             return Vector3(y*vector.z-z*vector.y,
@@ -303,27 +282,19 @@ namespace cyclone {
                            x*vector.y-y*vector.x);
         }
 
-        /**
-         * Calculates and returns the scalar product of this vector
-         * with the given vector.
-         */
+        /**Calculates and returns the scalar product (dot product) of this vector with the given vector. */
         real scalarProduct(const Vector3 &vector) const
         {
             return x*vector.x + y*vector.y + z*vector.z;
         }
 
-        /**
-         * Calculates and returns the scalar product of this vector
-         * with the given vector.
-         */
+        /**Calculates and returns the scalar product (dot product) of this vector with the given vector. */
         real operator *(const Vector3 &vector) const
         {
             return x*vector.x + y*vector.y + z*vector.z;
         }
 
-        /**
-         * Adds the given vector to this, scaled by the given amount.
-         */
+        /**Adds the given vector to this, scaled by the given amount. */
         void addScaledVector(const Vector3& vector, real scale)
         {
             x += vector.x * scale;
@@ -334,13 +305,13 @@ namespace cyclone {
         /** Gets the magnitude of this vector. */
         real magnitude() const
         {
-            return real_sqrt(x*x+y*y+z*z);
+            return real_sqrt(x*x + y*y + z*z);
         }
 
         /** Gets the squared magnitude of this vector. */
         real squareMagnitude() const
         {
-            return x*x+y*y+z*z;
+            return x*x + y*y + z*z;
         }
 
         /** Limits the size of the vector to the given maximum. */
@@ -358,10 +329,10 @@ namespace cyclone {
         /** Turns a non-zero vector into a vector of unit length. */
         void normalise()
         {
-            real l = magnitude();
-            if (l > 0)
+            real length = magnitude();
+            if (length > 0)
             {
-                (*this) *= ((real)1)/l;
+                (*this) *= ((real)1)/length;
             }
         }
 
@@ -376,9 +347,7 @@ namespace cyclone {
         /** Checks if the two vectors have identical components. */
         bool operator==(const Vector3& other) const
         {
-            return x == other.x &&
-                y == other.y &&
-                z == other.z;
+            return x == other.x && y == other.y && z == other.z;
         }
 
         /** Checks if the two vectors have non-identical components. */
@@ -400,7 +369,7 @@ namespace cyclone {
         }
 
         /**
-         * Checks if this vector is component-by-component less than
+         * Checks if this vector is component-by-component more than
          * the other.
          *
          * @note This does not behave like a single-value comparison:
@@ -412,7 +381,7 @@ namespace cyclone {
         }
 
         /**
-         * Checks if this vector is component-by-component less than
+         * Checks if this vector is component-by-component less or equal than
          * the other.
          *
          * @note This does not behave like a single-value comparison:
@@ -424,7 +393,7 @@ namespace cyclone {
         }
 
         /**
-         * Checks if this vector is component-by-component less than
+         * Checks if this vector is component-by-component more or equal than
          * the other.
          *
          * @note This does not behave like a single-value comparison:
