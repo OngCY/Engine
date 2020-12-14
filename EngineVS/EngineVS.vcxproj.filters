@@ -69,6 +69,9 @@
     <ClInclude Include="Physics\precision.h">
       <Filter>Physics</Filter>
     </ClInclude>
+    <ClInclude Include="Physics\particle.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -102,6 +105,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Physics\core.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\particle.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
   </ItemGroup>
