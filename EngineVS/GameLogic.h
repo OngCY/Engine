@@ -25,7 +25,7 @@ public:
 
 private:
 	ActorFactory* CreateActorFactory(void);
-	StrongActorPtr_t CreatePlayerActor(std::string filePath, MyTypes::ActorId);
+	StrongActorPtr_t CreateActor(std::string filePath, MyTypes::ActorId);
 	void RegisterPlayerDelegates(void);
 	void RemovePlayerDelegates(void);
 

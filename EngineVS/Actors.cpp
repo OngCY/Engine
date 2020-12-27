@@ -5,6 +5,7 @@
 const MyTypes::ComponentId HealthPickUp::COMPONENT_ID = COMPONENTS::PICKUP_HEALTH;
 const MyTypes::ComponentId HealthLifeComponent::COMPONENT_ID = COMPONENTS::HEALTH_LIFE;
 const MyTypes::ComponentId TranslateComponent::COMPONENT_ID = COMPONENTS::TRANSLATE;
+const MyTypes::ComponentId BallisticsComponent::COMPONENT_ID = COMPONENTS::BALLISTICS;
 
 /**********COMPONENTS**********/
 void BaseActorComponent::SetOwner(StrongActorPtr_t pOwner)
@@ -113,6 +114,32 @@ BaseActorComponent* CreateTranslateComponent()
 {
 	return new TranslateComponent;
 }
+
+/////
+bool BallisticsComponent::VInit(nlohmann::json jBallisticsComponent)
+{
+	m_mass = static_cast<float>(jBallisticsComponent["mass"].get<double>());
+	m_damping = static_cast<float>(jBallisticsComponent["damping"].get<double>());
+	m_velocity.X = static_cast<float>(jBallisticsComponent["velocityX"].get<double>());
+	m_velocity.Y = static_cast<float>(jBallisticsComponent["velocityY"].get<double>());
+	m_velocity.Z = static_cast<float>(jBallisticsComponent["velocityZ"].get<double>());
+	m_acceleration.X = static_cast<float>(jBallisticsComponent["accelerationX"].get<double>());
+	m_acceleration.Y = static_cast<float>(jBallisticsComponent["accelerationY"].get<double>());
+	m_acceleration.Z = static_cast<float>(jBallisticsComponent["accelerationZ"].get<double>());
+
+	return true;
+}
+
+MyTypes::ComponentId BallisticsComponent::VGetComponentId(void) const
+{ 
+	return BallisticsComponent::COMPONENT_ID;
+}
+
+BaseActorComponent* CreateBallisticsComponent()
+{
+	return new BallisticsComponent;
+}
+
 
 /**********ACTOR**********/
 void BaseActor::Destroy()

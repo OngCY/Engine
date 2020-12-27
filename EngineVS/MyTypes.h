@@ -11,14 +11,16 @@ namespace MyTypes
 
 enum ACTORID :unsigned int
 {
-	PLAYER
+	PLAYER,
+	BULLET
 };
 
 enum COMPONENTS:unsigned int
 {
 	PICKUP_HEALTH,
 	TRANSLATE,
-	HEALTH_LIFE
+	HEALTH_LIFE,
+	BALLISTICS
 };
 
 enum TRANSLATION :unsigned int

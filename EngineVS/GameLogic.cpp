@@ -3,8 +3,9 @@
 bool GameLogic::Init(void)
 {
 	m_pActorFactory = CreateActorFactory();
-	CreatePlayerActor("configuration\\components_TranslatePlayer.json", ACTORID::PLAYER);
+	CreateActor("configuration\\components_TranslatePlayer.json", ACTORID::PLAYER);
 	RegisterPlayerDelegates();
+	CreateActor("configuration\\components_Bullet.json", ACTORID::BULLET);
 
 	return true;
 }
@@ -21,7 +22,7 @@ void GameLogic::Cleanup(void)
 }
 
 /*******ACTORS**********/
-StrongActorPtr_t GameLogic::CreatePlayerActor(std::string filePath, MyTypes::ActorId actorId)
+StrongActorPtr_t GameLogic::CreateActor(std::string filePath, MyTypes::ActorId actorId)
 {
 	StrongActorPtr_t pActor = m_pActorFactory->CreateActor(filePath.c_str(), actorId);
 	if (pActor)

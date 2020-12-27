@@ -161,6 +161,7 @@
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="MovementController.h" />
+    <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="Physics\core.h" />
     <ClInclude Include="Physics\particle.h" />
     <ClInclude Include="Physics\precision.h" />

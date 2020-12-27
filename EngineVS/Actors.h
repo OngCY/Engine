@@ -95,10 +95,34 @@ private:
 	MyTypes::TranslateType m_translateType;
 };
 
+class BallisticsComponent : public BaseActorComponent
+{
+public:
+	const static MyTypes::ComponentId COMPONENT_ID;
+
+	BallisticsComponent() : m_mass(1.0), m_damping(1.0)
+	{
+		m_acceleration.X = m_acceleration.Y = m_acceleration.Z = 0.0;
+		m_velocity.X = m_velocity.Y = m_velocity.Z = 0.0;
+	}
+	virtual ~BallisticsComponent(void) {}
+	virtual bool VInit(nlohmann::json jComponent);
+	virtual void VPostInit(void) {}
+	virtual void VUpdate(int deltaMS) {}
+	virtual MyTypes::ComponentId VGetComponentId(void) const;
+
+private:
+	irr::core::vector3df m_acceleration;
+	irr::core::vector3df m_velocity;
+	float m_damping;
+	float m_mass;
+};
+
 /*******COMPONENT CREATORS**********/
 BaseActorComponent* CreateHealthPickUp();
 BaseActorComponent* CreateHealthLifeComponent();
 BaseActorComponent* CreateTranslateComponent();
+BaseActorComponent* CreateBallisticsComponent();
 
 /*******ACTOR**********/
 class BaseActor

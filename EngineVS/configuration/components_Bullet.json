@@ -1,0 +1,14 @@
+{
+  "NumComponents": "1",
+  "Components": [ "BallisticsComponent" ],
+  "BallisticsComponent": {
+    "mass": 2.0,
+    "velocityX": 0.0,
+    "velocityY": 0.0,
+    "velocityZ": 35.0,
+    "accelerationX": 0.0,
+    "accelerationY": -1.0,
+    "accelerationZ": 0.0,
+    "damping": 0.99
+  }
+}

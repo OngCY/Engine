@@ -72,6 +72,9 @@
     <ClInclude Include="Physics\particle.h">
       <Filter>Physics</Filter>
     </ClInclude>
+    <ClInclude Include="PhysicsManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
