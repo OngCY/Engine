@@ -3,12 +3,15 @@
   "Components": [ "BallisticsComponent" ],
   "BallisticsComponent": {
     "mass": 2.0,
+    "damping": 0.99,
+    "positionX": 0.0,
+    "positionY": 0.0,
+    "positionZ": 0.0,
     "velocityX": 0.0,
     "velocityY": 0.0,
     "velocityZ": 35.0,
     "accelerationX": 0.0,
     "accelerationY": -1.0,
-    "accelerationZ": 0.0,
-    "damping": 0.99
+    "accelerationZ": 0.0
   }
 }

@@ -2,6 +2,7 @@
 #include "MyTypes.h"
 #include "ServiceLocator.h"
 #include "ThirdParty\json.hpp"
+#include "Physics.h"
 #include <memory>
 #include <iostream>
 #include <matrix4.h>
@@ -108,14 +109,16 @@ public:
 	virtual ~BallisticsComponent(void) {}
 	virtual bool VInit(nlohmann::json jComponent);
 	virtual void VPostInit(void) {}
-	virtual void VUpdate(int deltaMS) {}
+	virtual void VUpdate(int deltaMS);
 	virtual MyTypes::ComponentId VGetComponentId(void) const;
 
 private:
 	irr::core::vector3df m_acceleration;
 	irr::core::vector3df m_velocity;
+	irr::core::vector3df m_position;
 	float m_damping;
 	float m_mass;
+	ParticleObject m_particle;
 };
 
 /*******COMPONENT CREATORS**********/

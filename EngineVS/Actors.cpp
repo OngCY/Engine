@@ -120,6 +120,9 @@ bool BallisticsComponent::VInit(nlohmann::json jBallisticsComponent)
 {
 	m_mass = static_cast<float>(jBallisticsComponent["mass"].get<double>());
 	m_damping = static_cast<float>(jBallisticsComponent["damping"].get<double>());
+	m_position.X = static_cast<float>(jBallisticsComponent["positionX"].get<double>());
+	m_position.Y = static_cast<float>(jBallisticsComponent["positionY"].get<double>());
+	m_position.Z = static_cast<float>(jBallisticsComponent["positionZ"].get<double>());
 	m_velocity.X = static_cast<float>(jBallisticsComponent["velocityX"].get<double>());
 	m_velocity.Y = static_cast<float>(jBallisticsComponent["velocityY"].get<double>());
 	m_velocity.Z = static_cast<float>(jBallisticsComponent["velocityZ"].get<double>());
@@ -127,7 +130,18 @@ bool BallisticsComponent::VInit(nlohmann::json jBallisticsComponent)
 	m_acceleration.Y = static_cast<float>(jBallisticsComponent["accelerationY"].get<double>());
 	m_acceleration.Z = static_cast<float>(jBallisticsComponent["accelerationZ"].get<double>());
 
+	m_particle.SetMass(m_mass);
+	m_particle.SetDamping(m_damping);
+	m_particle.SetPosition(m_position.X, m_position.Y, m_position.Z);
+	m_particle.SetVelocity(m_velocity.X, m_velocity.Y, m_velocity.Z);
+	m_particle.SetAcceleration(m_acceleration.X, m_acceleration.Y, m_acceleration.Z);
+
 	return true;
+}
+
+void BallisticsComponent::VUpdate(int deltaMS)
+{
+	m_particle.Update(deltaMS);
 }
 
 MyTypes::ComponentId BallisticsComponent::VGetComponentId(void) const
