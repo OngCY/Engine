@@ -80,3 +80,12 @@ void GameLogic::OnEvtTranslatePlayer(IEventPtr_t pEvent)
 	eventLog += std::to_string(id);
 	ServiceLocator::GetLogService()->VGetLogger()->info(eventLog);
 }
+
+/*******UPDATES**********/
+void GameLogic::Update(unsigned long deltaMS)
+{
+	for (ActorMap_t::const_iterator it = m_actors.begin(); it != m_actors.end(); ++it)
+	{
+		it->second->Update(deltaMS);
+	}
+}

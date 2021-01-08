@@ -64,7 +64,7 @@ irr::core::vector3df ParticleObject::GetPosition()
 	return vec;
 }
 
-void ParticleObject::Update(float duration)
+void ParticleObject::Update(unsigned long duration)
 {
-	m_particle->integrate(duration);
+	m_particle->integrate((cyclone::real)duration);
 }

@@ -23,6 +23,9 @@ public:
 	//event delegates
 	void OnEvtTranslatePlayer(IEventPtr_t pEvent); //event callback function
 
+	//update methods
+	void Update(unsigned long deltaMS);
+
 private:
 	ActorFactory* CreateActorFactory(void);
 	StrongActorPtr_t CreateActor(std::string filePath, MyTypes::ActorId);

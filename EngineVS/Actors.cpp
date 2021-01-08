@@ -139,7 +139,7 @@ bool BallisticsComponent::VInit(nlohmann::json jBallisticsComponent)
 	return true;
 }
 
-void BallisticsComponent::VUpdate(int deltaMS)
+void BallisticsComponent::VUpdate(unsigned long deltaMS)
 {
 	m_particle.Update(deltaMS);
 }
@@ -168,7 +168,7 @@ void BaseActor::PostInit()
 		it->second->VPostInit();
 }
 
-void BaseActor::Update(int deltaMs) //update the actor's components every game loop
+void BaseActor::Update(unsigned long deltaMs) //update the actor's components every game loop
 {
 	ComponentMap_t::iterator it;
 	for (it = m_componentMap.begin(); it != m_componentMap.end(); ++it)

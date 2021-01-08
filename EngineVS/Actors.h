@@ -29,7 +29,7 @@ public:
 	virtual ~BaseActorComponent(void) {}
 	virtual bool VInit(nlohmann::json jComponent) = 0;
 	virtual void VPostInit(void) = 0;
-	virtual void VUpdate(int deltaMS) = 0;
+	virtual void VUpdate(unsigned long deltaMS) = 0;
 	virtual MyTypes::ComponentId VGetComponentId(void) const = 0;
 
 protected:	
@@ -48,7 +48,7 @@ public:
 	virtual ~HealthPickUp(void) {}
 	virtual bool VInit(nlohmann::json jComponent);
 	virtual void VPostInit(void) {}
-	virtual void VUpdate(int deltaMS) {}
+	virtual void VUpdate(unsigned long deltaMS) {}
 	virtual MyTypes::ComponentId VGetComponentId(void) const;
 
 	void VApplyPickup(WeakActorPtr_t pActor) {}
@@ -68,7 +68,7 @@ public:
 	virtual ~HealthLifeComponent(void) {}
 	virtual bool VInit(nlohmann::json jComponent);
 	virtual void VPostInit(void) {}
-	virtual void VUpdate(int deltaMS) {}
+	virtual void VUpdate(unsigned long deltaMS) {}
 	virtual MyTypes::ComponentId VGetComponentId(void) const;
 	
 	void VUpdateHealth(int health);
@@ -87,7 +87,7 @@ public:
 	virtual ~TranslateComponent(void) {}
 	virtual bool VInit(nlohmann::json jComponent);
 	virtual void VPostInit(void) {}
-	virtual void VUpdate(int deltaMS) {}
+	virtual void VUpdate(unsigned long deltaMS) {}
 	virtual MyTypes::ComponentId VGetComponentId(void) const;
 	
 	void VApplyTranslation(MyTypes::TranslateType type);
@@ -109,7 +109,7 @@ public:
 	virtual ~BallisticsComponent(void) {}
 	virtual bool VInit(nlohmann::json jComponent);
 	virtual void VPostInit(void) {}
-	virtual void VUpdate(int deltaMS);
+	virtual void VUpdate(unsigned long deltaMS);
 	virtual MyTypes::ComponentId VGetComponentId(void) const;
 
 private:
@@ -139,7 +139,7 @@ public:
 	bool Init() { return true; }
 	void PostInit(void);
 	void Destroy(void);
-	void Update(int deltaMs);
+	void Update(unsigned long deltaMs);
 	MyTypes::ActorId GetActorID(void) const { return m_actorId; }
 
 	template<class ComponentType>

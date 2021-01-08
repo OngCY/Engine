@@ -18,7 +18,7 @@ public:
 	void SetPosition(irr::core::vector3df position);
 
 	irr::core::vector3df GetPosition();
-	void Update(float duration);
+	void Update(unsigned long duration);
 
 private:
 	cyclone::Particle* m_particle;
